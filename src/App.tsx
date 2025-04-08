@@ -1,22 +1,23 @@
-import * as React from "react";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import PageviewIcon from '@mui/icons-material/Pageview';import { ReactRouterAppProvider } from "@toolpad/core/react-router";
-import { Outlet, Route } from "react-router";
-import type { Navigation } from "@toolpad/core";
-import theme from "./theme";
+import * as React from 'react';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PageviewIcon from '@mui/icons-material/Pageview';
+import { ReactRouterAppProvider } from '@toolpad/core/react-router';
+import { Outlet, Route } from 'react-router';
+import type { Navigation } from '@toolpad/core';
+import theme from './theme';
 const NAVIGATION: Navigation = [
   {
-    kind: "header",
-    title: "Main items",
+    kind: 'header',
+    title: 'Main items',
   },
   {
-    title: "Dashboard",
-    segment: "dashboard",
+    title: 'Dashboard',
+    segment: '',
     icon: <DashboardIcon />,
   },
   {
-    segment: "zoeken",
-    title: "Zoeken",
+    segment: 'zoeken',
+    title: 'Zoeken',
     icon: <PageviewIcon />,
   },
 ];
@@ -28,7 +29,8 @@ const BRANDING = {
       alt="MUI logo"
     />
   ),
-  title: "Lexus Tracker",
+  title: 'Lexus Tracker',
+  homeUrl: '/',
 };
 
 export default function App() {
@@ -38,6 +40,7 @@ export default function App() {
       navigation={NAVIGATION}
       branding={BRANDING}
     >
+      <title>LexusTracker</title>
       <Outlet />
     </ReactRouterAppProvider>
   );

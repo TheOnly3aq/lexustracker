@@ -198,6 +198,7 @@ export default function Dashboard() {
   };
   return (
     <Box sx={{ width: '100%' }}>
+      <title>Dashboard | LexusTracker</title>
       <Grid
         // sx={{ display: { md: 'block', xs: 'none' } }}
         container

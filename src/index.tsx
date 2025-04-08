@@ -1,29 +1,29 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router";
-import App from "./App";
-import Layout from "./layout/dashboard";
-import graphPage from "./pages/graphPage";
-import searchPage from "./pages/searchPage";
-import { ThemeProvider } from "styled-components";
-import theme from "./theme";
-import "./index.css";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router';
+import App from './App';
+import Layout from './layout/home';
+import { ThemeProvider } from 'styled-components';
+import theme from './theme';
+import './index.css';
+import Search from './components/search';
+import Dashboard from './components/dashboard';
 
 const router = createBrowserRouter([
   {
     Component: App,
     children: [
       {
-        path: "/",
+        path: '/',
         Component: Layout,
         children: [
           {
-            path: "dashboard",
-            Component: graphPage,
+            path: '',
+            Component: Dashboard,
           },
           {
-            path: "zoeken",
-            Component: searchPage,
+            path: 'zoeken',
+            Component: Search,
           },
         ],
       },
@@ -31,9 +31,9 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ThemeProvider  theme={theme} >
+    <ThemeProvider theme={theme}>
       <RouterProvider router={router} />
     </ThemeProvider>
   </React.StrictMode>

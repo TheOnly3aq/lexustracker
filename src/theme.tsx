@@ -5,7 +5,7 @@ const lexusTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#F13030",
+      main: "#9d0100",
       light: "#F45B69",
       dark: "#9d0100",
     },
