@@ -27,11 +27,3 @@ A web application that tracks **Lexus IS250C** vehicles in the **Netherlands**, 
 | 📄 Detailed View              | View details like registration date, APK status, fuel type, and more       |
 | 🌐 Dutch Locale Support       | Built with the Dutch vehicle landscape in mind                              |
 
----
-
-## 📦 Installation
-
-1. **Clone the repo**  
-   ```bash
-   git clone https://github.com/your-username/lexus-is250-tracker.git
-   cd lexus-is250-tracker
