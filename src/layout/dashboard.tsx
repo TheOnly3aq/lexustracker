@@ -5,8 +5,8 @@ import { PageContainer } from '@toolpad/core/PageContainer';
 
 export default function Layout() {
   return (
-    <DashboardLayout>
-      <PageContainer>
+    <DashboardLayout  sx={{ backgroundColor: "#f7f7f7" }} >
+      <PageContainer >
         <Outlet />
       </PageContainer>
     </DashboardLayout>

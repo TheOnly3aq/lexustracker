@@ -39,7 +39,7 @@ export default function App() {
       navigation={NAVIGATION}
       branding={BRANDING}
     >
-      <Outlet />
+      <Outlet  />
     </ReactRouterAppProvider>
   );
 }

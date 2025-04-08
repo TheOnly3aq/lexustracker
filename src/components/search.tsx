@@ -1,17 +1,18 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import axios from "axios";
 import { useState } from "react";
 
 export default function Search() {
   const [results, setResults] = useState<any[]>([]);
-  const [imported, setImported] = useState<any[]>([]);
   const baseUrl = "https://opendata.rdw.nl/resource/m9d7-ebf2.json";
   const [rows, setRows] = React.useState([]);
 
-  const columns: GridColDef<typeof rows[number]>[] = [
-    { field: "kenteken", headerName: "Kenteken", width: 120 },
+  const columns: GridColDef<(typeof rows)[number]>[] = [
+    { field: "modelNaam", headerName: "Model naam", width: 120 },
+
+    { field: "id", headerName: "Kenteken", width: 120 },
     {
       field: "bouwjaar",
       headerName: "Bouwjaar",
@@ -27,7 +28,7 @@ export default function Search() {
       headerName: "Geimporteerd?",
       width: 130,
     },
-        {
+    {
       field: "kleur",
       headerName: "Kleur",
       width: 150,
@@ -47,15 +48,19 @@ export default function Search() {
           `${baseUrl}?$where=contains(handelsbenaming, 'IS250C')`
         );
         setResults(response.data);
-
         setRows(
           response.data.map((results) => ({
-            kenteken: results.kenteken,
+            modelNaam:
+              results.handelsbenaming.charAt(0) +
+              results.handelsbenaming.substring(1).toLowerCase(),
+            id: results.kenteken,
             bouwjaar: formatDate(results.datum_eerste_toelating),
             toelatingNL: results.datum_eerste_tenaamstelling_in_nederland,
             verzekerd: results.wam_verzekerd,
             eerste_toelating: formatDate(results.datum_eerste_toelating),
-            kleur: results.eerste_kleur.toLowerCase(),
+            kleur:
+              results.eerste_kleur.charAt(0) +
+              results.eerste_kleur.substring(1).toLowerCase(),
             geimporteerd:
               results.datum_eerste_tenaamstelling_in_nederland !==
               results.datum_eerste_toelating
@@ -72,20 +77,25 @@ export default function Search() {
   }, []);
 
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
+    <Box sx={{ height: 600, width: "100%" }}>
       <DataGrid
         rows={rows}
-        getRowId={() => crypto.randomUUID()}
         columns={columns}
+        slots={{ toolbar: GridToolbar }}
+        slotProps={{
+          toolbar: {
+            showQuickFilter: true,
+          },
+        }}
+        sx={{ borderRadius: 4, backgroundColor: "#ffff", border: 0 }}
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 10,
             },
           },
         }}
         pageSizeOptions={[5]}
-        disableRowSelectionOnClick
       />
     </Box>
   );
