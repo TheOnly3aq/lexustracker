@@ -5,7 +5,7 @@ import {
   SidebarFooterProps,
 } from '@toolpad/core/DashboardLayout';
 import { PageContainer } from '@toolpad/core/PageContainer';
-import { Chip, Stack, SvgIcon, Tooltip, Typography, Link } from '@mui/material';
+import { Chip, Stack, SvgIcon, Tooltip, Typography, Link, useTheme } from '@mui/material';
 import '@fontsource/montserrat/600.css';
 function SidebarFooter({ mini }: SidebarFooterProps) {
   return (
@@ -18,18 +18,19 @@ function SidebarFooter({ mini }: SidebarFooterProps) {
           overflow: 'hidden',
           textAlign: 'center',
         }}
-      >
+        >
         {mini ? '© MUI' : `© ${new Date().getFullYear()} Made by KarsTalens`}
       </Typography>
     </Stack>
   );
 }
 function CustomAppTitle() {
+  const theme = useTheme();
   return (
     <Stack direction="row" alignItems="center" spacing={1}>
       <SvgIcon>
         <svg
-          fill="black"
+          style={{ fill: theme.palette.text.primary }}
           version="1.1"
           id="Layer_1"
           xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +48,7 @@ function CustomAppTitle() {
         color="black"
         rel="noopener noreferrer"
       >
-        <Typography fontWeight={600} variant="h6">
+        <Typography fontWeight={600} color='text.primary' variant="h6">
           LexusTracker
         </Typography>
       </Link>
@@ -62,13 +63,13 @@ function CustomAppTitle() {
 }
 
 export default function Layout() {
+    const theme = useTheme();
   return (
     <DashboardLayout
       slots={{
         sidebarFooter: SidebarFooter,
         appTitle: CustomAppTitle,
       }}
-      sx={{ backgroundColor: '#f7f7f7' }}
     >
       <title>Welkom | LexusTracker</title>
       <PageContainer>

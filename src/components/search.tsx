@@ -3,65 +3,90 @@ import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import axios from 'axios';
 import { useState } from 'react';
+import { useTheme } from "styled-components";
 
 export default function Search() {
+  const theme = useTheme();
   const [results, setResults] = useState<any>([]);
   const [loading, setLoading] = useState(true);
-  const baseUrl = 'https://opendata.rdw.nl/resource/m9d7-ebf2.json';
+  const baseUrl = "https://opendata.rdw.nl/resource/m9d7-ebf2.json";
   const [rows, setRows] = React.useState([]);
 
   const columns: GridColDef<(typeof rows)[number]>[] = [
-    { field: 'modelNaam', headerName: 'Model naam', width: 120 },
-
-    { field: 'id', headerName: 'Kenteken', width: 90 },
     {
-      field: 'bouwjaar',
-      headerName: 'Bouwjaar',
-      width: 90
-    },
-        {
-      field: 'bpm',
-      headerName: 'Bruto BPM',
-      width: 100
+      field: "modelNaam",
+      headerName: "Model naam",
+      flex: 1,
+      minWidth: 150,
+      resizable: false,
     },
     {
-      field: 'verzekerd',
-      headerName: 'Verzekerd?',
-      width: 100,
+      field: "id",
+      headerName: "Kenteken",
+      flex: 1,
+      minWidth: 90,
+      resizable: false,
     },
     {
-      field: 'apk',
-      headerName: 'Vervaldatum APK',
-      width: 150,
+      field: "bouwjaar",
+      headerName: "Bouwjaar",
+      flex: 1,
+      minWidth: 90,
+      resizable: false,
     },
     {
-      field: 'geimporteerd',
-      headerName: 'Geimporteerd?',
-      width: 130,
+      field: "bpm",
+      headerName: "Bruto BPM",
+      flex: 1,
+      minWidth: 100,
+      resizable: false,
     },
     {
-      field: 'kleur',
-      headerName: 'Kleur',
-      width: 150,
+      field: "verzekerd",
+      headerName: "Verzekerd?",
+      flex: 1,
+      minWidth: 90,
+      resizable: false,
+    },
+    {
+      field: "apk",
+      headerName: "Vervaldatum APK",
+      flex: 1,
+      minWidth: 150,
+      resizable: false,
+    },
+    {
+      field: "geimporteerd",
+      headerName: "Geimporteerd?",
+      flex: 1,
+      minWidth: 110,
+      resizable: false,
+    },
+    {
+      field: "kleur",
+      headerName: "Kleur",
+      flex: 1,
+      minWidth: 150,
+      resizable: false,
     },
   ];
   const formatDate = (dateString: string): string => {
-    if (dateString.length !== 8) return 'Invalid Date';
+    if (dateString.length !== 8) return "Invalid Date";
 
     const year = dateString.slice(0, 4);
 
     return `${year}`;
   };
 
-const formatAPKDate = (dateString: string | null | undefined): string => {
-  if (!dateString || dateString.length !== 8) return 'Geen APK';
+  const formatAPKDate = (dateString: string | null | undefined): string => {
+    if (!dateString || dateString.length !== 8) return "Geen APK";
 
-  const year = dateString.slice(0, 4);
-  const month = dateString.slice(4, 6); 
-  const day = dateString.slice(6, 8);  
+    const year = dateString.slice(0, 4);
+    const month = dateString.slice(4, 6);
+    const day = dateString.slice(6, 8);
 
-  return `${day}/${month}/${year}`;
-};
+    return `${day}/${month}/${year}`;
+  };
 
   React.useEffect(() => {
     const fetchCars = async () => {
@@ -91,12 +116,12 @@ const formatAPKDate = (dateString: string | null | undefined): string => {
             geimporteerd:
               results.datum_eerste_tenaamstelling_in_nederland !==
               results.datum_eerste_toelating
-                ? 'Ja'
-                : 'Nee',
+                ? "Ja"
+                : "Nee",
           }))
         );
       } catch (error) {
-        console.error('Error fetching cars:', error);
+        console.error("Error fetching cars:", error);
       }
     };
 
@@ -104,7 +129,12 @@ const formatAPKDate = (dateString: string | null | undefined): string => {
   }, []);
 
   return (
-    <Box sx={{ height: 600, width: '100%' }}>
+    <Box
+      sx={{
+        height: 600,
+        width: "100%",
+      }}
+    >
       <title>Zoeken | LexusTracker</title>
       <DataGrid
         rows={rows}
@@ -116,7 +146,17 @@ const formatAPKDate = (dateString: string | null | undefined): string => {
             showQuickFilter: true,
           },
         }}
-        sx={{ borderRadius: 4, backgroundColor: '#ffff', border: 0 }}
+        sx={{
+          borderRadius: 4,
+          backgroundColor: (theme) => theme.palette.background.paper,
+          border: 0,
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: (theme) => theme.palette.background.paper,
+          },
+          "& .MuiDataGrid-columnHeader": {
+            backgroundColor: (theme) => theme.palette.background.paper,
+          },
+        }}
         initialState={{
           pagination: {
             paginationModel: {

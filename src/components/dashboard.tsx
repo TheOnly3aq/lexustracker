@@ -21,7 +21,8 @@ import {
   List,
   Stack,
   Typography,
-} from '@mui/material';
+  useTheme,
+} from "@mui/material";
 import { Tooltip as MUIToolTip } from '@mui/material';
 import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
@@ -29,124 +30,128 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import '@fontsource/montserrat/600.css';
+
+
+
 export default function Dashboard() {
   const [results, setResults] = useState<any[]>([]);
   const [sameColorResults, setSameColorResults] = useState<any[]>([]);
   const [insured, setInsured] = useState<any[]>([]);
   const [imported, setImported] = useState<any[]>([]);
+  const theme = useTheme();
 
-  const baseUrl = 'https://opendata.rdw.nl/resource/m9d7-ebf2.json';
+  const baseUrl = "https://opendata.rdw.nl/resource/m9d7-ebf2.json";
 
   const styles = {
     cardStyle: {
       flex: 1,
-      display: 'flex',
-      color: 'primary',
-      borderRadius: '12px',
+      display: "flex",
+      color: "primary",
+      borderRadius: "12px",
       paddingBottom: "2rem",
-      flexDirection: 'column',
+      flexDirection: "column",
     },
     cardStyleWrapper: {
       flex: 1,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      textAlign: 'center',
-      color: 'primary',
-      borderRadius: '12px',
-      flexDirection: 'column',
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      textAlign: "center",
+      color: "primary",
+      borderRadius: "12px",
+      flexDirection: "column",
     },
     graphStyle: {
-      width: '100%',
-      marginBottom: '2rem',
+      width: "100%",
+      marginBottom: "2rem",
       paddingTop: 2,
-      height: '20rem',
-      display: 'flex',
-      color: 'primary',
+      height: "20rem",
+      display: "flex",
+      color: "primary",
       flex: 1,
-      borderRadius: '12px',
+      borderRadius: "12px",
     },
     headerText: {
-      fontSize: '2rem',
+      fontSize: "2rem",
       fontWeight: 600,
     },
     subText: {
-      color: 'grey',
-      fontSize: '1rem',
+      color: "grey",
+      fontSize: "1rem",
     },
     iconWrapper: {
-      borderRadius: '100px',
-      padding: '10px',
-      color: '#9d0100',
-      backgroundColor: '#ffeff0',
+      borderRadius: "100px",
+      padding: "10px",
+      color: theme.palette.primary.dark,
+      backgroundColor: theme.palette.secondary.light,
     },
     helpIconWrapper: {
-      color: 'grey',
-      marginLeft: '5px',
-      marginTop: '5px',
+      color: "grey",
+      marginLeft: "5px",
+      marginTop: "5px",
     },
     customTooltip: {
-      backgroundColor: '#ffff',
+      backgroundColor: "#ffff",
       padding: 2,
       borderRadius: 5,
     },
     tooltipLabelTop: {
-      color: 'black',
-      fontSize: '1vw',
+      color: "black",
+      fontSize: "1vw",
     },
     tooltipLabelBottom: {
-      color: 'black',
-      fontSize: '1vw',
+      color: "black",
+      fontSize: "1vw",
     },
   };
 
   const data = [
     {
-      month: 'Jan',
+      month: "Jan",
       amount: 130,
     },
     {
-      month: 'Feb',
+      month: "Feb",
       amount: 126,
     },
     {
-      month: 'Mar',
+      month: "Mar",
       amount: 128,
     },
     {
-      month: 'Apr',
+      month: "Apr",
       amount: 129,
     },
     {
-      month: 'Mei',
+      month: "Mei",
       amount: 125,
     },
     {
-      month: 'Jun',
+      month: "Jun",
       amount: 123,
     },
     {
-      month: 'Jul',
+      month: "Jul",
       amount: 127,
     },
     {
-      month: 'Aug',
+      month: "Aug",
       amount: 129,
     },
     {
-      month: 'Sep',
+      month: "Sep",
       amount: 130,
     },
     {
-      month: 'Okt',
+      month: "Okt",
       amount: 131,
     },
     {
-      month: 'Nov',
+      month: "Nov",
       amount: 127,
     },
     {
-      month: 'Dec',
+      month: "Dec",
       amount: 120,
     },
   ];
@@ -160,9 +165,9 @@ export default function Dashboard() {
         const allCars = response.data;
         setResults(allCars);
         const sameColorCars = allCars.filter(
-          (car) => car.eerste_kleur === 'ROOD'
+          (car) => car.eerste_kleur === "ROOD"
         );
-        const insured = allCars.filter((car) => car.wam_verzekerd === 'Ja');
+        const insured = allCars.filter((car) => car.wam_verzekerd === "Ja");
         const imported = allCars.filter(
           (car) =>
             car.datum_eerste_tenaamstelling_in_nederland !==
@@ -173,7 +178,7 @@ export default function Dashboard() {
         setInsured(insured);
         setImported(imported);
       } catch (error) {
-        console.error('Error fetching cars:', error);
+        console.error("Error fetching cars:", error);
       }
     };
 
@@ -197,14 +202,9 @@ export default function Dashboard() {
     return null;
   };
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: "100%" }}>
       <title>Dashboard | LexusTracker</title>
-      <Grid
-        // sx={{ display: { md: 'block', xs: 'none' } }}
-        container
-        rowSpacing={1}
-        columnSpacing={{ xs: 3, sm: 4, md: 5 }}
-      >
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 3, sm: 4, md: 5 }}>
         <Grid sx={styles.graphStyle} size={3}>
           <Card elevation={0} sx={styles.graphStyle}>
             <ResponsiveContainer width="100%" height="100%">
@@ -226,7 +226,7 @@ export default function Dashboard() {
                     <stop offset="95%" stopColor="#FFFFFF" stopOpacity={0.1} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid vertical={false} stroke="#DDD" />{' '}
+                <CartesianGrid vertical={false} stroke="#DDD" />{" "}
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip content={CustomTooltip} />
@@ -244,7 +244,7 @@ export default function Dashboard() {
       <Grid
         container
         rowSpacing={3}
-        sx={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}
+        sx={{ width: "100%", justifyContent: "center", alignItems: "center" }}
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 6, sm: 6, md: 12 }}
       >

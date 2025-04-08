@@ -22,23 +22,12 @@ const NAVIGATION: Navigation = [
   },
 ];
 
-const BRANDING = {
-  logo: (
-    <img
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5tWdewVa7O_B077QJkagunWrbEYhOr7Qlyw&s"
-      alt="MUI logo"
-    />
-  ),
-  title: 'Lexus Tracker',
-  homeUrl: '/',
-};
 
 export default function App() {
   return (
     <ReactRouterAppProvider
       theme={theme}
       navigation={NAVIGATION}
-      branding={BRANDING}
     >
       <title>LexusTracker</title>
       <Outlet />
