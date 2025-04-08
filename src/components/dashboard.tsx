@@ -39,17 +39,14 @@ export default function Dashboard() {
 
   const styles = {
     cardStyle: {
-      width: '10rem',
-      height: '10rem',
       flex: 1,
       display: 'flex',
       color: 'primary',
       borderRadius: '12px',
+      paddingBottom: "2rem",
       flexDirection: 'column',
     },
     cardStyleWrapper: {
-      width: '10rem',
-      height: '10rem',
       flex: 1,
       display: 'flex',
       justifyContent: 'center',
@@ -202,7 +199,7 @@ export default function Dashboard() {
   return (
     <Box sx={{ width: '100%' }}>
       <Grid
-        sx={{ display: { md: 'block', xs: 'none' } }}
+        // sx={{ display: { md: 'block', xs: 'none' } }}
         container
         rowSpacing={1}
         columnSpacing={{ xs: 3, sm: 4, md: 5 }}
@@ -248,7 +245,7 @@ export default function Dashboard() {
         rowSpacing={3}
         sx={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}
         spacing={{ xs: 2, md: 3 }}
-        columns={{ xs: 4, sm: 8, md: 12 }}
+        columns={{ xs: 6, sm: 6, md: 12 }}
       >
         <Grid size={3}>
           <Card elevation={0} sx={styles.cardStyle}>
