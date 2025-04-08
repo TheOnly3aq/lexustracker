@@ -1,7 +1,6 @@
 import * as React from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { ReactRouterAppProvider } from "@toolpad/core/react-router";
+import PageviewIcon from '@mui/icons-material/Pageview';import { ReactRouterAppProvider } from "@toolpad/core/react-router";
 import { Outlet } from "react-router";
 import type { Navigation } from "@toolpad/core";
 import theme from "./theme";
@@ -18,7 +17,7 @@ const NAVIGATION: Navigation = [
   {
     segment: "zoeken",
     title: "Zoeken",
-    icon: <ShoppingCartIcon />,
+    icon: <PageviewIcon />,
   },
 ];
 

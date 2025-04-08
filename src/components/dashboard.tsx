@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   LineChart,
   Line,
@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
   Area,
   AreaChart,
-} from "recharts";
+} from 'recharts';
 import {
   Box,
   Button,
@@ -21,135 +21,135 @@ import {
   List,
   Stack,
   Typography,
-} from "@mui/material";
-import { Tooltip as MUIToolTip } from "@mui/material";
-import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
-import ColorLensIcon from "@mui/icons-material/ColorLens";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import ImportExportIcon from "@mui/icons-material/ImportExport";
-import "@fontsource/montserrat/600.css";
+} from '@mui/material';
+import { Tooltip as MUIToolTip } from '@mui/material';
+import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
+import ColorLensIcon from '@mui/icons-material/ColorLens';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import ImportExportIcon from '@mui/icons-material/ImportExport';
+import '@fontsource/montserrat/600.css';
 export default function Dashboard() {
   const [results, setResults] = useState<any[]>([]);
   const [sameColorResults, setSameColorResults] = useState<any[]>([]);
   const [insured, setInsured] = useState<any[]>([]);
   const [imported, setImported] = useState<any[]>([]);
 
-  const baseUrl = "https://opendata.rdw.nl/resource/m9d7-ebf2.json";
+  const baseUrl = 'https://opendata.rdw.nl/resource/m9d7-ebf2.json';
 
   const styles = {
     cardStyle: {
-      width: "15vw",
-      height: "15vw",
+      width: '10rem',
+      height: '10rem',
       flex: 1,
-      display: "flex",
-      color: "primary",
-      borderRadius: "12px",
-      flexDirection: "column",
+      display: 'flex',
+      color: 'primary',
+      borderRadius: '12px',
+      flexDirection: 'column',
     },
     cardStyleWrapper: {
-      width: "15vw",
-      height: "15vw",
+      width: '10rem',
+      height: '10rem',
       flex: 1,
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      textAlign: "center",
-      color: "primary",
-      borderRadius: "12px",
-      flexDirection: "column",
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      textAlign: 'center',
+      color: 'primary',
+      borderRadius: '12px',
+      flexDirection: 'column',
     },
     graphStyle: {
-      width: "100%",
-      marginBottom: "3vw",
+      width: '100%',
+      marginBottom: '2rem',
       paddingTop: 2,
-      height: "24vw",
-      display: "flex",
-      color: "primary",
+      height: '20rem',
+      display: 'flex',
+      color: 'primary',
       flex: 1,
-      borderRadius: "12px",
+      borderRadius: '12px',
     },
     headerText: {
-      fontSize: "3vw",
+      fontSize: '2rem',
       fontWeight: 600,
     },
     subText: {
-      color: "grey",
-      fontSize: "1vw",
+      color: 'grey',
+      fontSize: '1rem',
     },
     iconWrapper: {
-      borderRadius: "100px",
-      padding: "10px",
-      color: "#9d0100",
-      backgroundColor: "#ffeff0",
+      borderRadius: '100px',
+      padding: '10px',
+      color: '#9d0100',
+      backgroundColor: '#ffeff0',
     },
     helpIconWrapper: {
-      color: "grey",
-      marginLeft: "5px",
-      marginTop: "5px",
+      color: 'grey',
+      marginLeft: '5px',
+      marginTop: '5px',
     },
     customTooltip: {
-      backgroundColor: "#ffff",
+      backgroundColor: '#ffff',
       padding: 2,
       borderRadius: 5,
     },
     tooltipLabelTop: {
-      color: "black",
-      fontSize: "1vw",
+      color: 'black',
+      fontSize: '1vw',
     },
     tooltipLabelBottom: {
-      color: "black",
-      fontSize: "1vw",
+      color: 'black',
+      fontSize: '1vw',
     },
   };
 
   const data = [
     {
-      month: "Jan",
+      month: 'Jan',
       amount: 130,
     },
     {
-      month: "Feb",
+      month: 'Feb',
       amount: 126,
     },
     {
-      month: "Mar",
+      month: 'Mar',
       amount: 128,
     },
     {
-      month: "Apr",
+      month: 'Apr',
       amount: 129,
     },
     {
-      month: "Mei",
+      month: 'Mei',
       amount: 125,
     },
     {
-      month: "Jun",
+      month: 'Jun',
       amount: 123,
     },
     {
-      month: "Jul",
+      month: 'Jul',
       amount: 127,
     },
     {
-      month: "Aug",
+      month: 'Aug',
       amount: 129,
     },
     {
-      month: "Sep",
+      month: 'Sep',
       amount: 130,
     },
     {
-      month: "Okt",
+      month: 'Okt',
       amount: 131,
     },
     {
-      month: "Nov",
+      month: 'Nov',
       amount: 127,
     },
     {
-      month: "Dec",
+      month: 'Dec',
       amount: 120,
     },
   ];
@@ -163,9 +163,9 @@ export default function Dashboard() {
         const allCars = response.data;
         setResults(allCars);
         const sameColorCars = allCars.filter(
-          (car) => car.eerste_kleur === "ROOD"
+          (car) => car.eerste_kleur === 'ROOD'
         );
-        const insured = allCars.filter((car) => car.wam_verzekerd === "Ja");
+        const insured = allCars.filter((car) => car.wam_verzekerd === 'Ja');
         const imported = allCars.filter(
           (car) =>
             car.datum_eerste_tenaamstelling_in_nederland !==
@@ -176,7 +176,7 @@ export default function Dashboard() {
         setInsured(insured);
         setImported(imported);
       } catch (error) {
-        console.error("Error fetching cars:", error);
+        console.error('Error fetching cars:', error);
       }
     };
 
@@ -200,8 +200,13 @@ export default function Dashboard() {
     return null;
   };
   return (
-    <Box sx={{ width: "100%" }}>
-      <Grid container rowSpacing={1} columnSpacing={{ xs: 3, sm: 4, md: 5 }}>
+    <Box sx={{ width: '100%' }}>
+      <Grid
+        sx={{ display: { md: 'block', xs: 'none' } }}
+        container
+        rowSpacing={1}
+        columnSpacing={{ xs: 3, sm: 4, md: 5 }}
+      >
         <Grid sx={styles.graphStyle} size={3}>
           <Card elevation={0} sx={styles.graphStyle}>
             <ResponsiveContainer width="100%" height="100%">
@@ -223,7 +228,7 @@ export default function Dashboard() {
                     <stop offset="95%" stopColor="#FFFFFF" stopOpacity={0.1} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid vertical={false} stroke="#DDD" />{" "}
+                <CartesianGrid vertical={false} stroke="#DDD" />{' '}
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip content={CustomTooltip} />
@@ -240,13 +245,17 @@ export default function Dashboard() {
       </Grid>
       <Grid
         container
-        rowSpacing={1}
-        sx={{ width: "100%" }}
-        columnSpacing={{ xs: 3, sm: 4, md: 5 }}
+        rowSpacing={3}
+        sx={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}
+        spacing={{ xs: 2, md: 3 }}
+        columns={{ xs: 4, sm: 8, md: 12 }}
       >
         <Grid size={3}>
           <Card elevation={0} sx={styles.cardStyle}>
-            <MUIToolTip sx={styles.helpIconWrapper} title="Alle Lexus IS250C's in Nederland">
+            <MUIToolTip
+              sx={styles.helpIconWrapper}
+              title="Alle Lexus IS250C's in Nederland"
+            >
               <HelpOutlineIcon />
             </MUIToolTip>
             <Stack sx={styles.cardStyleWrapper}>
@@ -260,7 +269,10 @@ export default function Dashboard() {
         </Grid>
         <Grid size={3}>
           <Card elevation={0} sx={styles.cardStyle}>
-            <MUIToolTip sx={styles.helpIconWrapper} title="Alle Lexus IS250C's in dezelfde kleur.">
+            <MUIToolTip
+              sx={styles.helpIconWrapper}
+              title="Alle Lexus IS250C's in dezelfde kleur."
+            >
               <HelpOutlineIcon />
             </MUIToolTip>
             <Stack sx={styles.cardStyleWrapper}>
@@ -276,7 +288,10 @@ export default function Dashboard() {
         </Grid>
         <Grid size={3}>
           <Card elevation={0} sx={styles.cardStyle}>
-            <MUIToolTip sx={styles.helpIconWrapper} title="Alle Lexus IS250C's die verzekerd zijn.">
+            <MUIToolTip
+              sx={styles.helpIconWrapper}
+              title="Alle Lexus IS250C's die verzekerd zijn."
+            >
               <HelpOutlineIcon />
             </MUIToolTip>
             <Stack sx={styles.cardStyleWrapper}>
@@ -290,7 +305,10 @@ export default function Dashboard() {
         </Grid>
         <Grid size={3}>
           <Card elevation={0} sx={styles.cardStyle}>
-            <MUIToolTip sx={styles.helpIconWrapper} title="Alle Lexus IS250C's die geimporteerd zijn.">
+            <MUIToolTip
+              sx={styles.helpIconWrapper}
+              title="Alle Lexus IS250C's die geimporteerd zijn."
+            >
               <HelpOutlineIcon />
             </MUIToolTip>
             <Stack sx={styles.cardStyleWrapper}>
