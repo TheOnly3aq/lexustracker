@@ -43,7 +43,6 @@ function CustomAppTitle() {
       </SvgIcon>
       <Link
         href="https://karstalens.nl"
-        // variant="body1"
         underline="none"
         color="black"
         rel="noopener noreferrer"
