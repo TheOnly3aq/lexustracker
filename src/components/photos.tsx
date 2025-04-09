@@ -52,6 +52,7 @@ const itemData = [
 export default function Photos() {
   return (
     <PageContainer>
+      <title>Fotos | LexusTracker</title>
       <ImageList variant="masonry" cols={3} gap={8}>
         {itemData.map((item) => (
           <ImageListItem key={item.img}>

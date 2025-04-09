@@ -10,6 +10,7 @@ import Search from './components/search';
 import Dashboard from './components/dashboard';
 import About from './components/about';
 import Photos from './components/photos';
+import NotFound from './components/notFound';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
           {
             path: "over",
             Component: About,
+          },
+          {
+            path: "*",
+            Component: NotFound,
           },
         ],
       },
