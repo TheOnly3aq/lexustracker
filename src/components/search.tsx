@@ -1,9 +1,20 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
-import axios from 'axios';
-import { useState } from 'react';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import {
+  DataGrid,
+  GridColDef,
+  gridPageCountSelector,
+  gridPageSelector,
+  GridToolbar,
+  useGridApiContext,
+  useGridSelector,
+} from "@mui/x-data-grid";
+import axios from "axios";
+import { useState } from "react";
 import { useTheme } from "styled-components";
+import { Pagination, Stack } from "@mui/material";
+import PaginationItem from "@mui/material/PaginationItem";
+import { PageContainer } from "@toolpad/core/PageContainer";
 
 export default function Search() {
   const theme = useTheme();
@@ -59,14 +70,21 @@ export default function Search() {
       field: "geimporteerd",
       headerName: "Geimporteerd?",
       flex: 1,
-      minWidth: 110,
+      minWidth: 130,
+      resizable: false,
+    },
+    {
+      field: "importeerdatum",
+      headerName: "Datum import",
+      flex: 1,
+      minWidth: 150,
       resizable: false,
     },
     {
       field: "kleur",
       headerName: "Kleur",
       flex: 1,
-      minWidth: 150,
+      minWidth: 90,
       resizable: false,
     },
   ];
@@ -78,7 +96,7 @@ export default function Search() {
     return `${year}`;
   };
 
-  const formatAPKDate = (dateString: string | null | undefined): string => {
+  const formatFullDate = (dateString: string | null | undefined): string => {
     if (!dateString || dateString.length !== 8) return "Geen APK";
 
     const year = dateString.slice(0, 4);
@@ -108,7 +126,7 @@ export default function Search() {
             toelatingNL: results.datum_eerste_tenaamstelling_in_nederland,
             verzekerd: results.wam_verzekerd,
             bpm: "€ " + results.bruto_bpm,
-            apk: formatAPKDate(results.vervaldatum_apk),
+            apk: formatFullDate(results.vervaldatum_apk),
             eerste_toelating: formatDate(results.datum_eerste_toelating),
             kleur:
               results.eerste_kleur.charAt(0) +
@@ -118,6 +136,13 @@ export default function Search() {
               results.datum_eerste_toelating
                 ? "Ja"
                 : "Nee",
+            importeerdatum:
+              results.datum_eerste_tenaamstelling_in_nederland !==
+              results.datum_eerste_toelating
+                ? formatFullDate(
+                    results.datum_eerste_tenaamstelling_in_nederland
+                  )
+                : "N.V.T",
           }))
         );
       } catch (error) {
@@ -128,44 +153,72 @@ export default function Search() {
     fetchCars();
   }, []);
 
-  return (
-    <Box
-      sx={{
-        height: 600,
-        width: "100%",
-      }}
-    >
-      <title>Zoeken | LexusTracker</title>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        loading={!loading ? false : true}
-        slots={{ toolbar: GridToolbar }}
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-          },
-        }}
-        sx={{
-          borderRadius: 4,
-          backgroundColor: (theme) => theme.palette.background.paper,
-          border: 0,
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: (theme) => theme.palette.background.paper,
-          },
-          "& .MuiDataGrid-columnHeader": {
-            backgroundColor: (theme) => theme.palette.background.paper,
-          },
-        }}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 10,
-            },
-          },
-        }}
-        pageSizeOptions={[5]}
+  function CustomPagination() {
+    const apiRef = useGridApiContext();
+    const page = useGridSelector(apiRef, gridPageSelector);
+    const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+
+    return (
+      <Pagination
+        color="primary"
+        variant="outlined"
+        shape="rounded"
+        page={page + 1}
+        count={pageCount}
+        // @ts-expect-error
+        renderItem={(props2) => <PaginationItem {...props2} disableRipple />}
+        onChange={(event: React.ChangeEvent<unknown>, value: number) =>
+          apiRef.current.setPage(value - 1)
+        }
       />
-    </Box>
+    );
+  }
+
+  const PAGE_SIZE = 10;
+
+  const [paginationModel, setPaginationModel] = React.useState({
+    pageSize: PAGE_SIZE,
+    page: 0,
+  });
+
+  return (
+    <PageContainer>
+      <Box
+        sx={{
+          height: 600,
+          width: "100%",
+        }}
+      >
+        <title>Zoeken | LexusTracker</title>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          loading={!loading ? false : true}
+          paginationModel={paginationModel}
+          onPaginationModelChange={setPaginationModel}
+          pageSizeOptions={[PAGE_SIZE]}
+          slots={{
+            pagination: CustomPagination,
+            toolbar: GridToolbar,
+          }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+            },
+          }}
+          sx={{
+            borderRadius: 4,
+            backgroundColor: (theme) => theme.palette.background.paper,
+            border: 0,
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: (theme) => theme.palette.background.paper,
+            },
+            "& .MuiDataGrid-columnHeader": {
+              backgroundColor: (theme) => theme.palette.background.paper,
+            },
+          }}
+        />
+      </Box>
+    </PageContainer>
   );
 }

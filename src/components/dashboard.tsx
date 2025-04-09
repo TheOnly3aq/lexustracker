@@ -1,37 +1,23 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
-  Legend,
   Tooltip,
   ResponsiveContainer,
   Area,
   AreaChart,
-} from 'recharts';
-import {
-  Box,
-  Button,
-  Card,
-  colors,
-  Grid,
-  List,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import { Tooltip as MUIToolTip } from '@mui/material';
-import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
-import ColorLensIcon from '@mui/icons-material/ColorLens';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import ImportExportIcon from '@mui/icons-material/ImportExport';
-import '@fontsource/montserrat/600.css';
-
-
+} from "recharts";
+import { Box, Card, Grid, Stack, Typography, useTheme } from "@mui/material";
+import { Tooltip as MUIToolTip } from "@mui/material";
+import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
+import ColorLensIcon from "@mui/icons-material/ColorLens";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import ImportExportIcon from "@mui/icons-material/ImportExport";
+import "@fontsource/montserrat/600.css";
+import { PageContainer } from "@toolpad/core/PageContainer";
 
 export default function Dashboard() {
   const [results, setResults] = useState<any[]>([]);
@@ -41,6 +27,7 @@ export default function Dashboard() {
   const theme = useTheme();
 
   const baseUrl = "https://opendata.rdw.nl/resource/m9d7-ebf2.json";
+  const car = "Lexus IS250C";
 
   const styles = {
     cardStyle: {
@@ -97,11 +84,11 @@ export default function Dashboard() {
     },
     tooltipLabelTop: {
       color: "black",
-      fontSize: "1vw",
+      fontSize: "1rem",
     },
     tooltipLabelBottom: {
       color: "black",
-      fontSize: "1vw",
+      fontSize: "1rem",
     },
   };
 
@@ -185,6 +172,33 @@ export default function Dashboard() {
     fetchCars();
   }, []);
 
+  const cards = [
+    {
+      title: "Alle " + car + "'s in Nederland",
+      icon: <DirectionsCarFilledIcon />,
+      data: results.length,
+      subText: "in totaal",
+    },
+    {
+      title: "Alle " + car + "'s in het rood.",
+      icon: <ColorLensIcon />,
+      data: sameColorResults.length,
+      subText: "in dezelfde kleur",
+    },
+    {
+      title: "Alle " + car + "'s die verzekerd zijn.",
+      icon: <AssignmentIcon />,
+      data: insured.length,
+      subText: "verzekerd",
+    },
+    {
+      title: "Alle " + car + "'s die geimporteerd zijn.",
+      icon: <ImportExportIcon />,
+      data: imported.length,
+      subText: "geimporteerd",
+    },
+  ];
+
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
@@ -198,127 +212,80 @@ export default function Dashboard() {
         </Stack>
       );
     }
-
     return null;
   };
   return (
-    <Box sx={{ width: "100%" }}>
-      <title>Dashboard | LexusTracker</title>
-      <Grid container rowSpacing={1} columnSpacing={{ xs: 3, sm: 4, md: 5 }}>
-        <Grid sx={styles.graphStyle} size={3}>
-          <Card elevation={0} sx={styles.graphStyle}>
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart
-                width={500}
-                height={200}
-                data={data}
-                syncId="anyId"
-                margin={{
-                  top: 10,
-                  right: 30,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
-                <defs>
-                  <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="20%" stopColor="#9d0100" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="#FFFFFF" stopOpacity={0.1} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid vertical={false} stroke="#DDD" />{" "}
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip content={CustomTooltip} />
-                <Area
-                  type="monotone"
-                  dataKey="amount"
-                  stroke="#9d0100"
-                  fill="url(#colorUv)"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </Card>
+    <PageContainer>
+      <Box sx={{ width: "100%" }}>
+        <title>Dashboard | LexusTracker</title>
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 3, sm: 4, md: 5 }}>
+          <Grid sx={styles.graphStyle} size={3}>
+            <Card elevation={0} sx={styles.graphStyle}>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart
+                  width={500}
+                  height={200}
+                  data={data}
+                  syncId="anyId"
+                  margin={{
+                    top: 10,
+                    right: 30,
+                    left: 0,
+                    bottom: 0,
+                  }}
+                >
+                  <defs>
+                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                      <stop
+                        offset="20%"
+                        stopColor="#9d0100"
+                        stopOpacity={0.4}
+                      />
+                      <stop
+                        offset="95%"
+                        stopColor="#FFFFFF"
+                        stopOpacity={0.1}
+                      />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid vertical={false} stroke="#DDD" />{" "}
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip content={CustomTooltip} />
+                  <Area
+                    type="monotone"
+                    dataKey="amount"
+                    stroke="#9d0100"
+                    fill="url(#colorUv)"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </Card>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid
-        container
-        rowSpacing={3}
-        sx={{ width: "100%", justifyContent: "center", alignItems: "center" }}
-        spacing={{ xs: 2, md: 3 }}
-        columns={{ xs: 6, sm: 6, md: 12 }}
-      >
-        <Grid size={3}>
-          <Card elevation={0} sx={styles.cardStyle}>
-            <MUIToolTip
-              sx={styles.helpIconWrapper}
-              title="Alle Lexus IS250C's in Nederland"
-            >
-              <HelpOutlineIcon />
-            </MUIToolTip>
-            <Stack sx={styles.cardStyleWrapper}>
-              <Stack sx={styles.iconWrapper}>
-                <DirectionsCarFilledIcon />
-              </Stack>
-              <Typography sx={styles.headerText}> {results.length}</Typography>
-              <Typography sx={styles.subText}>in totaal</Typography>
-            </Stack>
-          </Card>
+        <Grid
+          container
+          rowSpacing={3}
+          sx={{ width: "100%", justifyContent: "center", alignItems: "center" }}
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 6, sm: 6, md: 12 }}
+        >
+          {cards.map((cards) => (
+            <Grid size={3}>
+              <Card elevation={0} sx={styles.cardStyle}>
+                <MUIToolTip sx={styles.helpIconWrapper} title={cards.title}>
+                  <HelpOutlineIcon />
+                </MUIToolTip>
+                <Stack sx={styles.cardStyleWrapper}>
+                  <Stack sx={styles.iconWrapper}>{cards.icon}</Stack>
+                  <Typography sx={styles.headerText}>{cards.data}</Typography>
+                  <Typography sx={styles.subText}>{cards.subText}</Typography>
+                </Stack>
+              </Card>
+            </Grid>
+          ))}
         </Grid>
-        <Grid size={3}>
-          <Card elevation={0} sx={styles.cardStyle}>
-            <MUIToolTip
-              sx={styles.helpIconWrapper}
-              title="Alle Lexus IS250C's in dezelfde kleur."
-            >
-              <HelpOutlineIcon />
-            </MUIToolTip>
-            <Stack sx={styles.cardStyleWrapper}>
-              <Stack sx={styles.iconWrapper}>
-                <ColorLensIcon />
-              </Stack>
-              <Typography sx={styles.headerText}>
-                {sameColorResults.length}
-              </Typography>
-              <Typography sx={styles.subText}>dezelfde kleur</Typography>
-            </Stack>
-          </Card>
-        </Grid>
-        <Grid size={3}>
-          <Card elevation={0} sx={styles.cardStyle}>
-            <MUIToolTip
-              sx={styles.helpIconWrapper}
-              title="Alle Lexus IS250C's die verzekerd zijn."
-            >
-              <HelpOutlineIcon />
-            </MUIToolTip>
-            <Stack sx={styles.cardStyleWrapper}>
-              <Stack sx={styles.iconWrapper}>
-                <AssignmentIcon />
-              </Stack>
-              <Typography sx={styles.headerText}> {insured.length}</Typography>
-              <Typography sx={styles.subText}>verzekerd</Typography>
-            </Stack>
-          </Card>
-        </Grid>
-        <Grid size={3}>
-          <Card elevation={0} sx={styles.cardStyle}>
-            <MUIToolTip
-              sx={styles.helpIconWrapper}
-              title="Alle Lexus IS250C's die geimporteerd zijn."
-            >
-              <HelpOutlineIcon />
-            </MUIToolTip>
-            <Stack sx={styles.cardStyleWrapper}>
-              <Stack sx={styles.iconWrapper}>
-                <ImportExportIcon />
-              </Stack>
-              <Typography sx={styles.headerText}> {imported.length}</Typography>
-              <Typography sx={styles.subText}>geimporteerd</Typography>
-            </Stack>
-          </Card>
-        </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </PageContainer>
   );
 }

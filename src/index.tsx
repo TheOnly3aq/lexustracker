@@ -8,22 +8,32 @@ import theme from './theme';
 import './index.css';
 import Search from './components/search';
 import Dashboard from './components/dashboard';
+import About from './components/about';
+import Photos from './components/photos';
 
 const router = createBrowserRouter([
   {
     Component: App,
     children: [
       {
-        path: '/',
+        path: "/",
         Component: Layout,
         children: [
           {
-            path: '',
+            path: "",
             Component: Dashboard,
           },
           {
-            path: 'zoeken',
+            path: "zoeken",
             Component: Search,
+          },
+          {
+            path: "fotos",
+            Component: Photos,
+          },
+          {
+            path: "over",
+            Component: About,
           },
         ],
       },

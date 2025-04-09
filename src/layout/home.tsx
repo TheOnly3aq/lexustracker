@@ -19,7 +19,7 @@ function SidebarFooter({ mini }: SidebarFooterProps) {
           textAlign: 'center',
         }}
         >
-        {mini ? '© MUI' : `© ${new Date().getFullYear()} Made by KarsTalens`}
+        {mini ? '© KT' : `© ${new Date().getFullYear()} Made by Kars Talens`}
       </Typography>
     </Stack>
   );
@@ -72,9 +72,7 @@ export default function Layout() {
       }}
     >
       <title>Welkom | LexusTracker</title>
-      <PageContainer>
         <Outlet />
-      </PageContainer>
     </DashboardLayout>
   );
 }
