@@ -7,6 +7,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import { Outlet, Route } from 'react-router';
 import type { Navigation } from '@toolpad/core';
 import theme from './theme';
+import { Analytics } from "@vercel/analytics/react";
 const NAVIGATION: Navigation = [
   {
     kind: "header",
@@ -37,12 +38,10 @@ const NAVIGATION: Navigation = [
 
 export default function App() {
   return (
-    <ReactRouterAppProvider
-      theme={theme}
-      navigation={NAVIGATION}
-    >
+    <ReactRouterAppProvider theme={theme} navigation={NAVIGATION}>
       <title>LexusTracker</title>
       <Outlet />
+      <Analytics />
     </ReactRouterAppProvider>
   );
 }
