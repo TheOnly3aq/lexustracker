@@ -24,6 +24,7 @@ export default function Dashboard() {
   const [sameColorResults, setSameColorResults] = useState<any[]>([]);
   const [insured, setInsured] = useState<any[]>([]);
   const [imported, setImported] = useState<any[]>([]);
+  const [dailyCounts, setDailyCounts] = useState<any[]>([]);
   const theme = useTheme();
 
   const baseUrl = "https://opendata.rdw.nl/resource/m9d7-ebf2.json";
@@ -92,57 +93,6 @@ export default function Dashboard() {
     },
   };
 
-  const data = [
-    {
-      month: "Jan",
-      amount: 130,
-    },
-    {
-      month: "Feb",
-      amount: 126,
-    },
-    {
-      month: "Mar",
-      amount: 128,
-    },
-    {
-      month: "Apr",
-      amount: 129,
-    },
-    {
-      month: "Mei",
-      amount: 125,
-    },
-    {
-      month: "Jun",
-      amount: 123,
-    },
-    {
-      month: "Jul",
-      amount: 127,
-    },
-    {
-      month: "Aug",
-      amount: 129,
-    },
-    {
-      month: "Sep",
-      amount: 130,
-    },
-    {
-      month: "Okt",
-      amount: 131,
-    },
-    {
-      month: "Nov",
-      amount: 127,
-    },
-    {
-      month: "Dec",
-      amount: 120,
-    },
-  ];
-
   useEffect(() => {
     const fetchCars = async () => {
       try {
@@ -169,7 +119,19 @@ export default function Dashboard() {
       }
     };
 
+    const fetchDailyCounts = async () => {
+      try {
+        const response = await axios.get(
+          "https://lexusapi.karstalens.nl/api/stats/daily-count"
+        );
+        setDailyCounts(response.data);
+      } catch (error) {
+        console.error("Error fetching daily count data:", error);
+      }
+    };
     fetchCars();
+
+    fetchDailyCounts();
   }, []);
 
   const cards = [
@@ -204,7 +166,7 @@ export default function Dashboard() {
       return (
         <Stack sx={styles.customTooltip}>
           <Typography sx={styles.tooltipLabelTop}>
-            Maand: {`${label}`}
+            Datum: {`${label}`}
           </Typography>
           <Typography sx={styles.tooltipLabelBottom}>
             Aantal: {`${payload[0].value}`}
@@ -214,6 +176,7 @@ export default function Dashboard() {
     }
     return null;
   };
+
   return (
     <PageContainer>
       <Box sx={{ width: "100%" }}>
@@ -225,7 +188,13 @@ export default function Dashboard() {
                 <AreaChart
                   width={500}
                   height={200}
-                  data={data}
+                  data={dailyCounts.map((d) => ({
+                    date: new Date(d.date).toLocaleDateString("nl-NL", {
+                      day: "2-digit",
+                      month: "short",
+                    }),
+                    count: d.count,
+                  }))}
                   syncId="anyId"
                   margin={{
                     top: 10,
@@ -249,12 +218,12 @@ export default function Dashboard() {
                     </linearGradient>
                   </defs>
                   <CartesianGrid vertical={false} stroke="#DDD" />{" "}
-                  <XAxis dataKey="month" />
+                  <XAxis dataKey="date" />
                   <YAxis />
                   <Tooltip content={CustomTooltip} />
                   <Area
                     type="monotone"
-                    dataKey="amount"
+                    dataKey="count"
                     stroke="#9d0100"
                     fill="url(#colorUv)"
                   />
