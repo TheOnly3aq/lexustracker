@@ -20,8 +20,8 @@ export default function Search() {
   const theme = useTheme();
   const [results, setResults] = useState<any>([]);
   const [loading, setLoading] = useState(true);
-  const baseUrl = "https://opendata.rdw.nl/resource/m9d7-ebf2.json";
   const [rows, setRows] = React.useState([]);
+  const rdwUrl = process.env.REACT_APP_RDW_API_URL;
 
   const columns: GridColDef<(typeof rows)[number]>[] = [
     {
@@ -111,7 +111,7 @@ export default function Search() {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${baseUrl}?$where=contains(handelsbenaming, 'IS250C')`
+          `${rdwUrl}?$where=contains(handelsbenaming, 'IS250C')`
         );
         setResults(response.data);
         setLoading(false);

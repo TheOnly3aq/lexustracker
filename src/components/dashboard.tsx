@@ -12,15 +12,21 @@ import {
 import {
   Box,
   Card,
+  CircularProgress,
+  Container,
   FormControl,
   Grid,
   InputLabel,
   MenuItem,
   Select,
+  Skeleton,
   Stack,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
   useTheme,
 } from "@mui/material";
+
 import { Tooltip as MUIToolTip } from "@mui/material";
 import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
@@ -29,6 +35,7 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import "@fontsource/montserrat/600.css";
 import { PageContainer } from "@toolpad/core/PageContainer";
+import { Widgets } from "@mui/icons-material";
 
 export default function Dashboard() {
   const [results, setResults] = useState<any[]>([]);
@@ -38,6 +45,7 @@ export default function Dashboard() {
   const [dailyCounts, setDailyCounts] = useState<any[]>([]);
   const [monthlyCounts, setMonthlyCounts] = useState<any[]>([]);
   const [interval, setInterval] = useState<"daily" | "monthly">("monthly");
+  const [loading, setLoading] = useState(true);
 
   const theme = useTheme();
 
@@ -107,7 +115,16 @@ export default function Dashboard() {
       fontSize: "1rem",
     },
     intervalSelector: {
-      justify: "flex-end",
+      backgroundColor: theme.palette.background.paper,
+    },
+    progress: {
+      flex: 1,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      textAlign: "center",
+      verticalAlign: "center",
+      flexDirection: "column",
     },
   };
 
@@ -128,7 +145,6 @@ export default function Dashboard() {
             car.datum_eerste_tenaamstelling_in_nederland !==
             car.datum_eerste_toelating
         );
-
         setSameColorResults(sameColorCars);
         setInsured(insured);
         setImported(imported);
@@ -140,6 +156,7 @@ export default function Dashboard() {
     const fetchDailyCounts = async () => {
       try {
         const response = await axios.get(`${nodejsUrl}/api/stats/daily-count`);
+        setLoading(false);
         setDailyCounts(response.data);
       } catch (error) {
         console.error("Error fetching daily count data:", error);
@@ -151,6 +168,7 @@ export default function Dashboard() {
         const response = await axios.get(
           `${nodejsUrl}/api/stats/monthly-count`
         );
+        setLoading(false);
         setMonthlyCounts(response.data);
       } catch (error) {
         console.error("Error fetching monthly count data:", error);
@@ -205,7 +223,7 @@ export default function Dashboard() {
     return null;
   };
 
-  const dailyCount = dailyCounts.map((d) => ({
+  const dailyCount = dailyCounts.slice(0, 30).map((d) => ({
     date: new Date(d.date).toLocaleDateString("nl-NL", {
       day: "2-digit",
       month: "short",
@@ -213,7 +231,7 @@ export default function Dashboard() {
     count: d.count,
   }));
 
-  const monthlyCount = monthlyCounts.map((d) => ({
+  const monthlyCount = monthlyCounts.slice(0, 12).map((d) => ({
     date: new Date(d.month).toLocaleDateString("nl-NL", {
       month: "short",
     }),
@@ -224,61 +242,75 @@ export default function Dashboard() {
     <PageContainer>
       <Box sx={{ width: "100%" }}>
         <title>Dashboard | LexusTracker</title>
-        <FormControl sx={styles.intervalSelector}>
-          <Select
-            value={interval}
-            onChange={(e) => setInterval(e.target.value as "daily" | "monthly")}
-            inputProps={{
-              name: "interval",
-              id: "interval-select",
-            }}
-          >
-            <MenuItem value="daily">Dagelijks</MenuItem>
-            <MenuItem value="monthly">Maandelijks</MenuItem>
-          </Select>
-        </FormControl>
+        <ToggleButtonGroup
+          color="primary"
+          sx={styles.intervalSelector}
+          value={interval}
+          exclusive
+          onChange={(e, newInterval) => {
+            if (newInterval !== null) {
+              setInterval(newInterval as "daily" | "monthly");
+            }
+          }}
+        >
+          <ToggleButton value="daily">Dagelijks</ToggleButton>
+          <ToggleButton value="monthly">Maandelijks</ToggleButton>
+        </ToggleButtonGroup>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 3, sm: 4, md: 5 }}>
           <Grid sx={styles.graphStyle} size={3}>
             <Card elevation={0} sx={styles.graphStyle}>
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart
-                  width={500}
-                  height={200}
-                  data={interval === "daily" ? dailyCount : monthlyCount}
-                  syncId="anyId"
-                  margin={{
-                    top: 10,
-                    right: 30,
-                    left: 0,
-                    bottom: 0,
-                  }}
-                >
-                  <defs>
-                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                      <stop
-                        offset="20%"
-                        stopColor="#9d0100"
-                        stopOpacity={0.4}
-                      />
-                      <stop
-                        offset="95%"
-                        stopColor="#FFFFFF"
-                        stopOpacity={0.1}
-                      />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid vertical={false} stroke="#DDD" />{" "}
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip content={CustomTooltip} />
-                  <Area
-                    type="monotone"
-                    dataKey="count"
-                    stroke="#9d0100"
-                    fill="url(#colorUv)"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
+              {loading ? (
+                <Box sx={styles.progress}>
+                  <CircularProgress />
+                  <Typography
+                    sx={{ marginTop: "10px" }}
+                    variant="body1"
+                    color="text"
+                  >
+                    Fetching data...
+                  </Typography>
+                </Box>
+              ) : (
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart
+                    width={500}
+                    height={200}
+                    data={interval === "daily" ? dailyCount : monthlyCount}
+                    syncId="anyId"
+                    margin={{
+                      top: 10,
+                      right: 30,
+                      left: 0,
+                      bottom: 0,
+                    }}
+                  >
+                    <defs>
+                      <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                        <stop
+                          offset="20%"
+                          stopColor="#9d0100"
+                          stopOpacity={0.4}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="#FFFFFF"
+                          stopOpacity={0.1}
+                        />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid vertical={false} stroke="#DDD" />{" "}
+                    <XAxis dataKey="date" />
+                    <YAxis domain={["dataMin - 10", "dataMax + 1"]} />
+                    <Tooltip content={CustomTooltip} />
+                    <Area
+                      type="monotone"
+                      dataKey="count"
+                      stroke="#9d0100"
+                      fill="url(#colorUv)"
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              )}
             </Card>
           </Grid>
         </Grid>
