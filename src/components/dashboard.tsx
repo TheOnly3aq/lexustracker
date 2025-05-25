@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
   XAxis,
   YAxis,
@@ -9,7 +9,18 @@ import {
   Area,
   AreaChart,
 } from "recharts";
-import { Box, Card, Grid, Stack, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Card,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { Tooltip as MUIToolTip } from "@mui/material";
 import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
@@ -25,9 +36,13 @@ export default function Dashboard() {
   const [insured, setInsured] = useState<any[]>([]);
   const [imported, setImported] = useState<any[]>([]);
   const [dailyCounts, setDailyCounts] = useState<any[]>([]);
+  const [monthlyCounts, setMonthlyCounts] = useState<any[]>([]);
+  const [interval, setInterval] = useState<"daily" | "monthly">("monthly");
+
   const theme = useTheme();
 
-  const baseUrl = "https://opendata.rdw.nl/resource/m9d7-ebf2.json";
+  const rdwUrl = process.env.REACT_APP_RDW_API_URL;
+  const nodejsUrl = process.env.REACT_APP_NODEJS_API_URL;
   const car = "Lexus IS250C";
 
   const styles = {
@@ -91,13 +106,16 @@ export default function Dashboard() {
       color: "black",
       fontSize: "1rem",
     },
+    intervalSelector: {
+      justify: "flex-end",
+    },
   };
 
   useEffect(() => {
     const fetchCars = async () => {
       try {
         const response = await axios.get(
-          `${baseUrl}?$where=contains(handelsbenaming, 'IS250C')`
+          `${rdwUrl}?$where=contains(handelsbenaming, 'IS250C')`
         );
         const allCars = response.data;
         setResults(allCars);
@@ -121,17 +139,27 @@ export default function Dashboard() {
 
     const fetchDailyCounts = async () => {
       try {
-        const response = await axios.get(
-          "https://lexusapi.karstalens.nl/api/stats/daily-count"
-        );
+        const response = await axios.get(`${nodejsUrl}/api/stats/daily-count`);
         setDailyCounts(response.data);
       } catch (error) {
         console.error("Error fetching daily count data:", error);
       }
     };
-    fetchCars();
 
+    const fetchMonthlyCounts = async () => {
+      try {
+        const response = await axios.get(
+          `${nodejsUrl}/api/stats/monthly-count`
+        );
+        setMonthlyCounts(response.data);
+      } catch (error) {
+        console.error("Error fetching monthly count data:", error);
+      }
+    };
+
+    fetchCars();
     fetchDailyCounts();
+    fetchMonthlyCounts();
   }, []);
 
   const cards = [
@@ -177,10 +205,38 @@ export default function Dashboard() {
     return null;
   };
 
+  const dailyCount = dailyCounts.map((d) => ({
+    date: new Date(d.date).toLocaleDateString("nl-NL", {
+      day: "2-digit",
+      month: "short",
+    }),
+    count: d.count,
+  }));
+
+  const monthlyCount = monthlyCounts.map((d) => ({
+    date: new Date(d.month).toLocaleDateString("nl-NL", {
+      month: "short",
+    }),
+    count: d.count,
+  }));
+
   return (
     <PageContainer>
       <Box sx={{ width: "100%" }}>
         <title>Dashboard | LexusTracker</title>
+        <FormControl sx={styles.intervalSelector}>
+          <Select
+            value={interval}
+            onChange={(e) => setInterval(e.target.value as "daily" | "monthly")}
+            inputProps={{
+              name: "interval",
+              id: "interval-select",
+            }}
+          >
+            <MenuItem value="daily">Dagelijks</MenuItem>
+            <MenuItem value="monthly">Maandelijks</MenuItem>
+          </Select>
+        </FormControl>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 3, sm: 4, md: 5 }}>
           <Grid sx={styles.graphStyle} size={3}>
             <Card elevation={0} sx={styles.graphStyle}>
@@ -188,13 +244,7 @@ export default function Dashboard() {
                 <AreaChart
                   width={500}
                   height={200}
-                  data={dailyCounts.map((d) => ({
-                    date: new Date(d.date).toLocaleDateString("nl-NL", {
-                      day: "2-digit",
-                      month: "short",
-                    }),
-                    count: d.count,
-                  }))}
+                  data={interval === "daily" ? dailyCount : monthlyCount}
                   syncId="anyId"
                   margin={{
                     top: 10,
@@ -235,7 +285,11 @@ export default function Dashboard() {
         <Grid
           container
           rowSpacing={3}
-          sx={{ width: "100%", justifyContent: "center", alignItems: "center" }}
+          sx={{
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 6, sm: 6, md: 12 }}
         >
