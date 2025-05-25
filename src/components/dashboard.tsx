@@ -102,16 +102,16 @@ export default function Dashboard() {
       marginTop: "5px",
     },
     customTooltip: {
-      backgroundColor: "#ffff",
+      backgroundColor: theme.palette.background.paper,
       padding: 2,
       borderRadius: 5,
     },
     tooltipLabelTop: {
-      color: "black",
+      color: theme.palette.text.primary,
       fontSize: "1rem",
     },
     tooltipLabelBottom: {
-      color: "black",
+      color: theme.palette.text.primary,
       fontSize: "1rem",
     },
     intervalSelector: {
@@ -212,7 +212,7 @@ export default function Dashboard() {
       return (
         <Stack sx={styles.customTooltip}>
           <Typography sx={styles.tooltipLabelTop}>
-            Datum: {`${label}`}
+            {interval === "daily" ? "Dag" : "Maand"}: {`${label}`}
           </Typography>
           <Typography sx={styles.tooltipLabelBottom}>
             Aantal: {`${payload[0].value}`}
