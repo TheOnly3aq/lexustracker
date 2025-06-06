@@ -223,20 +223,26 @@ export default function Dashboard() {
     return null;
   };
 
-  const dailyCount = dailyCounts.slice(0, 30).map((d) => ({
-    date: new Date(d.date).toLocaleDateString("nl-NL", {
-      day: "2-digit",
-      month: "short",
-    }),
-    count: d.count,
-  }));
+  const dailyCount = dailyCounts
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()) // Sort by date, oldest first
+    .slice(-30) // Get the last 30 items (most recent)
+    .map((d) => ({
+      date: new Date(d.date).toLocaleDateString("nl-NL", {
+        day: "2-digit",
+        month: "short",
+      }),
+      count: d.count,
+    }));
 
-  const monthlyCount = monthlyCounts.slice(0, 12).map((d) => ({
-    date: new Date(d.month).toLocaleDateString("nl-NL", {
-      month: "short",
-    }),
-    count: d.count,
-  }));
+  const monthlyCount = monthlyCounts
+    .sort((a, b) => new Date(a.month).getTime() - new Date(b.month).getTime()) // Sort by month, oldest first
+    .slice(-12) // Get the last 12 items (most recent)
+    .map((d) => ({
+      date: new Date(d.month).toLocaleDateString("nl-NL", {
+        month: "short",
+      }),
+      count: d.count,
+    }));
 
   return (
     <PageContainer>
