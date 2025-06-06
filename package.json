@@ -8,6 +8,7 @@
     "@fontsource/inter": "^5.2.5",
     "@fontsource/montserrat": "^5.2.5",
     "@fontsource/roboto": "^5.2.5",
+    "@hotjar/browser": "^1.0.9",
     "@mui/icons-material": "^7.0.1",
     "@mui/material": "^7.0.1",
     "@mui/styled-engine-sc": "^7.0.1",
