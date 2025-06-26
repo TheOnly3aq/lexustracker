@@ -4,7 +4,6 @@ import { PageContainer } from "@toolpad/core/PageContainer";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
 import content from "../assets/content.json";
 
 export default function Photos() {
