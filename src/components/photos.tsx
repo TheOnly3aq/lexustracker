@@ -2,15 +2,14 @@ import * as React from "react";
 import { ImageList, ImageListItem, CircularProgress, Box } from "@mui/material";
 import { PageContainer } from "@toolpad/core/PageContainer";
 import { motion } from "framer-motion";
-import Slider from "react-slick";
+import { Swiper, SwiperSlide } from "swiper/react";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+
 import content from "../assets/content.json";
 
 export default function Photos() {
-  const cols = 3; // Number of columns in the masonry grid
-  const baseDelay = 0.18; // Base delay between images
+  const cols = 3;
+  const baseDelay = 0.18; 
   const isMobile = useMediaQuery("(max-width:600px)");
   const itemData = content.photos;
 
@@ -29,79 +28,44 @@ export default function Photos() {
     const [error, setError] = React.useState(false);
 
     return (
-      <Box
-        position="relative"
-        width="100%"
-        minHeight={200}
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
+      <div className="relative w-full min-h-[200px] flex items-center justify-center">
         {!loaded && !error && (
-          <Box
-            position="absolute"
-            top={0}
-            left={0}
-            width="100%"
-            height="100%"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            zIndex={1}
-          >
+          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-10">
             <CircularProgress />
-          </Box>
+          </div>
         )}
         {error ? (
-          <Box
-            width="100%"
-            height={200}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            bgcolor="#eee"
-            borderRadius={2}
-          >
-            <span style={{ color: "#888" }}>Image kon niet geladen worden</span>
-          </Box>
+          <div className="w-full h-[200px] flex items-center justify-center bg-gray-100 rounded-lg">
+            <span className="text-gray-400">Image kon niet geladen worden</span>
+          </div>
         ) : (
           <img
             src={src}
             srcSet={srcSet}
             alt={alt}
             loading="lazy"
-            style={{
-              ...style,
-              opacity: loaded ? 1 : 0,
-              transition: "opacity 0.3s",
-              borderRadius: 8,
-              width: "100%",
-              display: "block",
-            }}
+            className={`rounded-lg w-full block transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
+            style={style}
             onLoad={() => setLoaded(true)}
             onError={() => setError(true)}
           />
         )}
-      </Box>
+      </div>
     );
   }
 
   if (isMobile) {
-    const sliderSettings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      arrows: false,
-      adaptiveHeight: true,
-    };
     return (
       <PageContainer>
         <title>Fotos | LexusTracker</title>
-        <Slider {...sliderSettings}>
-          {itemData.map((item, idx) => (
-            <div key={item.img}>
+        <Swiper
+          spaceBetween={16}
+          slidesPerView={1}
+          pagination={{ clickable: true }}
+          className="w-full h-full"
+        >
+          {itemData.map((item) => (
+            <SwiperSlide className="mt-4" key={item.img}>
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -113,9 +77,9 @@ export default function Photos() {
                   alt={item.title}
                 />
               </motion.div>
-            </div>
+            </SwiperSlide>
           ))}
-        </Slider>
+        </Swiper>
       </PageContainer>
     );
   }
@@ -123,10 +87,9 @@ export default function Photos() {
   return (
     <PageContainer>
       <title>Fotos | LexusTracker</title>
-      <ImageList variant="masonry" cols={cols} gap={8}>
+      <ImageList variant="masonry" cols={cols} gap={8} className="!m-0">
         {itemData.map((item, idx) => {
           const row = Math.floor(idx / cols);
-          const col = idx % cols;
           const delay = row * baseDelay;
           return (
             <motion.div
@@ -135,7 +98,7 @@ export default function Photos() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay, duration: 0.4 }}
             >
-              <ImageListItem>
+              <ImageListItem className="!p-0">
                 <PhotoWithLoader
                   src={`${item.img}?w=248&fit=crop&auto=format`}
                   srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}

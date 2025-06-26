@@ -2,9 +2,6 @@ import * as React from "react";
 import {
   Container,
   Typography,
-  Card,
-  CardContent,
-  Box,
   Stack,
   Link,
 } from "@mui/material";
@@ -12,19 +9,11 @@ import "@fontsource/montserrat/600.css";
 import notfoundcar from "../assets/notfoundcar.png";
 import { motion } from "framer-motion";
 
-const styles = {
-  notfoundWrapper: {
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-  },
-};
-
 export default function NotFound() {
   return (
     <Container maxWidth="md" sx={{ mt: 6, mb: 6 }}>
       <title>404 | LexusTracker</title>
-      <Stack sx={styles.notfoundWrapper}>
+      <Stack className="justify-content-center align-items-center text-center">
         <motion.div
           initial={{ y: "-100vh" }}
           animate={{ y: 0 }}
