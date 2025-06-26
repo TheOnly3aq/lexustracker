@@ -11,13 +11,12 @@ import {
 } from "@mui/x-data-grid";
 import axios from "axios";
 import { useState } from "react";
-import { useTheme } from "styled-components";
 import { Pagination, Stack } from "@mui/material";
 import PaginationItem from "@mui/material/PaginationItem";
 import { PageContainer } from "@toolpad/core/PageContainer";
+import { motion } from "framer-motion";
 
 export default function Search() {
-  const theme = useTheme();
   const [results, setResults] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = React.useState([]);
@@ -183,42 +182,49 @@ export default function Search() {
 
   return (
     <PageContainer>
-      <Box
-        sx={{
-          height: 600,
-          width: "100%",
-        }}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
       >
-        <title>Zoeken | LexusTracker</title>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          loading={!loading ? false : true}
-          paginationModel={paginationModel}
-          onPaginationModelChange={setPaginationModel}
-          pageSizeOptions={[PAGE_SIZE]}
-          slots={{
-            pagination: CustomPagination,
-            toolbar: GridToolbar,
-          }}
-          slotProps={{
-            toolbar: {
-              showQuickFilter: true,
-            },
-          }}
+        <Box
           sx={{
-            borderRadius: 4,
-            backgroundColor: (theme) => theme.palette.background.paper,
-            border: 0,
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: (theme) => theme.palette.background.paper,
-            },
-            "& .MuiDataGrid-columnHeader": {
-              backgroundColor: (theme) => theme.palette.background.paper,
-            },
+            height: 600,
+            width: "100%",
           }}
-        />
-      </Box>
+        >
+          <title>Zoeken | LexusTracker</title>
+
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            loading={!loading ? false : true}
+            paginationModel={paginationModel}
+            onPaginationModelChange={setPaginationModel}
+            pageSizeOptions={[PAGE_SIZE]}
+            slots={{
+              pagination: CustomPagination,
+              toolbar: GridToolbar,
+            }}
+            slotProps={{
+              toolbar: {
+                showQuickFilter: true,
+              },
+            }}
+            sx={{
+              borderRadius: 4,
+              backgroundColor: (theme) => theme.palette.background.paper,
+              border: 0,
+              "& .MuiDataGrid-columnHeaders": {
+                backgroundColor: (theme) => theme.palette.background.paper,
+              },
+              "& .MuiDataGrid-columnHeader": {
+                backgroundColor: (theme) => theme.palette.background.paper,
+              },
+            }}
+          />
+        </Box>
+      </motion.div>
     </PageContainer>
   );
 }

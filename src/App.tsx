@@ -9,6 +9,7 @@ import type { Navigation } from '@toolpad/core';
 import theme from './theme';
 import { Analytics } from "@vercel/analytics/react";
 import Hotjar from "@hotjar/browser";
+import { motion } from "framer-motion";
 
 const siteId = 6427982;
 const hotjarVersion = 6;
@@ -42,13 +43,19 @@ const NAVIGATION: Navigation = [
   },
 ];
 
-
 export default function App() {
   return (
     <ReactRouterAppProvider theme={theme} navigation={NAVIGATION}>
       <title>LexusTracker</title>
-      <Outlet />
-      <Analytics />
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        style={{ height: "100%" }}
+      >
+        <Outlet />
+        <Analytics />
+      </motion.div>
     </ReactRouterAppProvider>
   );
 }

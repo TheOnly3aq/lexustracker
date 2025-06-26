@@ -13,13 +13,7 @@ import {
   Box,
   Card,
   CircularProgress,
-  Container,
-  FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Skeleton,
   Stack,
   ToggleButton,
   ToggleButtonGroup,
@@ -35,7 +29,7 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import "@fontsource/montserrat/600.css";
 import { PageContainer } from "@toolpad/core/PageContainer";
-import { Widgets } from "@mui/icons-material";
+import { motion } from "framer-motion";
 
 export default function Dashboard() {
   const [results, setResults] = useState<any[]>([]);
@@ -224,8 +218,8 @@ export default function Dashboard() {
   };
 
   const dailyCount = dailyCounts
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()) // Sort by date, oldest first
-    .slice(-30) // Get the last 30 items (most recent)
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .slice(-30)
     .map((d) => ({
       date: new Date(d.date).toLocaleDateString("nl-NL", {
         day: "2-digit",
@@ -235,8 +229,8 @@ export default function Dashboard() {
     }));
 
   const monthlyCount = monthlyCounts
-    .sort((a, b) => new Date(a.month).getTime() - new Date(b.month).getTime()) // Sort by month, oldest first
-    .slice(-12) // Get the last 12 items (most recent)
+    .sort((a, b) => new Date(a.month).getTime() - new Date(b.month).getTime())
+    .slice(-12)
     .map((d) => ({
       date: new Date(d.month).toLocaleDateString("nl-NL", {
         month: "short",
@@ -248,104 +242,134 @@ export default function Dashboard() {
     <PageContainer>
       <Box sx={{ width: "100%" }}>
         <title>Dashboard | LexusTracker</title>
-        <ToggleButtonGroup
-          color="primary"
-          sx={styles.intervalSelector}
-          value={interval}
-          exclusive
-          onChange={(e, newInterval) => {
-            if (newInterval !== null) {
-              setInterval(newInterval as "daily" | "monthly");
-            }
-          }}
+        <motion.div
+          initial={{ opacity: 0, y: -40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
         >
-          <ToggleButton value="daily">Dagelijks</ToggleButton>
-          <ToggleButton value="monthly">Maandelijks</ToggleButton>
-        </ToggleButtonGroup>
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 3, sm: 4, md: 5 }}>
-          <Grid sx={styles.graphStyle} size={3}>
-            <Card elevation={0} sx={styles.graphStyle}>
-              {loading ? (
-                <Box sx={styles.progress}>
-                  <CircularProgress />
-                  <Typography
-                    sx={{ marginTop: "10px" }}
-                    variant="body1"
-                    color="text"
-                  >
-                    Fetching data...
-                  </Typography>
-                </Box>
-              ) : (
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart
-                    width={500}
-                    height={200}
-                    data={interval === "daily" ? dailyCount : monthlyCount}
-                    syncId="anyId"
-                    margin={{
-                      top: 10,
-                      right: 30,
-                      left: 0,
-                      bottom: 0,
-                    }}
-                  >
-                    <defs>
-                      <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                        <stop
-                          offset="20%"
-                          stopColor="#9d0100"
-                          stopOpacity={0.4}
-                        />
-                        <stop
-                          offset="95%"
-                          stopColor="#FFFFFF"
-                          stopOpacity={0.1}
-                        />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid vertical={false} stroke="#DDD" />{" "}
-                    <XAxis dataKey="date" />
-                    <YAxis domain={["dataMin - 10", "dataMax + 1"]} />
-                    <Tooltip content={CustomTooltip} />
-                    <Area
-                      type="monotone"
-                      dataKey="count"
-                      stroke="#9d0100"
-                      fill="url(#colorUv)"
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              )}
-            </Card>
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          rowSpacing={3}
-          sx={{
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 6, sm: 6, md: 12 }}
+          <Box sx={{ display: "flex" }}>
+            <ToggleButtonGroup
+              color="primary"
+              sx={styles.intervalSelector}
+              value={interval}
+              exclusive
+              onChange={(e, newInterval) => {
+                if (newInterval !== null) {
+                  setInterval(newInterval as "daily" | "monthly");
+                }
+              }}
+            >
+              <ToggleButton value="daily">Dageeeeelijks</ToggleButton>
+              <ToggleButton value="monthly">Maandelijks</ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
         >
-          {cards.map((cards) => (
-            <Grid size={3}>
-              <Card elevation={0} sx={styles.cardStyle}>
-                <MUIToolTip sx={styles.helpIconWrapper} title={cards.title}>
-                  <HelpOutlineIcon />
-                </MUIToolTip>
-                <Stack sx={styles.cardStyleWrapper}>
-                  <Stack sx={styles.iconWrapper}>{cards.icon}</Stack>
-                  <Typography sx={styles.headerText}>{cards.data}</Typography>
-                  <Typography sx={styles.subText}>{cards.subText}</Typography>
-                </Stack>
+          <Grid
+            container
+            rowSpacing={1}
+            columnSpacing={{ xs: 3, sm: 4, md: 5 }}
+          >
+            <Grid sx={styles.graphStyle} size={3}>
+              <Card elevation={0} sx={styles.graphStyle}>
+                {loading ? (
+                  <Box sx={styles.progress}>
+                    <CircularProgress />
+                    <Typography
+                      sx={{ marginTop: "10px" }}
+                      variant="body1"
+                      color="text"
+                    >
+                      Fetching data...
+                    </Typography>
+                  </Box>
+                ) : (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart
+                      width={500}
+                      height={200}
+                      data={interval === "daily" ? dailyCount : monthlyCount}
+                      syncId="anyId"
+                      margin={{
+                        top: 10,
+                        right: 30,
+                        left: 0,
+                        bottom: 0,
+                      }}
+                    >
+                      <defs>
+                        <linearGradient
+                          id="colorUv"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="20%"
+                            stopColor="#9d0100"
+                            stopOpacity={0.4}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#FFFFFF"
+                            stopOpacity={0.1}
+                          />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid vertical={false} stroke="#DDD" />{" "}
+                      <XAxis dataKey="date" />
+                      <YAxis domain={["dataMin - 10", "dataMax + 1"]} />
+                      <Tooltip content={CustomTooltip} />
+                      <Area
+                        type="monotone"
+                        dataKey="count"
+                        stroke="#9d0100"
+                        fill="url(#colorUv)"
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                )}
               </Card>
             </Grid>
-          ))}
-        </Grid>
+          </Grid>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
+          <Grid
+            container
+            rowSpacing={3}
+            sx={{
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            spacing={{ xs: 2, md: 3 }}
+            columns={{ xs: 6, sm: 6, md: 12 }}
+          >
+            {cards.map((cards) => (
+              <Grid size={3}>
+                <Card elevation={0} sx={styles.cardStyle}>
+                  <MUIToolTip sx={styles.helpIconWrapper} title={cards.title}>
+                    <HelpOutlineIcon />
+                  </MUIToolTip>
+                  <Stack sx={styles.cardStyleWrapper}>
+                    <Stack sx={styles.iconWrapper}>{cards.icon}</Stack>
+                    <Typography sx={styles.headerText}>{cards.data}</Typography>
+                    <Typography sx={styles.subText}>{cards.subText}</Typography>
+                  </Stack>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </motion.div>
       </Box>
     </PageContainer>
   );
