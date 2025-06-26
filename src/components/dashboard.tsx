@@ -172,7 +172,7 @@ export default function Dashboard() {
     fetchCars();
     fetchDailyCounts();
     fetchMonthlyCounts();
-  }, []);
+  }, [nodejsUrl, rdwUrl]);
 
   const cards = [
     {

@@ -1,26 +1,12 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 12
-  },
-  "plugins": ["react", "@typescript-eslint"],
+  "ignorePatterns": ["**/*.d.ts"],
+  "plugins": ["unused-imports"],
+  "extends": ["prettier"],
   "rules": {
-    "indent": ["warn", "tab"],
-    "linebreak-style": ["warn", "windows"],
-    "quotes": ["warn", "double"],
-    "semi": ["warn", "always"],
-    "@typescript-eslint/no-unused-vars": "warn"
+    "no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "react-hooks/exhaustive-deps": "off",
+    "testing-library/prefer-screen-queries": "off",
+    "@typescript-eslint/no-unused-vars": "off"
   }
 }
