@@ -41,6 +41,7 @@
       "title": "Lexus IS250C in het rood"
     }
   ],
+
   "about": {
     "intro": "Deze applicatie is speciaal ontworpen om alle Lexus IS250C cabrio's in Nederland bij te houden. De gegevens worden in realtime opgehaald via de RDW Open Data API.",
     "features": [
