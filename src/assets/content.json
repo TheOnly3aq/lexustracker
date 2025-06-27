@@ -43,7 +43,7 @@
   ],
 
   "about": {
-    "intro": "Deze appliidsadasiicatie is speciaal ontworpen om alle Lexus IS250C cabrio's in Nederland bij te houden. De gegevens worden in realtime opgehaald via de RDW Open Data API.",
+    "intro": "Deze applicatie is speciaal ontworpen om alle Lexus IS250C cabrio's in Nederland bij te houden. De gegevens worden in realtime opgehaald via de RDW Open Data API.",
     "features": [
       "Je kunt het aantal geregistreerde IS250C’s bekijken, controleren of ze verzekerd zijn en zoeken op kenteken. Het doel is om een duidelijk overzicht te geven van dit zeldzamere model in Nederland."
     ],
