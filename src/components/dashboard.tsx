@@ -259,7 +259,7 @@ export default function Dashboard() {
                 }
               }}
             >
-              <ToggleButton value="daily">Dageeeeelijks</ToggleButton>
+              <ToggleButton value="daily">Dagelijks</ToggleButton>
               <ToggleButton value="monthly">Maandelijks</ToggleButton>
             </ToggleButtonGroup>
           </Box>
