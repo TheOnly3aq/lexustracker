@@ -275,7 +275,11 @@ export default function Dashboard() {
         <Stack sx={styles.customTooltip}>
           <Typography sx={styles.tooltipLabelTop}>
             {interval === "daily" ? "Dag" : "Maand"}: {`${label}`}
-            <br />
+          </Typography>
+          <Typography sx={styles.tooltipLabelBottom}>
+            Aantal: {`${payload[0].value}`}
+          </Typography>
+          <Typography>
             {differences && differences.totalChanges > 0 && (
               <span style={{ fontSize: "0.85em", color: "#888" }}>
                 Verschillen:
@@ -289,9 +293,6 @@ export default function Dashboard() {
                 </>
               </span>
             )}
-          </Typography>
-          <Typography sx={styles.tooltipLabelBottom}>
-            Aantal: {`${payload[0].value}`}
           </Typography>
         </Stack>
       );
