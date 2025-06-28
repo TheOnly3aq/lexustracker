@@ -38,6 +38,7 @@ export default function Dashboard() {
   const [imported, setImported] = useState<any[]>([]);
   const [dailyCounts, setDailyCounts] = useState<any[]>([]);
   const [monthlyCounts, setMonthlyCounts] = useState<any[]>([]);
+  const [dailyDifferences, setDailyDifferences] = useState<any[]>([]);
   const [interval, setInterval] = useState<"daily" | "monthly">("monthly");
   const [loading, setLoading] = useState(true);
 
@@ -128,13 +129,13 @@ export default function Dashboard() {
         const allCars = response.data.data;
         setResults(allCars);
         const sameColorCars = allCars.filter(
-          (car) => car.eerste_kleur === "ROOD"
+          (car) => car.eerste_kleur === "ROOD",
         );
         const insured = allCars.filter((car) => car.wam_verzekerd === "Ja");
         const imported = allCars.filter(
           (car) =>
             car.datum_eerste_tenaamstelling_in_nederland !==
-            car.datum_eerste_toelating
+            car.datum_eerste_toelating,
         );
         setSameColorResults(sameColorCars);
         setInsured(insured);
@@ -157,7 +158,7 @@ export default function Dashboard() {
     const fetchMonthlyCounts = async () => {
       try {
         const response = await axios.get(
-          `${nodejsUrl}/api/stats/monthly-count`
+          `${nodejsUrl}/api/stats/monthly-count`,
         );
         setLoading(false);
         setMonthlyCounts(response.data);
@@ -165,11 +166,78 @@ export default function Dashboard() {
         console.error("Error fetching monthly count data:", error);
       }
     };
+    const fetchDailyDifferences = async () => {
+      try {
+        const response = await axios.get(
+          `${nodejsUrl}/api/stats/daily-differences`,
+        );
+        setLoading(false);
+        // Check if data is nested or direct array
+        const data = response.data.data || response.data;
+        console.log("Daily differences data:", data);
+        setDailyDifferences(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error("Error fetching daily differences data:", error);
+        setDailyDifferences([]);
+      }
+    };
 
     fetchCars();
     fetchDailyCounts();
     fetchMonthlyCounts();
+    fetchDailyDifferences();
   }, [nodejsUrl]);
+
+  const getDifferencesByDate = (
+    dailyDifferences: any[],
+    formattedDate: string,
+  ) => {
+    if (!dailyDifferences || dailyDifferences.length === 0) {
+      console.log("No daily differences data available");
+      return null;
+    }
+
+    const matchingEntry = dailyDifferences.find((item) => {
+      const dateObj = new Date(item.date);
+      const formatted = dateObj
+        .toLocaleDateString("nl-NL", {
+          day: "2-digit",
+          month: "short",
+        })
+        .replace(".", "")
+        .toLowerCase();
+
+      console.log(`Comparing: ${formatted} === ${formattedDate.toLowerCase()}`);
+      return formatted === formattedDate.toLowerCase();
+    });
+
+    if (!matchingEntry) {
+      console.log(`No matching entry found for date: ${formattedDate}`);
+      return null;
+    }
+
+    console.log("Found matching entry:", matchingEntry);
+
+    // Handle the new API structure where added/removed are inside 'changes' object
+    const changes = matchingEntry.changes || {};
+    const added = Array.isArray(changes.added)
+      ? changes.added
+      : changes.added
+        ? [changes.added]
+        : [];
+    const removed = Array.isArray(changes.removed)
+      ? changes.removed
+      : changes.removed
+        ? [changes.removed]
+        : [];
+
+    return {
+      added: added,
+      removed: removed,
+      totalChanges: matchingEntry.totalChanges || 0,
+      fullDate: matchingEntry.date,
+    };
+  };
 
   const cards = [
     {
@@ -200,10 +268,27 @@ export default function Dashboard() {
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
+      const formattedDate = label; // This is the formatted date from the chart data
+      const differences = getDifferencesByDate(dailyDifferences, formattedDate);
+
       return (
         <Stack sx={styles.customTooltip}>
           <Typography sx={styles.tooltipLabelTop}>
             {interval === "daily" ? "Dag" : "Maand"}: {`${label}`}
+            <br />
+            {differences && differences.totalChanges > 0 && (
+              <span style={{ fontSize: "0.85em", color: "#888" }}>
+                Verschillen:
+                <br />
+                <>
+                  Toegevoegd: {differences.added.length}
+                  <br />
+                  Verwijderd: {differences.removed.length}
+                  <br />
+                  Totaal wijzigingen: {differences.totalChanges}
+                </>
+              </span>
+            )}
           </Typography>
           <Typography sx={styles.tooltipLabelBottom}>
             Aantal: {`${payload[0].value}`}
