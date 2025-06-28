@@ -20,7 +20,7 @@ export default function Search() {
   const [results, setResults] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = React.useState([]);
-  const rdwUrl = process.env.REACT_APP_RDW_API_URL;
+  const nodejsUrl = process.env.REACT_APP_NODEJS_API_URL;
 
   const columns: GridColDef<(typeof rows)[number]>[] = [
     {
@@ -109,14 +109,12 @@ export default function Search() {
     const fetchCars = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `${rdwUrl}?$where=contains(handelsbenaming, 'IS250C')`
-        );
-        setResults(response.data);
+        const response = await axios.get(`${nodejsUrl}/api/stats/rdw-data`);
+        setResults(response.data.data);
         setLoading(false);
 
         setRows(
-          response.data.map((results) => ({
+          response.data.data.map((results) => ({
             modelNaam:
               results.handelsbenaming.charAt(0) +
               results.handelsbenaming.substring(1).toLowerCase(),

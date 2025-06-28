@@ -43,7 +43,6 @@ export default function Dashboard() {
 
   const theme = useTheme();
 
-  const rdwUrl = process.env.REACT_APP_RDW_API_URL;
   const nodejsUrl = process.env.REACT_APP_NODEJS_API_URL;
   const car = "Lexus IS250C";
 
@@ -125,10 +124,8 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const response = await axios.get(
-          `${rdwUrl}?$where=contains(handelsbenaming, 'IS250C')`
-        );
-        const allCars = response.data;
+        const response = await axios.get(`${nodejsUrl}/api/stats/rdw-data`);
+        const allCars = response.data.data;
         setResults(allCars);
         const sameColorCars = allCars.filter(
           (car) => car.eerste_kleur === "ROOD"
@@ -172,7 +169,7 @@ export default function Dashboard() {
     fetchCars();
     fetchDailyCounts();
     fetchMonthlyCounts();
-  }, [nodejsUrl, rdwUrl]);
+  }, [nodejsUrl]);
 
   const cards = [
     {
