@@ -109,7 +109,7 @@ export default function Search() {
     const fetchCars = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${nodejsUrl}/api/stats/rdw-data/206`);
+        const response = await axios.get(`${nodejsUrl}/api/stats/rdw-data`);
         setResults(response.data.data);
         setLoading(false);
 
