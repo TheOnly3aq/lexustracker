@@ -43,10 +43,6 @@
   // TypeScript configuration
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.suggest.autoImports": true,
-  "typescript.suggest.includeCompletionsForModuleExports": true,
-  "typescript.preferences.organizeImportsIgnoreCase": false,
-  "typescript.preferences.organizeImportsCollation": "ordinal",
-  "typescript.preferences.organizeImportsNumericCollation": true,
 
   // ESLint configuration
   "eslint.enable": true,

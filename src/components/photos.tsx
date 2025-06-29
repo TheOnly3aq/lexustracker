@@ -1,14 +1,14 @@
-import * as React from "react";
-import { ImageList, ImageListItem, CircularProgress, Box } from "@mui/material";
+import { CircularProgress, ImageList, ImageListItem } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { PageContainer } from "@toolpad/core/PageContainer";
 import { motion } from "framer-motion";
+import * as React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import content from "../assets/content.json";
 
 export default function Photos() {
   const cols = 3;
-  const baseDelay = 0.18; 
+  const baseDelay = 0.18;
   const isMobile = useMediaQuery("(max-width:600px)");
   const itemData = content.photos;
 

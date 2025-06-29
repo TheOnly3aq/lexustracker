@@ -17,7 +17,6 @@ import * as React from "react";
 import { useState } from "react";
 
 export default function Search() {
-  const [results, setResults] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = React.useState([]);
   const nodejsUrl = process.env.REACT_APP_NODEJS_API_URL;
@@ -110,11 +109,11 @@ export default function Search() {
       setLoading(true);
       try {
         const response = await axios.get(`${nodejsUrl}/api/stats/rdw-data`);
-        setResults(response.data.data);
+        const Results = (response.data.data);
         setLoading(false);
 
         setRows(
-          response.data.data.map((results) => ({
+          Results.map((results) => ({
             modelNaam:
               results.handelsbenaming.charAt(0) +
               results.handelsbenaming.substring(1).toLowerCase(),
@@ -148,7 +147,7 @@ export default function Search() {
     };
 
     fetchCars();
-  }, []);
+  }, [nodejsUrl]);
 
   function CustomPagination() {
     const apiRef = useGridApiContext();

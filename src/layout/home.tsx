@@ -1,12 +1,17 @@
-import * as React from 'react';
-import { Outlet } from 'react-router';
+import "@fontsource/montserrat/600.css";
+import {
+  Chip,
+  Link,
+  Stack,
+  SvgIcon,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import {
   DashboardLayout,
   SidebarFooterProps,
-} from '@toolpad/core/DashboardLayout';
-import { PageContainer } from '@toolpad/core/PageContainer';
-import { Chip, Stack, SvgIcon, Tooltip, Typography, Link, useTheme } from '@mui/material';
-import '@fontsource/montserrat/600.css';
+} from "@toolpad/core/DashboardLayout";
+import { Outlet } from "react-router";
 function SidebarFooter({ mini }: SidebarFooterProps) {
   return (
     <Stack>
@@ -14,12 +19,12 @@ function SidebarFooter({ mini }: SidebarFooterProps) {
         variant="caption"
         sx={{
           m: 1,
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textAlign: 'center',
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textAlign: "center",
         }}
-        >
-        {mini ? '© KT' : `© ${new Date().getFullYear()} Made by Kars Talens`}
+      >
+        {mini ? "© KT" : `© ${new Date().getFullYear()} Made by Kars Talens`}
       </Typography>
     </Stack>
   );
@@ -47,13 +52,13 @@ function CustomAppTitle() {
         color="black"
         rel="noopener noreferrer"
       >
-        <Typography fontWeight={600} color='text.primary' variant="h6">
+        <Typography fontWeight={600} color="text.primary" variant="h6">
           LexusTracker
         </Typography>
       </Link>
       <Chip
         size="small"
-        sx={{ justifyContent: 'flex-end' }}
+        sx={{ justifyContent: "flex-end" }}
         label="BETA"
         color="primary"
       />
@@ -62,7 +67,7 @@ function CustomAppTitle() {
 }
 
 export default function Layout() {
-    const theme = useTheme();
+  const theme = useTheme();
   return (
     <DashboardLayout
       slots={{
@@ -71,7 +76,7 @@ export default function Layout() {
       }}
     >
       <title>Welkom | LexusTracker</title>
-        <Outlet />
+      <Outlet />
     </DashboardLayout>
   );
 }

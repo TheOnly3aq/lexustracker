@@ -1,8 +1,7 @@
-import { Container, Typography, Stack, Link } from "@mui/material";
 import "@fontsource/montserrat/600.css";
-import * as React from "react";
-import notfoundcar from "../assets/notfoundcar.png";
+import { Container, Link, Stack, Typography } from "@mui/material";
 import { motion } from "framer-motion";
+import notfoundcar from "../assets/notfoundcar.png";
 
 export default function NotFound() {
   return (
@@ -28,7 +27,7 @@ export default function NotFound() {
         >
           <Link href="https://www.youtube.com/watch?v=j5a0jTc9S10">
             <Stack sx={{ width: 400 }}>
-              <img src={notfoundcar} loading="lazy" />
+              <img src={notfoundcar} alt="Rode cabrio" loading="lazy" />
             </Stack>
           </Link>
         </motion.div>
