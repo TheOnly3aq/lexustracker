@@ -109,11 +109,11 @@ export default function Search() {
       setLoading(true);
       try {
         const response = await axios.get(`${nodejsUrl}/api/stats/rdw-data`);
-        const Results = (response.data.data);
+        const results = (response.data.data);
         setLoading(false);
 
         setRows(
-          Results.map((results) => ({
+          results.map((results) => ({
             modelNaam:
               results.handelsbenaming.charAt(0) +
               results.handelsbenaming.substring(1).toLowerCase(),
