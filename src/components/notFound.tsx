@@ -24,9 +24,17 @@ export default function NotFound() {
           initial={{ x: "100vw" }}
           animate={{ x: 0 }}
           transition={{ type: "spring", stiffness: 80, damping: 15 }}
+          style={{ display: "flex", justifyContent: "center" }}
         >
           <Link href="https://www.youtube.com/watch?v=j5a0jTc9S10">
-            <Stack sx={{ width: 400 }}>
+            <Stack
+              sx={{
+          width: 400,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+              }}
+            >
               <img src={notfoundcar} alt="Rode cabrio" loading="lazy" />
             </Stack>
           </Link>

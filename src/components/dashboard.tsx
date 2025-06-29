@@ -276,13 +276,11 @@ export default function Dashboard() {
               <span style={{ fontSize: "0.85em", color: "#888" }}>
                 Verschillen:
                 <br />
-                <>
-                  Toegevoegd: {differences.added.length}
-                  <br />
-                  Verwijderd: {differences.removed.length}
-                  <br />
-                  Totaal wijzigingen: {differences.totalChanges}
-                </>
+                Toegevoegd: {differences.added.length}
+                <br />
+                Verwijderd: {differences.removed.length}
+                <br />
+                Totaal wijzigingen: {differences.totalChanges}
               </span>
             )}
           </Typography>
@@ -328,14 +326,22 @@ export default function Dashboard() {
               sx={styles.intervalSelector}
               value={interval}
               exclusive
+              className="!rounded-xl !border-none !gap-0.5"
               onChange={(e, newInterval) => {
                 if (newInterval !== null) {
                   setInterval(newInterval as "daily" | "monthly");
                 }
               }}
             >
-              <ToggleButton value="daily">Dagelijks</ToggleButton>
-              <ToggleButton value="monthly">Maandelijks</ToggleButton>
+              <ToggleButton className="!rounded-xl !border-none" value="daily">
+                Dagelijks
+              </ToggleButton>
+              <ToggleButton
+                className="!rounded-xl !border-none"
+                value="monthly"
+              >
+                Maandelijks
+              </ToggleButton>
             </ToggleButtonGroup>
           </Box>
         </motion.div>
