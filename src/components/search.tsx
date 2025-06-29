@@ -1,5 +1,6 @@
-import * as React from "react";
+import { Pagination } from "@mui/material";
 import Box from "@mui/material/Box";
+import PaginationItem from "@mui/material/PaginationItem";
 import {
   DataGrid,
   GridColDef,
@@ -9,12 +10,11 @@ import {
   useGridApiContext,
   useGridSelector,
 } from "@mui/x-data-grid";
-import axios from "axios";
-import { useState } from "react";
-import { Pagination, Stack } from "@mui/material";
-import PaginationItem from "@mui/material/PaginationItem";
 import { PageContainer } from "@toolpad/core/PageContainer";
+import axios from "axios";
 import { motion } from "framer-motion";
+import * as React from "react";
+import { useState } from "react";
 
 export default function Search() {
   const [results, setResults] = useState<any>([]);
@@ -137,10 +137,10 @@ export default function Search() {
               results.datum_eerste_tenaamstelling_in_nederland !==
               results.datum_eerste_toelating
                 ? formatFullDate(
-                    results.datum_eerste_tenaamstelling_in_nederland
+                    results.datum_eerste_tenaamstelling_in_nederland,
                   )
                 : "N.V.T",
-          }))
+          })),
         );
       } catch (error) {
         console.error("Error fetching cars:", error);

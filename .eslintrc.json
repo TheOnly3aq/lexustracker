@@ -1,12 +1,68 @@
 {
-  "ignorePatterns": ["**/*.d.ts"],
-  "plugins": ["unused-imports"],
-  "extends": ["prettier"],
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "react-app",
+    "react-app/jest",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react", "@typescript-eslint", "unused-imports", "react-hooks"],
+  "ignorePatterns": [
+    "**/*.d.ts",
+    "build/**/*",
+    "dist/**/*",
+    "node_modules/**/*"
+  ],
   "rules": {
+    // Unused imports and variables
     "no-unused-vars": "off",
-    "unused-imports/no-unused-imports": "off",
-    "react-hooks/exhaustive-deps": "off",
-    "testing-library/prefer-screen-queries": "off",
-    "@typescript-eslint/no-unused-vars": "off"
+    "@typescript-eslint/no-unused-vars": "error",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+
+    // React specific rules
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+
+    // General code quality
+    "prefer-const": "error",
+    "no-var": "error",
+    "no-console": "warn",
+    "no-debugger": "warn",
+
+    // TypeScript specific
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-empty-function": "off",
+
+    // Testing library
+    "testing-library/prefer-screen-queries": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }

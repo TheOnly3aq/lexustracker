@@ -1,14 +1,3 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import {
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Area,
-  AreaChart,
-} from "recharts";
 import {
   Box,
   Card,
@@ -20,14 +9,25 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
-import { Tooltip as MUIToolTip } from "@mui/material";
-import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
-import ColorLensIcon from "@mui/icons-material/ColorLens";
+import "@fontsource/montserrat/600.css";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import ColorLensIcon from "@mui/icons-material/ColorLens";
+import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
-import "@fontsource/montserrat/600.css";
+import { Tooltip as MUIToolTip } from "@mui/material";
 import { PageContainer } from "@toolpad/core/PageContainer";
 import { motion } from "framer-motion";
 
@@ -172,9 +172,7 @@ export default function Dashboard() {
           `${nodejsUrl}/api/stats/daily-differences`,
         );
         setLoading(false);
-        // Check if data is nested or direct array
         const data = response.data.data || response.data;
-        console.log("Daily differences data:", data);
         setDailyDifferences(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching daily differences data:", error);
@@ -193,7 +191,6 @@ export default function Dashboard() {
     formattedDate: string,
   ) => {
     if (!dailyDifferences || dailyDifferences.length === 0) {
-      console.log("No daily differences data available");
       return null;
     }
 
@@ -207,18 +204,13 @@ export default function Dashboard() {
         .replace(".", "")
         .toLowerCase();
 
-      console.log(`Comparing: ${formatted} === ${formattedDate.toLowerCase()}`);
       return formatted === formattedDate.toLowerCase();
     });
 
     if (!matchingEntry) {
-      console.log(`No matching entry found for date: ${formattedDate}`);
       return null;
     }
 
-    console.log("Found matching entry:", matchingEntry);
-
-    // Handle the new API structure where added/removed are inside 'changes' object
     const changes = matchingEntry.changes || {};
     const added = Array.isArray(changes.added)
       ? changes.added
@@ -268,7 +260,7 @@ export default function Dashboard() {
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
-      const formattedDate = label; // This is the formatted date from the chart data
+      const formattedDate = label;
       const differences = getDifferencesByDate(dailyDifferences, formattedDate);
 
       return (
