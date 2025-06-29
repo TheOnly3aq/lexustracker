@@ -1,4 +1,4 @@
-import { Container, Typography, Card, CardContent, Box } from "@mui/material";
+import { Box, Card, CardContent, Container, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import content from "../assets/content.json";
 

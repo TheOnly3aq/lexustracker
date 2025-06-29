@@ -1,15 +1,14 @@
-import * as React from 'react';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import QueryStatsIcon from "@mui/icons-material/QueryStats";
-import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
-import { ReactRouterAppProvider } from '@toolpad/core/react-router';
-import InfoIcon from "@mui/icons-material/Info";
-import { Outlet, Route } from 'react-router';
-import type { Navigation } from '@toolpad/core';
-import theme from './theme';
-import { Analytics } from "@vercel/analytics/react";
 import Hotjar from "@hotjar/browser";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import InfoIcon from "@mui/icons-material/Info";
+import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import type { Navigation } from "@toolpad/core";
+import { ReactRouterAppProvider } from "@toolpad/core/react-router";
+import { Analytics } from "@vercel/analytics/react";
 import { motion } from "framer-motion";
+import { Outlet } from "react-router";
+import theme from "./theme";
 
 const siteId = 6427982;
 const hotjarVersion = 6;

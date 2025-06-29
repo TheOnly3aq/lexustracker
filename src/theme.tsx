@@ -1,6 +1,5 @@
-import { ThemeOptions } from '@mui/material/styles';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import '@fontsource/montserrat';
+import "@fontsource/montserrat";
+import { createTheme } from "@mui/material/styles";
 const lexusTheme = createTheme({
   colorSchemes: {
     light: {

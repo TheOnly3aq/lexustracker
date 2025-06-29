@@ -1,5 +1,6 @@
-import * as React from "react";
+import { Pagination } from "@mui/material";
 import Box from "@mui/material/Box";
+import PaginationItem from "@mui/material/PaginationItem";
 import {
   DataGrid,
   GridColDef,
@@ -9,15 +10,13 @@ import {
   useGridApiContext,
   useGridSelector,
 } from "@mui/x-data-grid";
-import axios from "axios";
-import { useState } from "react";
-import { Pagination, Stack } from "@mui/material";
-import PaginationItem from "@mui/material/PaginationItem";
 import { PageContainer } from "@toolpad/core/PageContainer";
+import axios from "axios";
 import { motion } from "framer-motion";
+import * as React from "react";
+import { useState } from "react";
 
 export default function Search() {
-  const [results, setResults] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = React.useState([]);
   const nodejsUrl = process.env.REACT_APP_NODEJS_API_URL;
@@ -110,11 +109,11 @@ export default function Search() {
       setLoading(true);
       try {
         const response = await axios.get(`${nodejsUrl}/api/stats/rdw-data`);
-        setResults(response.data.data);
+        const results = (response.data.data);
         setLoading(false);
 
         setRows(
-          response.data.data.map((results) => ({
+          results.map((results) => ({
             modelNaam:
               results.handelsbenaming.charAt(0) +
               results.handelsbenaming.substring(1).toLowerCase(),
@@ -137,10 +136,10 @@ export default function Search() {
               results.datum_eerste_tenaamstelling_in_nederland !==
               results.datum_eerste_toelating
                 ? formatFullDate(
-                    results.datum_eerste_tenaamstelling_in_nederland
+                    results.datum_eerste_tenaamstelling_in_nederland,
                   )
                 : "N.V.T",
-          }))
+          })),
         );
       } catch (error) {
         console.error("Error fetching cars:", error);
@@ -148,7 +147,7 @@ export default function Search() {
     };
 
     fetchCars();
-  }, []);
+  }, [nodejsUrl]);
 
   function CustomPagination() {
     const apiRef = useGridApiContext();
