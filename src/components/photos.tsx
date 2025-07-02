@@ -1,14 +1,11 @@
-import { CircularProgress, ImageList, ImageListItem } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { PageContainer } from "@toolpad/core/PageContainer";
-import { motion } from "framer-motion";
 import * as React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
 import content from "../assets/content.json";
+import Masonry from "./Components/Masonry/Masonry";
 
 export default function Photos() {
-  const cols = 3;
-  const baseDelay = 0.18;
   const isMobile = useMediaQuery("(max-width:600px)");
   const itemData = content.photos;
 
@@ -53,61 +50,21 @@ export default function Photos() {
     );
   }
 
-  if (isMobile) {
-    return (
-      <PageContainer>
-        <title>Fotos | LexusTracker</title>
-        <Swiper
-          spaceBetween={16}
-          slidesPerView={1}
-          pagination={{ clickable: true }}
-          className="w-full h-full"
-        >
-          {itemData.map((item) => (
-            <SwiperSlide className="mt-4" key={item.img}>
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0, duration: 0.4 }}
-              >
-                <PhotoWithLoader
-                  src={`${item.img}?w=600&fit=crop&auto=format`}
-                  srcSet={`${item.img}?w=600&fit=crop&auto=format&dpr=2 2x`}
-                  alt={item.title}
-                />
-              </motion.div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </PageContainer>
-    );
-  }
-
   return (
     <PageContainer>
       <title>Fotos | LexusTracker</title>
-      <ImageList variant="masonry" cols={cols} gap={8} className="!m-0">
-        {itemData.map((item, idx) => {
-          const row = Math.floor(idx / cols);
-          const delay = row * baseDelay;
-          return (
-            <motion.div
-              key={item.img}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay, duration: 0.4 }}
-            >
-              <ImageListItem className="!p-0">
-                <PhotoWithLoader
-                  src={`${item.img}?w=248&fit=crop&auto=format`}
-                  srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                  alt={item.title}
-                />
-              </ImageListItem>
-            </motion.div>
-          );
-        })}
-      </ImageList>
+      <Masonry
+        items={itemData}
+        ease="power3.out"
+        duration={0.2}
+        stagger={0.05}
+        animateFrom="bottom"
+        scaleOnHover={true}
+        hoverScale={0.95}
+        blurToFocus={true}
+        colorShiftOnHover={false}
+        columns={isMobile ? 1 : 3}
+      />
     </PageContainer>
   );
 }
