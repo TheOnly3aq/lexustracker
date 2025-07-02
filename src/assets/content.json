@@ -1,44 +1,74 @@
 {
   "photos": [
     {
+      "id": "lexus-1",
       "img": "https://cdn.astrode.dev/lexustracker/1.jpg",
-      "title": "Lexus IS250C in het rood"
+      "url": "https://cdn.astrode.dev/lexustracker/1.jpg",
+      "title": "Lexus IS250C in het rood",
+      "height": 1000
     },
     {
+      "id": "lexus-2",
       "img": "https://cdn.astrode.dev/lexustracker/2.jpg",
-      "title": "Lexus IS250C in het rood"
+      "url": "https://cdn.astrode.dev/lexustracker/2.jpg",
+      "title": "Lexus IS250C in het rood",
+      "height": 600
     },
     {
+      "id": "lexus-4",
       "img": "https://cdn.astrode.dev/lexustracker/4.jpg",
-      "title": "Lexus IS250C in het rood"
+      "url": "https://cdn.astrode.dev/lexustracker/4.jpg",
+      "title": "Lexus IS250C in het rood",
+      "height": 600
     },
     {
+      "id": "lexus-5",
       "img": "https://cdn.astrode.dev/lexustracker/5.jpg",
-      "title": "Lexus IS250C in het rood"
+      "url": "https://cdn.astrode.dev/lexustracker/5.jpg",
+      "title": "Lexus IS250C in het rood",
+      "height": 800
     },
     {
+      "id": "lexus-6",
       "img": "https://cdn.astrode.dev/lexustracker/6.jpg",
-      "title": "Lexus IS250C in het rood"
+      "url": "https://cdn.astrode.dev/lexustracker/6.jpg",
+      "title": "Lexus IS250C in het rood",
+      "height": 900
     },
     {
+      "id": "lexus-7",
       "img": "https://cdn.astrode.dev/lexustracker/7.jpg",
-      "title": "Lexus IS250C in het rood"
+      "url": "https://cdn.astrode.dev/lexustracker/7.jpg",
+      "title": "Lexus IS250C in het rood",
+      "height": 800
     },
     {
+      "id": "lexus-8",
       "img": "https://cdn.astrode.dev/lexustracker/8.jpg",
-      "title": "Lexus IS250C in het rood"
+      "url": "https://cdn.astrode.dev/lexustracker/8.jpg",
+      "title": "Lexus IS250C in het rood",
+      "height": 700
     },
     {
+      "id": "lexus-9",
       "img": "https://cdn.astrode.dev/lexustracker/9.jpg",
-      "title": "Lexus IS250C in het rood"
+      "url": "https://cdn.astrode.dev/lexustracker/9.jpg",
+      "title": "Lexus IS250C in het rood",
+      "height": 410
     },
     {
+      "id": "lexus-10",
       "img": "https://cdn.astrode.dev/lexustracker/10.jpg",
-      "title": "Lexus IS250C in het rood"
+      "url": "https://cdn.astrode.dev/lexustracker/10.jpg",
+      "title": "Lexus IS250C in het rood",
+      "height": 600
     },
     {
+      "id": "lexus-11",
       "img": "https://cdn.astrode.dev/lexustracker/11.jpg",
-      "title": "Lexus IS250C in het rood"
+      "url": "https://cdn.astrode.dev/lexustracker/11.jpg",
+      "title": "Lexus IS250C in het rood",
+      "height": 600
     }
   ],
 
