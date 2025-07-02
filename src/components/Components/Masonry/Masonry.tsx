@@ -123,7 +123,6 @@ const Masonry: React.FC<MasonryProps> = ({
     for (let i = 0; i < items.length; i++) {
       const child = items[i];
 
-      // If maxRows is set and we've reached the limit, break
       if (maxRows && rowCount >= maxRows) {
         break;
       }
@@ -136,7 +135,6 @@ const Masonry: React.FC<MasonryProps> = ({
       colHeights[col] += height + gap;
       result.push({ ...child, x, y, w: columnWidth, h: height });
 
-      // Check if we've completed a row (when all columns have at least one item)
       if ((i + 1) % itemsPerRow === 0) {
         rowCount++;
       }
@@ -144,49 +142,6 @@ const Masonry: React.FC<MasonryProps> = ({
 
     return result;
   }, [columns, items, width, maxRows]);
-
-  const hasMounted = useRef(false);
-
-  useLayoutEffect(() => {
-    if (!imagesReady) return;
-
-    grid.forEach((item, index) => {
-      const selector = `[data-key="${item.id}"]`;
-      const animProps = { x: item.x, y: item.y, width: item.w, height: item.h };
-
-      if (!hasMounted.current) {
-        const start = getInitialPosition(item);
-        gsap.fromTo(
-          selector,
-          {
-            opacity: 0,
-            x: start.x,
-            y: start.y,
-            width: item.w,
-            height: item.h,
-            ...(blurToFocus && { filter: "blur(10px)" }),
-          },
-          {
-            opacity: 1,
-            ...animProps,
-            ...(blurToFocus && { filter: "blur(0px)" }),
-            duration: 0.8,
-            ease: "power3.out",
-            delay: index * stagger,
-          },
-        );
-      } else {
-        gsap.to(selector, {
-          ...animProps,
-          duration,
-          ease,
-          overwrite: "auto",
-        });
-      }
-    });
-
-    hasMounted.current = true;
-  }, [grid, imagesReady, stagger, animateFrom, blurToFocus, duration, ease]);
 
   const handleMouseEnter = (id: string, element: HTMLElement) => {
     if (scaleOnHover) {
@@ -216,6 +171,10 @@ const Masonry: React.FC<MasonryProps> = ({
     }
   };
 
+  if (!imagesReady) {
+    return <div ref={containerRef} className="relative w-full h-full" />;
+  }
+
   return (
     <div ref={containerRef} className="relative w-full h-full">
       {grid.map((item) => (
@@ -223,7 +182,13 @@ const Masonry: React.FC<MasonryProps> = ({
           key={item.id}
           data-key={item.id}
           className="absolute box-content"
-          style={{ willChange: "transform, width, height, opacity" }}
+          style={{
+            left: item.x,
+            top: item.y,
+            width: item.w,
+            height: item.h,
+            willChange: "transform, width, height, opacity",
+          }}
           onClick={() => window.open(item.url, "_blank", "noopener")}
           onMouseEnter={(e) => handleMouseEnter(item.id, e.currentTarget)}
           onMouseLeave={(e) => handleMouseLeave(item.id, e.currentTarget)}

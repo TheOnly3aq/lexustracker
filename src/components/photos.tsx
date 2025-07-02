@@ -57,11 +57,11 @@ export default function Photos() {
         items={itemData}
         ease="power3.out"
         duration={0.2}
-        stagger={0.05}
+        stagger={0}
         animateFrom="bottom"
         scaleOnHover={true}
         hoverScale={0.95}
-        blurToFocus={true}
+        blurToFocus={false}
         colorShiftOnHover={false}
         columns={isMobile ? 1 : 3}
       />
