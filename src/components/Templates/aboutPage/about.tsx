@@ -1,9 +1,13 @@
 import { Box, Card, CardContent, Container, Typography } from "@mui/material";
+import { Theme, useTheme } from "@mui/material/styles";
 import { motion } from "framer-motion";
-import content from "../assets/content.json";
+
+import content from "../../../assets/content.json";
 
 export default function About() {
   const about = content.about;
+  const theme: Theme = useTheme();
+
   return (
     <Container maxWidth="md" sx={{ mt: 6, mb: 6 }}>
       <title>Over | LexusTracker</title>
@@ -12,7 +16,13 @@ export default function About() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
       >
-        <Card variant="outlined" sx={{ borderRadius: 4, boxShadow: 3 }}>
+        <Card
+          variant="outlined"
+          sx={{
+            borderRadius: 4,
+            border: 0,
+          }}
+        >
           <CardContent>
             <Typography variant="h4" gutterBottom>
               Over deze tracker

@@ -2,8 +2,8 @@ import { CircularProgress } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { PageContainer } from "@toolpad/core/PageContainer";
 import * as React from "react";
-import content from "../assets/content.json";
-import Masonry from "./Components/Masonry/Masonry";
+import content from "../../../assets/content.json";
+import Masonry from "../../ExternalComponents/Masonry/Masonry";
 
 export default function Photos() {
   const isMobile = useMediaQuery("(max-width:600px)");
