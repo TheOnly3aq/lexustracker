@@ -1,7 +1,7 @@
 import "@fontsource/montserrat/600.css";
 import { Container, Link, Stack, Typography } from "@mui/material";
 import { motion } from "framer-motion";
-import notfoundcar from "../assets/notfoundcar.png";
+import notfoundcar from "../../../assets/notfoundcar.png";
 
 export default function NotFound() {
   return (
@@ -29,10 +29,10 @@ export default function NotFound() {
           <Link href="https://www.youtube.com/watch?v=j5a0jTc9S10">
             <Stack
               sx={{
-          width: 400,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+                width: 400,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
               <img src={notfoundcar} alt="Rode cabrio" loading="lazy" />

@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import PaginationItem from "@mui/material/PaginationItem";
 import {
   DataGrid,
-  GridColDef,
   gridPageCountSelector,
   gridPageSelector,
   GridToolbar,
@@ -15,77 +14,14 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import * as React from "react";
 import { useState } from "react";
+import { getColumns } from "./__internal/searchColumns";
 
 export default function Search() {
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = React.useState([]);
   const nodejsUrl = process.env.REACT_APP_NODEJS_API_URL;
+  const columns = getColumns(rows);
 
-  const columns: GridColDef<(typeof rows)[number]>[] = [
-    {
-      field: "modelNaam",
-      headerName: "Model naam",
-      flex: 1,
-      minWidth: 150,
-      resizable: false,
-    },
-    {
-      field: "id",
-      headerName: "Kenteken",
-      flex: 1,
-      minWidth: 90,
-      resizable: false,
-    },
-    {
-      field: "bouwjaar",
-      headerName: "Bouwjaar",
-      flex: 1,
-      minWidth: 90,
-      resizable: false,
-    },
-    {
-      field: "bpm",
-      headerName: "Bruto BPM",
-      flex: 1,
-      minWidth: 100,
-      resizable: false,
-    },
-    {
-      field: "verzekerd",
-      headerName: "Verzekerd?",
-      flex: 1,
-      minWidth: 90,
-      resizable: false,
-    },
-    {
-      field: "apk",
-      headerName: "Vervaldatum APK",
-      flex: 1,
-      minWidth: 150,
-      resizable: false,
-    },
-    {
-      field: "geimporteerd",
-      headerName: "Geimporteerd?",
-      flex: 1,
-      minWidth: 130,
-      resizable: false,
-    },
-    {
-      field: "importeerdatum",
-      headerName: "Datum import",
-      flex: 1,
-      minWidth: 150,
-      resizable: false,
-    },
-    {
-      field: "kleur",
-      headerName: "Kleur",
-      flex: 1,
-      minWidth: 90,
-      resizable: false,
-    },
-  ];
   const formatDate = (dateString: string): string => {
     if (dateString.length !== 8) return "Invalid Date";
 
