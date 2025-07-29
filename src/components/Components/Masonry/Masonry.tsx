@@ -40,7 +40,6 @@ const preloadImages = async (urls: string[]): Promise<void> => {
 interface Item {
   id: string;
   img: string;
-  url: string;
   height: number;
 }
 
@@ -189,7 +188,6 @@ const Masonry: React.FC<MasonryProps> = ({
             height: item.h,
             willChange: "transform, width, height, opacity",
           }}
-          onClick={() => window.open(item.url, "_blank", "noopener")}
           onMouseEnter={(e) => handleMouseEnter(item.id, e.currentTarget)}
           onMouseLeave={(e) => handleMouseLeave(item.id, e.currentTarget)}
         >
