@@ -1,0 +1,57 @@
+{
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "notFound": "Non trouvé",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "search": "Rechercher",
+    "dashboard": "Tableau de bord"
+  },
+  "navigation": {
+    "dashboard": "Tableau de bord",
+    "about": "À propos",
+    "photos": "Photos",
+    "search": "Rechercher"
+  },
+  "car": {
+    "basicInformation": "Informations de base",
+    "registration": "Enregistrement",
+    "technicalSpecs": "Spécifications techniques",
+    "environmental": "Environnemental",
+    "licensePlate": "Plaque d'immatriculation",
+    "brand": "Marque",
+    "model": "Modèle",
+    "vehicleType": "Type de véhicule",
+    "primaryColor": "Couleur principale",
+    "secondaryColor": "Couleur secondaire",
+    "firstRegistration": "Première immatriculation",
+    "firstRegistrationNL": "Première immatriculation NL",
+    "insuranceStatus": "Statut d'assurance",
+    "apkExpiry": "Expiration du contrôle technique",
+    "engineCylinders": "Cylindres du moteur",
+    "engineDisplacement": "Cylindrée",
+    "emptyWeight": "Poids à vide",
+    "maxWeight": "Poids maximum",
+    "seats": "Sièges",
+    "doors": "Portes",
+    "fuelType": "Type de carburant",
+    "bodyType": "Type de carrosserie",
+    "co2Emissions": "Émissions de CO2",
+    "wltpCo2": "WLTP CO2",
+    "fuelConsumption": "Consommation de carburant",
+    "energyConsumption": "Consommation d'énergie",
+    "electricRange": "Autonomie électrique",
+    "emissionCode": "Code d'émission",
+    "imported": "Importé",
+    "insured": "Assuré",
+    "notInsured": "Non assuré"
+  },
+  "language": {
+    "english": "Anglais",
+    "dutch": "Néerlandais",
+    "german": "Allemand",
+    "french": "Français"
+  }
+}

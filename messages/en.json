@@ -1,0 +1,57 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "notFound": "Not Found",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "search": "Search",
+    "dashboard": "Dashboard"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "about": "About",
+    "photos": "Photos",
+    "search": "Search"
+  },
+  "car": {
+    "basicInformation": "Basic Information",
+    "registration": "Registration",
+    "technicalSpecs": "Technical Specs",
+    "environmental": "Environmental",
+    "licensePlate": "License Plate",
+    "brand": "Brand",
+    "model": "Model",
+    "vehicleType": "Vehicle Type",
+    "primaryColor": "Primary Color",
+    "secondaryColor": "Secondary Color",
+    "firstRegistration": "First Registration",
+    "firstRegistrationNL": "First Registration NL",
+    "insuranceStatus": "Insurance Status",
+    "apkExpiry": "APK Expiry",
+    "engineCylinders": "Engine Cylinders",
+    "engineDisplacement": "Engine Displacement",
+    "emptyWeight": "Empty Weight",
+    "maxWeight": "Max Weight",
+    "seats": "Seats",
+    "doors": "Doors",
+    "fuelType": "Fuel Type",
+    "bodyType": "Body Type",
+    "co2Emissions": "CO2 Emissions",
+    "wltpCo2": "WLTP CO2",
+    "fuelConsumption": "Fuel Consumption",
+    "energyConsumption": "Energy Consumption",
+    "electricRange": "Electric Range",
+    "emissionCode": "Emission Code",
+    "imported": "Imported",
+    "insured": "Insured",
+    "notInsured": "Not Insured"
+  },
+  "language": {
+    "english": "English",
+    "dutch": "Dutch",
+    "german": "German",
+    "french": "French"
+  }
+}
