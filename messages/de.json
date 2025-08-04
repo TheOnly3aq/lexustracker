@@ -1,0 +1,57 @@
+{
+  "common": {
+    "loading": "Wird geladen...",
+    "error": "Fehler",
+    "notFound": "Nicht gefunden",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "search": "Suchen",
+    "dashboard": "Dashboard"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "about": "Über",
+    "photos": "Fotos",
+    "search": "Suchen"
+  },
+  "car": {
+    "basicInformation": "Grundinformationen",
+    "registration": "Registrierung",
+    "technicalSpecs": "Technische Daten",
+    "environmental": "Umwelt",
+    "licensePlate": "Kennzeichen",
+    "brand": "Marke",
+    "model": "Modell",
+    "vehicleType": "Fahrzeugtyp",
+    "primaryColor": "Hauptfarbe",
+    "secondaryColor": "Zweitfarbe",
+    "firstRegistration": "Erstzulassung",
+    "firstRegistrationNL": "Erstzulassung NL",
+    "insuranceStatus": "Versicherungsstatus",
+    "apkExpiry": "TÜV Ablauf",
+    "engineCylinders": "Motor Zylinder",
+    "engineDisplacement": "Hubraum",
+    "emptyWeight": "Leergewicht",
+    "maxWeight": "Höchstgewicht",
+    "seats": "Sitzplätze",
+    "doors": "Türen",
+    "fuelType": "Kraftstoffart",
+    "bodyType": "Karosserietyp",
+    "co2Emissions": "CO2 Emissionen",
+    "wltpCo2": "WLTP CO2",
+    "fuelConsumption": "Kraftstoffverbrauch",
+    "energyConsumption": "Energieverbrauch",
+    "electricRange": "Elektrische Reichweite",
+    "emissionCode": "Emissionscode",
+    "imported": "Importiert",
+    "insured": "Versichert",
+    "notInsured": "Nicht versichert"
+  },
+  "language": {
+    "english": "Englisch",
+    "dutch": "Niederländisch",
+    "german": "Deutsch",
+    "french": "Französisch"
+  }
+}

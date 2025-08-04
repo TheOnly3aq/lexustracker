@@ -1,0 +1,57 @@
+{
+  "common": {
+    "loading": "Laden...",
+    "error": "Fout",
+    "notFound": "Niet Gevonden",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "close": "Sluiten",
+    "search": "Zoeken",
+    "dashboard": "Dashboard"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "about": "Over",
+    "photos": "Foto's",
+    "search": "Zoeken"
+  },
+  "car": {
+    "basicInformation": "Basisinformatie",
+    "registration": "Registratie",
+    "technicalSpecs": "Technische Specificaties",
+    "environmental": "Milieu",
+    "licensePlate": "Kenteken",
+    "brand": "Merk",
+    "model": "Model",
+    "vehicleType": "Voertuigtype",
+    "primaryColor": "Eerste Kleur",
+    "secondaryColor": "Tweede Kleur",
+    "firstRegistration": "Eerste Registratie",
+    "firstRegistrationNL": "Eerste Registratie NL",
+    "insuranceStatus": "Verzekeringsstatus",
+    "apkExpiry": "APK Vervaldatum",
+    "engineCylinders": "Motor Cilinders",
+    "engineDisplacement": "Cilinderinhoud",
+    "emptyWeight": "Leeggewicht",
+    "maxWeight": "Maximaal Gewicht",
+    "seats": "Zitplaatsen",
+    "doors": "Deuren",
+    "fuelType": "Brandstoftype",
+    "bodyType": "Carrosserietype",
+    "co2Emissions": "CO2 Uitstoot",
+    "wltpCo2": "WLTP CO2",
+    "fuelConsumption": "Brandstofverbruik",
+    "energyConsumption": "Energieverbruik",
+    "electricRange": "Elektrische Bereik",
+    "emissionCode": "Emissiecode",
+    "imported": "Geïmporteerd",
+    "insured": "Verzekerd",
+    "notInsured": "Niet Verzekerd"
+  },
+  "language": {
+    "english": "Engels",
+    "dutch": "Nederlands",
+    "german": "Duits",
+    "french": "Frans"
+  }
+}
