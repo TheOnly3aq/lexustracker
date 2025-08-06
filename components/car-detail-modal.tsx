@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +10,16 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Car, Calendar, Palette, Shield, MapPin, FileText } from "lucide-react";
+import {
+  Car,
+  Calendar,
+  Palette,
+  Shield,
+  MapPin,
+  FileText,
+  X,
+} from "lucide-react";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 
 interface CarData {
   kenteken: string;
@@ -266,138 +277,160 @@ export default function CarDetailModal({
     car.datum_eerste_tenaamstelling_in_nederland !== car.datum_eerste_toelating;
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto glass-effect border-white/10">
-        <DialogHeader>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-lg border border-red-500/30">
-                <Car className="w-6 h-6 text-red-400" />
+    <>
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto glass-effect border-white/10 ">
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-lg border border-red-500/30">
+                  <Car className="w-6 h-6 text-red-400" />
+                </div>
+                <div>
+                  <DialogTitle className="text-2xl text-white">
+                    {car.kenteken}
+                  </DialogTitle>
+                </div>
               </div>
-              <div>
-                <DialogTitle className="text-2xl text-white">
-                  {car.merk} {car.handelsbenaming}
-                </DialogTitle>
-                <p className="text-gray-400 font-mono text-lg">
-                  {car.kenteken}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              {isImported && (
-                <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">
-                  Imported
+              <div className="flex items-center space-x-2">
+                {isImported && (
+                  <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">
+                    Imported
+                  </Badge>
+                )}
+                <Badge
+                  className={`${
+                    car.wam_verzekerd === "Ja"
+                      ? "bg-green-500/20 text-green-400 border-green-500/30"
+                      : "bg-red-500/20 text-red-400 border-red-500/30"
+                  }`}
+                >
+                  {car.wam_verzekerd === "Ja" ? "Insured" : "Not Insured"}
                 </Badge>
-              )}
-              <Badge
-                className={`${
-                  car.wam_verzekerd === "Ja"
-                    ? "bg-green-500/20 text-green-400 border-green-500/30"
-                    : "bg-red-500/20 text-red-400 border-red-500/30"
-                }`}
-              >
-                {car.wam_verzekerd === "Ja" ? "Insured" : "Not Insured"}
-              </Badge>
+                {/* Close button: next to badges on desktop, floating fixed on mobile */}
+                <div className="hidden sm:block">
+                  <DialogPrimitive.Close className="ml-2 rounded-full p-2 hover:bg-white/10 transition-colors focus:outline-none">
+                    <X className="h-5 w-5 text-white" />
+                  </DialogPrimitive.Close>
+                </div>
+              </div>
             </div>
+          </DialogHeader>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 pb-20 sm:pb-6">
+            <Card className="card-gradient">
+              <CardHeader>
+                <CardTitle className="text-white text-lg flex items-center gap-2">
+                  <Car className="w-5 h-5 text-blue-400" />
+                  Basic Information
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {basicInfo.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between py-2 border-b border-white/5 last:border-b-0"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <item.icon className="w-4 h-4 text-gray-400" />
+                      <span className="text-gray-300 text-sm">
+                        {item.label}
+                      </span>
+                    </div>
+                    <span className="text-white font-medium">
+                      {formatValue(item.value)}
+                    </span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            <Card className="card-gradient">
+              <CardHeader>
+                <CardTitle className="text-white text-lg flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-green-400" />
+                  Registration
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {registrationInfo.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between py-2 border-b border-white/5 last:border-b-0"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <item.icon className="w-4 h-4 text-gray-400" />
+                      <span className="text-gray-300 text-sm">
+                        {item.label}
+                      </span>
+                    </div>
+                    <span className="text-white font-medium">
+                      {formatValue(item.value)}
+                    </span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            <Card className="card-gradient">
+              <CardHeader>
+                <CardTitle className="text-white text-lg flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-purple-400" />
+                  Technical Specs
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {technicalInfo.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between py-2 border-b border-white/5 last:border-b-0"
+                  >
+                    <span className="text-gray-300 text-sm">{item.label}</span>
+                    <span className="text-white font-medium">
+                      {formatValue(item.value)}
+                    </span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            <Card className="card-gradient">
+              <CardHeader>
+                <CardTitle className="text-white text-lg flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-green-400" />
+                  Environmental
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {environmentalInfo.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between py-2 border-b border-white/5 last:border-b-0"
+                  >
+                    <span className="text-gray-300 text-sm">{item.label}</span>
+                    <span className="text-white font-medium">
+                      {formatValue(item.value)}
+                    </span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
           </div>
-        </DialogHeader>
+        </DialogContent>
+      </Dialog>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-          <Card className="card-gradient">
-            <CardHeader>
-              <CardTitle className="text-white text-lg flex items-center gap-2">
-                <Car className="w-5 h-5 text-blue-400" />
-                Basic Information
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {basicInfo.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between py-2 border-b border-white/5 last:border-b-0"
-                >
-                  <div className="flex items-center space-x-2">
-                    <item.icon className="w-4 h-4 text-gray-400" />
-                    <span className="text-gray-300 text-sm">{item.label}</span>
-                  </div>
-                  <span className="text-white font-medium">
-                    {formatValue(item.value)}
-                  </span>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-
-          <Card className="card-gradient">
-            <CardHeader>
-              <CardTitle className="text-white text-lg flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-green-400" />
-                Registration
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {registrationInfo.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between py-2 border-b border-white/5 last:border-b-0"
-                >
-                  <div className="flex items-center space-x-2">
-                    <item.icon className="w-4 h-4 text-gray-400" />
-                    <span className="text-gray-300 text-sm">{item.label}</span>
-                  </div>
-                  <span className="text-white font-medium">
-                    {formatValue(item.value)}
-                  </span>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-
-          <Card className="card-gradient">
-            <CardHeader>
-              <CardTitle className="text-white text-lg flex items-center gap-2">
-                <FileText className="w-5 h-5 text-purple-400" />
-                Technical Specs
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {technicalInfo.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between py-2 border-b border-white/5 last:border-b-0"
-                >
-                  <span className="text-gray-300 text-sm">{item.label}</span>
-                  <span className="text-white font-medium">
-                    {formatValue(item.value)}
-                  </span>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-
-          <Card className="card-gradient">
-            <CardHeader>
-              <CardTitle className="text-white text-lg flex items-center gap-2">
-                <Shield className="w-5 h-5 text-green-400" />
-                Environmental
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {environmentalInfo.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between py-2 border-b border-white/5 last:border-b-0"
-                >
-                  <span className="text-gray-300 text-sm">{item.label}</span>
-                  <span className="text-white font-medium">
-                    {formatValue(item.value)}
-                  </span>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
-      </DialogContent>
-    </Dialog>
+      {/* Mobile floating close button - rendered via portal to document body to avoid scrolling */}
+      {isOpen &&
+        typeof window !== "undefined" &&
+        createPortal(
+          <button
+            onClick={onClose}
+            className="sm:hidden fixed bottom-6 left-1/2 z-[100] -translate-x-1/2 bg-white/10 backdrop-blur-lg rounded-full p-4 shadow-lg border border-white/20 hover:bg-white/20 transition-colors focus:outline-none"
+          >
+            <X className="h-6 w-6 text-white" />
+          </button>,
+          document.body
+        )}
+    </>
   );
 }

@@ -144,26 +144,20 @@ export default function Search() {
                   <Table className="table-responsive">
                     <TableHeader>
                       <TableRow className="border-white/10 hover:bg-white/5">
-                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-2 sm:px-4">
+                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4">
                           License
                         </TableHead>
-                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-2 sm:px-4">
-                          Brand
-                        </TableHead>
-                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-2 sm:px-4 hidden sm:table-cell">
+                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4 sm:table-cell">
                           Model
                         </TableHead>
-                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-2 sm:px-4 hidden md:table-cell">
+                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4 hidden md:table-cell">
                           Color
                         </TableHead>
-                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-2 sm:px-4">
-                          Status
+                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4">
+                          Insured?
                         </TableHead>
-                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-2 sm:px-4 hidden lg:table-cell">
+                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4 hidden lg:table-cell">
                           Date
-                        </TableHead>
-                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-2 sm:px-4">
-                          Action
                         </TableHead>
                       </TableRow>
                     </TableHeader>
@@ -178,16 +172,13 @@ export default function Search() {
                           }}
                           onClick={() => handleCarClick(car)}
                         >
-                          <TableCell className="text-white font-mono font-semibold group-hover:text-red-400 transition-colors text-xs sm:text-sm px-2 sm:px-4">
+                          <TableCell className="text-white font-mono font-semibold group-hover:text-red-400 transition-colors text-xs sm:text-sm px-3 sm:px-4">
                             {car.kenteken}
                           </TableCell>
-                          <TableCell className="text-gray-300 group-hover:text-white transition-colors text-xs sm:text-sm px-2 sm:px-4">
-                            {car.merk}
-                          </TableCell>
-                          <TableCell className="text-gray-300 group-hover:text-white transition-colors text-xs sm:text-sm px-2 sm:px-4 hidden sm:table-cell">
+                          <TableCell className="text-gray-300 group-hover:text-white transition-colors text-xs sm:text-sm px-3 sm:px-4 sm:table-cell">
                             {car.handelsbenaming}
                           </TableCell>
-                          <TableCell className="text-gray-300 group-hover:text-white transition-colors text-xs sm:text-sm px-2 sm:px-4 hidden md:table-cell">
+                          <TableCell className="text-gray-300 group-hover:text-white transition-colors text-xs sm:text-sm px-3 sm:px-4 hidden md:table-cell">
                             {car.eerste_kleur}
                           </TableCell>
                           <TableCell className="text-gray-300 px-2 sm:px-4">

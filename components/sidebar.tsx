@@ -36,7 +36,7 @@ export default function Sidebar() {
       >
         <div className="flex flex-col h-full">
           <div
-            className={`flex items-center justify-center h-20 px-4 border-b border-white/10 ${
+            className={`flex items-center justify-center  h-20 px-4 border-b border-white/10 ${
               isMobileMenuOpen ? "!ml-11" : "ml-0"
             }`}
           >
