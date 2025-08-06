@@ -16,12 +16,10 @@ export default function Sidebar() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Helper function to check if path is active
   const isPathActive = (href: string) => pathname === href;
 
   return (
     <>
-      {/* Mobile menu button */}
       <div className="lg:hidden fixed top-4 left-2 z-50">
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -31,7 +29,6 @@ export default function Sidebar() {
         </button>
       </div>
 
-      {/* Sidebar */}
       <div
         className={`fixed inset-y-0 left-0 z-40 w-64 glass-effect transform transition-all duration-500 ease-in-out lg:translate-x-0 ${
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
@@ -105,7 +102,6 @@ export default function Sidebar() {
         </div>
       </div>
 
-      {/* Mobile overlay */}
       {isMobileMenuOpen && (
         <div
           className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm lg:hidden transition-opacity duration-300"

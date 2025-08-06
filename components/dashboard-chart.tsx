@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -139,7 +137,6 @@ export default function DashboardChart() {
         }
       );
 
-      // Format data for display with proper date formatting
       let filteredData = formattedData.map((item) => ({
         ...item,
         displayDate: formatDateForDisplay(item.date, source),
@@ -147,7 +144,6 @@ export default function DashboardChart() {
       }));
 
       if (source === "daily") {
-        // Sort by date (oldest to newest)
         filteredData = filteredData
           .filter((item) => {
             const itemDate = new Date(item.originalDate);
@@ -159,7 +155,6 @@ export default function DashboardChart() {
               new Date(b.originalDate).getTime()
           );
       } else {
-        // For monthly data, show last 12 months
         filteredData = filteredData
           .sort(
             (a, b) =>
@@ -169,10 +164,8 @@ export default function DashboardChart() {
           .slice(-12);
       }
 
-      // Store all data for pagination
       setAllData(filteredData);
 
-      // Set current page to show the latest data (last page)
       if (source === "daily") {
         const totalPages = Math.ceil(filteredData.length / itemsPerPage);
         setCurrentPage(Math.max(0, totalPages - 1));
@@ -217,13 +210,11 @@ export default function DashboardChart() {
   }, [dataSource]);
 
   useEffect(() => {
-    // Update chart data when pagination changes
     if (allData.length > 0) {
       const startIndex = currentPage * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
       const paginatedData = allData.slice(startIndex, endIndex);
 
-      // Convert to chart format
       const chartFormattedData = paginatedData.map((item: any) => ({
         date: item.displayDate,
         count: item.count,
