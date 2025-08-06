@@ -46,6 +46,7 @@ interface CarData {
   volgnummer_wijziging_eu_typegoedkeuring?: string;
   vermogen_brom_snorfiets?: string;
   datum_tenaamstelling?: string;
+  nettomaximumvermogen?: string;
   vervaldatum_apk?: string;
   taxi_indicator?: string;
   maximum_massa_samenstelling?: string;
@@ -134,6 +135,7 @@ interface CarData {
   wielbasis_voertuig_minimum?: string;
   wielbasis_voertuig_maximum?: string;
   lengte?: string;
+  maximale_constructiesnelheid?: string;
   breedte?: string;
   hoogte_voertuig?: string;
   hoogte_voertuig_minimum?: string;
@@ -157,12 +159,24 @@ export default function CarDetailModal({
 
   const formatDate = (dateString: string | undefined) => {
     if (!dateString) return "N/A";
+    if (/^\d{8}$/.test(dateString)) {
+      const year = dateString.slice(0, 4);
+      const month = dateString.slice(4, 6);
+      const day = dateString.slice(6, 8);
+      return new Date(`${year}-${month}-${day}`).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    }
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    return isNaN(date.getTime())
+      ? "N/A"
+      : date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
   };
 
   const formatValue = (value: any) => {
@@ -176,7 +190,6 @@ export default function CarDetailModal({
     { label: "Model", value: car.handelsbenaming, icon: Car },
     { label: "Vehicle Type", value: car.voertuigsoort, icon: Car },
     { label: "Primary Color", value: car.eerste_kleur, icon: Palette },
-    { label: "Secondary Color", value: car.tweede_kleur, icon: Palette },
   ];
 
   const registrationInfo = [
@@ -200,6 +213,8 @@ export default function CarDetailModal({
 
   const technicalInfo = [
     { label: "Engine Cylinders", value: car.aantal_cilinders },
+    { label: "Power", value: car.nettomaximumvermogen },
+    { label: "Max Speed", value: car.maximale_constructiesnelheid },
     {
       label: "Engine Displacement",
       value: car.cilinderinhoud ? `${car.cilinderinhoud} cc` : undefined,
@@ -217,9 +232,6 @@ export default function CarDetailModal({
         : undefined,
     },
     { label: "Seats", value: car.aantal_zitplaatsen },
-    { label: "Doors", value: car.aantal_deuren },
-    { label: "Fuel Type", value: car.brandstof_omschrijving },
-    { label: "Body Type", value: car.carrosserie },
   ];
 
   const environmentalInfo = [
@@ -246,10 +258,6 @@ export default function CarDetailModal({
       value: car.gem_energieverbruik_wltp_gecombineerd
         ? `${car.gem_energieverbruik_wltp_gecombineerd} Wh/km`
         : undefined,
-    },
-    {
-      label: "Electric Range",
-      value: car.actieradius_wltp ? `${car.actieradius_wltp} km` : undefined,
     },
     { label: "Emission Code", value: car.emissiecode_omschrijving },
   ];
@@ -295,7 +303,6 @@ export default function CarDetailModal({
         </DialogHeader>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-          {/* Basic Information */}
           <Card className="card-gradient">
             <CardHeader>
               <CardTitle className="text-white text-lg flex items-center gap-2">
@@ -321,7 +328,6 @@ export default function CarDetailModal({
             </CardContent>
           </Card>
 
-          {/* Registration Information */}
           <Card className="card-gradient">
             <CardHeader>
               <CardTitle className="text-white text-lg flex items-center gap-2">
@@ -347,7 +353,6 @@ export default function CarDetailModal({
             </CardContent>
           </Card>
 
-          {/* Technical Specifications */}
           <Card className="card-gradient">
             <CardHeader>
               <CardTitle className="text-white text-lg flex items-center gap-2">
@@ -370,7 +375,6 @@ export default function CarDetailModal({
             </CardContent>
           </Card>
 
-          {/* Environmental Information */}
           <Card className="card-gradient">
             <CardHeader>
               <CardTitle className="text-white text-lg flex items-center gap-2">
