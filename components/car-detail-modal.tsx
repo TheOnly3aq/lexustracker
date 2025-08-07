@@ -18,6 +18,7 @@ import {
   X,
 } from "lucide-react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { KentekenCheck } from "rdw-kenteken-check";
 
 interface CarData {
   kenteken: string;
@@ -193,8 +194,10 @@ export default function CarDetailModal({
     return String(value);
   };
 
+    const formattedLicensePlate = new KentekenCheck(car.kenteken).formatLicense();
+
   const basicInfo = [
-    { label: "License Plate", value: car.kenteken, icon: FileText },
+    { label: "License Plate", value: formattedLicensePlate, icon: FileText },
     { label: "Brand", value: car.merk, icon: Car },
     { label: "Model", value: car.handelsbenaming, icon: Car },
     { label: "Vehicle Type", value: car.voertuigsoort, icon: Car },
@@ -273,7 +276,7 @@ export default function CarDetailModal({
 
   const isImported =
     car.datum_eerste_tenaamstelling_in_nederland !== car.datum_eerste_toelating;
-
+  
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto glass-effect border-white/10 ">
@@ -285,7 +288,7 @@ export default function CarDetailModal({
               </div>
               <div>
                 <DialogTitle className="text-2xl text-white">
-                  {car.kenteken}
+                  {formattedLicensePlate}
                 </DialogTitle>
               </div>
             </div>
@@ -305,16 +308,15 @@ export default function CarDetailModal({
                 {car.wam_verzekerd === "Ja" ? "Insured" : "Not Insured"}
               </Badge>
               <DialogPrimitive.Close
-                className="sticky z-10 ml-auto flex h-9 w-9 items-center justify-center rounded-full bg-white/10 backdrop-blur-lg text-white opacity-70 transition hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-white/40"
-                style={{ border: "none" }}
+                className="p-2 glass-effect rounded-lg border border-white/10 flex items-center justify-center transition hover:opacity-80 focus:outline-none"
+                style={{ background: "rgba(255,255,255,0.05)" }}
               >
-                <X className="h-5 w-5" />
+                <X className="w-6 h-6 text-red-400" />
                 <span className="sr-only">Close</span>
               </DialogPrimitive.Close>
             </div>
           </div>
         </DialogHeader>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <Card className="card-gradient">
             <CardHeader>

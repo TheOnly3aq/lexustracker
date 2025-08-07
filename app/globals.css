@@ -119,6 +119,29 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.glass-effect-cookie-banner {
+  background: rgba(10, 10, 10, 0.3);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  /* Force hardware acceleration for better blur performance */
+  transform: translateZ(0);
+  will-change: backdrop-filter;
+}
+
+
+/* Cookie consent popup animation */
+@keyframes slideInFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(100px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 /* Smooth table animations */
 .table-row-enter {
   animation: tableRowEnter 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
