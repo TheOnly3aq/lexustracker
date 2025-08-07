@@ -195,11 +195,6 @@ export default function Search() {
                           <TableCell className="text-gray-300 group-hover:text-white transition-colors text-xs px-2 sm:px-4 hidden lg:table-cell">
                             {car.datum_eerste_tenaamstelling_in_nederland}
                           </TableCell>
-                          <TableCell className="px-2 sm:px-4">
-                            <div className="flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                              <Eye className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
-                            </div>
-                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
