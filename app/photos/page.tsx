@@ -1,6 +1,10 @@
-import { Card, CardContent } from "@/components/ui/card"
-import Image from "next/image"
-import { Camera, Heart } from "lucide-react"
+"use client";
+
+import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
+import { Camera, Heart } from "lucide-react";
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 // This would typically come from a content.json file
 const photos = [
@@ -51,6 +55,43 @@ const photos = [
 ];
 
 export default function Photos() {
+  const [likedPhotos, setLikedPhotos] = useState<Set<number>>(new Set());
+
+  // Load liked photos from cookies on component mount
+  useEffect(() => {
+    const savedLikes = Cookies.get("likedPhotos");
+    if (savedLikes) {
+      try {
+        const likedIds = JSON.parse(savedLikes) as number[];
+        setLikedPhotos(new Set(likedIds));
+      } catch (error) {
+        console.error("Error parsing liked photos from cookies:", error);
+      }
+    }
+  }, []);
+
+  // Save liked photos to cookies whenever likedPhotos changes
+  useEffect(() => {
+    // Set cookie with 30 days expiration
+    Cookies.set("likedPhotos", JSON.stringify(Array.from(likedPhotos)), {
+      expires: 30, // 30 days
+      sameSite: "lax", // Better security
+      secure: process.env.NODE_ENV === "production", // HTTPS only in production
+    });
+  }, [likedPhotos]);
+
+  const toggleLike = (photoId: number) => {
+    setLikedPhotos((prev) => {
+      const newLikedPhotos = new Set(prev);
+      if (newLikedPhotos.has(photoId)) {
+        newLikedPhotos.delete(photoId);
+      } else {
+        newLikedPhotos.add(photoId);
+      }
+      return newLikedPhotos;
+    });
+  };
+
   return (
     <div className="space-y-8">
       <div className="ml-12 lg:ml-0 ">
@@ -58,7 +99,17 @@ export default function Photos() {
           <Camera className="w-8 h-8 text-red-500" />
           Photo Gallery
         </h1>
-        <p className="text-gray-400 text-lg">Explore our collection of Lexus vehicles</p>
+        <div className="flex items-center justify-between">
+          <p className="text-gray-400 text-lg">
+            Explore our collection of Lexus vehicles
+          </p>
+          {likedPhotos.size > 0 && (
+            <div className="flex items-center gap-2 text-sm text-gray-400">
+              <Heart className="w-4 h-4 text-red-500 fill-red-500" />
+              <span>{likedPhotos.size} liked</span>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -77,15 +128,29 @@ export default function Photos() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="p-2 glass-effect rounded-full">
-                  <Heart className="w-4 h-4 text-red-400" />
-                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleLike(photo.id);
+                  }}
+                  className="p-2 glass-effect rounded-full hover:bg-white/10 transition-colors duration-200"
+                  aria-label={
+                    likedPhotos.has(photo.id) ? "Unlike photo" : "Like photo"
+                  }
+                >
+                  <Heart
+                    className={`w-4 h-4 transition-colors duration-200 ${
+                      likedPhotos.has(photo.id)
+                        ? "text-red-500 fill-red-500"
+                        : "text-red-400 hover:text-red-300"
+                    }`}
+                  />
+                </button>
               </div>
             </div>
-
           </Card>
         ))}
       </div>
     </div>
-  )
+  );
 }
