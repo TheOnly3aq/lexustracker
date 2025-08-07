@@ -1,12 +1,11 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import { Camera, Heart } from "lucide-react";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
-// This would typically come from a content.json file
 const photos = [
   {
     id: 1,
@@ -56,17 +55,15 @@ const photos = [
 
 export default function Photos() {
   const [likedPhotos, setLikedPhotos] = useState<Set<number>>(new Set());
-  const [cookieConsent, setCookieConsent] = useState<boolean | null>(null); // null = not decided, true = accepted, false = rejected
+  const [cookieConsent, setCookieConsent] = useState<boolean | null>(false);
+  const [hasCheckedConsent, setHasCheckedConsent] = useState(false);
 
-  // Load cookie consent and liked photos on component mount
   useEffect(() => {
-    // Check if user has already made a consent decision
     const consentStatus = Cookies.get("cookieConsent");
     if (consentStatus) {
       const hasConsent = consentStatus === "true";
       setCookieConsent(hasConsent);
-
-      // Only load liked photos if consent was given
+      
       if (hasConsent) {
         const savedLikes = Cookies.get("likedPhotos");
         if (savedLikes) {
@@ -78,30 +75,30 @@ export default function Photos() {
           }
         }
       }
+    } else {
+      setCookieConsent(null);
     }
+    setHasCheckedConsent(true);
   }, []);
 
-  // Save liked photos to cookies whenever likedPhotos changes (only if consent given)
   useEffect(() => {
     if (cookieConsent === true && likedPhotos.size >= 0) {
       Cookies.set("likedPhotos", JSON.stringify(Array.from(likedPhotos)), {
-        expires: 30, // 30 days
-        sameSite: "lax", // Better security
-        secure: process.env.NODE_ENV === "production", // HTTPS only in production
+        expires: 30, 
+        sameSite: "lax", 
+        secure: process.env.NODE_ENV === "production",
       });
     }
   }, [likedPhotos, cookieConsent]);
 
   const handleCookieConsent = (consent: boolean) => {
     setCookieConsent(consent);
-    // Store the consent decision
     Cookies.set("cookieConsent", consent.toString(), {
-      expires: 365, // Remember consent for 1 year
+      expires: 365, 
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
     });
 
-    // If consent denied, clear any existing liked photos
     if (!consent) {
       setLikedPhotos(new Set());
       Cookies.remove("likedPhotos");
@@ -109,7 +106,6 @@ export default function Photos() {
   };
 
   const toggleLike = (photoId: number) => {
-    // Only allow liking if consent has been given
     if (cookieConsent !== true) return;
 
     setLikedPhotos((prev) => {
@@ -165,7 +161,7 @@ export default function Photos() {
                       e.stopPropagation();
                       toggleLike(photo.id);
                     }}
-                    className="p-2 glass-effect rounded-full hover:bg-white/10 transition-colors duration-200"
+                    className="p-2 glass-effect-cookie-banner rounded-full hover:bg-white/10 transition-colors duration-200"
                     aria-label={
                       likedPhotos.has(photo.id) ? "Unlike photo" : "Like photo"
                     }
@@ -185,41 +181,43 @@ export default function Photos() {
         ))}
       </div>
 
-      {/* Cookie Consent Popup */}
-      {cookieConsent === null && (
-        <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:max-w-md z-20 duration-500">
-          <div className="glass-effect rounded-xl p-4 sm:p-6 border border-white/10 shadow-2xl">
-            <div className="flex items-start gap-3">
-              <div className="p-2 hidden sm:block bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-lg border border-red-500/30 shrink-0">
-                <Heart className="w-4 h-4 text-red-400" />
+      {hasCheckedConsent && cookieConsent === null && (
+        <div 
+          className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:max-w-md z-20 glass-effect-cookie-banner rounded-xl p-4 sm:p-6 border border-white/10 shadow-2xl"
+          style={{
+            animation: 'slideInFromBottom 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards'
+          }}
+        >
+          <div className="flex items-start gap-3">
+            <div className="p-2 hidden sm:block bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-lg border border-red-500/30 shrink-0">
+              <Heart className="w-4 h-4 text-red-400" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center mb-2">
+                <h3 className="text-white font-semibold text-sm sm:text-base">
+                  Like Photos?
+                </h3>
+                <span className="inline-block ml-2 sm:hidden">
+                  <Heart className="w-4 h-4 text-red-400" />
+                </span>
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center mb-2">
-                  <h3 className="text-white font-semibold text-sm sm:text-base">
-                    Like Photos?
-                  </h3>
-                  <span className="inline-block ml-2 sm:hidden">
-                    <Heart className="w-4 h-4 text-red-400" />
-                  </span>
-                </div>
-                <p className="text-gray-300 text-xs sm:text-sm mb-4 leading-relaxed">
-                  We'd like to use cookies to remember your liked photos. No
-                  tracking, just your preferences.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                  <button
-                    onClick={() => handleCookieConsent(true)}
-                    className="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 hover-lift"
-                  >
-                    Allow Cookies
-                  </button>
-                  <button
-                    onClick={() => handleCookieConsent(false)}
-                    className="flex-1 glass-effect hover:bg-white/5 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 border border-white/10"
-                  >
-                    No Thanks
-                  </button>
-                </div>
+              <p className="text-gray-300 text-xs sm:text-sm mb-4 leading-relaxed">
+                We'd like to use cookies to remember your liked photos. No
+                tracking, just your preferences.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <button
+                  onClick={() => handleCookieConsent(true)}
+                  className="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 hover-lift"
+                >
+                  Allow Cookies
+                </button>
+                <button
+                  onClick={() => handleCookieConsent(false)}
+                  className="flex-1 glass-effect-cookie-banner hover:bg-white/5 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 border border-white/10"
+                >
+                  No Thanks
+                </button>
               </div>
             </div>
           </div>
