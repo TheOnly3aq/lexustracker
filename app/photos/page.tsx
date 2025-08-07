@@ -189,16 +189,19 @@ export default function Photos() {
       {cookieConsent === null && (
         <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:max-w-md z-20 duration-500">
           <div className="glass-effect rounded-xl p-4 sm:p-6 border border-white/10 shadow-2xl">
-            <div className="flex flex-col sm:flex-row items-start gap-3">
-              <div className="flex items-center gap-2 w-full">
-                <div className="p-2 bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-lg border border-red-500/30 shrink-0">
-                  <Heart className="w-4 h-4 text-red-400" />
-                </div>
-                <h3 className="text-white font-semibold text-sm sm:text-base ">
-                  Like Photos?
-                </h3>
+            <div className="flex items-start gap-3">
+              <div className="p-2 hidden sm:block bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-lg border border-red-500/30 shrink-0">
+                <Heart className="w-4 h-4 text-red-400" />
               </div>
               <div className="flex-1 min-w-0">
+                <div className="flex items-center mb-2">
+                  <h3 className="text-white font-semibold text-sm sm:text-base">
+                    Like Photos?
+                  </h3>
+                  <span className="inline-block ml-2 sm:hidden">
+                    <Heart className="w-4 h-4 text-red-400" />
+                  </span>
+                </div>
                 <p className="text-gray-300 text-xs sm:text-sm mb-4 leading-relaxed">
                   We'd like to use cookies to remember your liked photos. No
                   tracking, just your preferences.
