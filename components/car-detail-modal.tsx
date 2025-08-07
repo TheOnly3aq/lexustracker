@@ -8,7 +8,16 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Car, Calendar, Palette, Shield, MapPin, FileText } from "lucide-react";
+import {
+  Car,
+  Calendar,
+  Palette,
+  Shield,
+  MapPin,
+  FileText,
+  X,
+} from "lucide-react";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 
 interface CarData {
   kenteken: string;
@@ -267,7 +276,7 @@ export default function CarDetailModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto glass-effect border-white/10">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto glass-effect border-white/10 ">
         <DialogHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -276,11 +285,8 @@ export default function CarDetailModal({
               </div>
               <div>
                 <DialogTitle className="text-2xl text-white">
-                  {car.merk} {car.handelsbenaming}
-                </DialogTitle>
-                <p className="text-gray-400 font-mono text-lg">
                   {car.kenteken}
-                </p>
+                </DialogTitle>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -298,6 +304,13 @@ export default function CarDetailModal({
               >
                 {car.wam_verzekerd === "Ja" ? "Insured" : "Not Insured"}
               </Badge>
+              <DialogPrimitive.Close
+                className="sticky z-10 ml-auto flex h-9 w-9 items-center justify-center rounded-full bg-white/10 backdrop-blur-lg text-white opacity-70 transition hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-white/40"
+                style={{ border: "none" }}
+              >
+                <X className="h-5 w-5" />
+                <span className="sr-only">Close</span>
+              </DialogPrimitive.Close>
             </div>
           </div>
         </DialogHeader>
