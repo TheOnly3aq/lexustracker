@@ -6,45 +6,47 @@ import { Camera, Heart } from "lucide-react"
 const photos = [
   {
     id: 1,
-    title: "Lexus LC 500",
-    description: "Stunning coupe in red",
+    title: "Lexus IS 250C Front View",
+    description:
+      "Front angle of a Lexus IS 250C in red, showcasing its sleek coupe design.",
     image:
       "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/1-2u0Id0XnNt4JTFr5159S3AEcrRB82W.jpg",
+    alt: "Front view of a red Lexus IS 250C convertible parked outdoors",
   },
   {
     id: 2,
-    title: "Lexus RX 350",
-    description: "Luxury SUV",
+    title: "Lexus IS 250C Side Profile",
     image:
       "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/2-mvDoR4JKMNeoxe9PCsqsm3eghFGXd2.jpg",
+    alt: "Side profile of a Lexus IS 250C convertible with the roof down",
   },
   {
     id: 3,
-    title: "Lexus IS 300",
-    description: "Sport sedan",
+    title: "Lexus IS 250C Rear View",
     image:
       "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/3-EObEHr6JmuXCDnvBn1XZsrO3hXzNVL.jpg",
+    alt: "Rear view of a Lexus IS 250C convertible showing taillights and trunk",
   },
   {
     id: 4,
-    title: "Lexus GX 460",
-    description: "Off-road capable SUV",
+    title: "Lexus IS 250C Interior",
     image:
       "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/5-53yrbNvuTPhti0nXhM0A7tLsthPFNu.jpg",
+    alt: "Interior of a Lexus IS 250C convertible focusing on seats and dashboard",
   },
   {
     id: 5,
-    title: "Lexus ES 350",
-    description: "Executive sedan",
+    title: "Lexus IS 250C Dashboard",
     image:
       "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/6-a56q7z6LKDtGclMJ2b1HobQdYuZ61Z.jpg",
+    alt: "Dashboard and steering wheel of a Lexus IS 250C convertible",
   },
   {
     id: 6,
-    title: "Lexus NX 300",
-    description: "Compact luxury SUV",
+    title: "Lexus IS 250C Wheel Detail",
     image:
       "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/7-50BCrDMQFK1fN2E8Lhq7adQgFxqCRH.jpg",
+    alt: "Close-up of the alloy wheel and tire of a Lexus IS 250C convertible",
   },
 ];
 
@@ -69,7 +71,7 @@ export default function Photos() {
             <div className="relative h-96 w-full overflow-hidden">
               <Image
                 src={photo.image || "/placeholder.svg"}
-                alt={photo.title}
+                alt={photo.alt}
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-500"
               />
