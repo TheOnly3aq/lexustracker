@@ -22,7 +22,7 @@
   "dashboard": {
     "subtitle": "Overview of Lexus car statistics and analytics",
     "carStatistics": "Car Statistics",
-    "registrationData": "of registration data",
+    "registrationData": "",
     "lastMonths": "Last 12 months",
     "entries": "entries",
     "page": "Page",

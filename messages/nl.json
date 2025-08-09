@@ -22,7 +22,7 @@
   "dashboard": {
     "subtitle": "Overzicht van Lexus auto statistieken en analyses",
     "carStatistics": "Auto Statistieken",
-    "registrationData": "van registratiegegevens",
+    "registrationData": "",
     "lastMonths": "Laatste 12 maanden",
     "entries": "items",
     "page": "Pagina",

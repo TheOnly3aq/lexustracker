@@ -383,35 +383,62 @@ export default function DashboardChart() {
 
           <div className="flex flex-row sm:items-center sm:justify-between space-x-4">
             <div className="flex w-full items-center justify-between">
-              <div className="flex items-center space-x-1 sm:order-1 order-1">
-                <button
-                  onClick={() => setDataSource("monthly")}
-                  className={`flex items-center justify-center p-2 glass-effect rounded-lg transition-colors ${
-                    dataSource === "monthly"
-                      ? "bg-red-500/20 text-red-400 border border-red-500/30"
-                      : "hover:bg-white/5 text-gray-400 border border-white/10"
-                  }`}
-                  aria-pressed={dataSource === "monthly"}
-                  title={t("dashboard.showMonthlyData")}
-                >
-                  {t("dashboard.monthly")}
-                </button>
-                <button
-                  onClick={() => setDataSource("daily")}
-                  className={`flex items-center justify-center p-2 glass-effect rounded-lg transition-colors ${
-                    dataSource === "daily"
-                      ? "bg-red-500/20 text-red-400 border border-red-500/30"
-                      : "hover:bg-white/5 text-gray-400 border border-white/10"
-                  }`}
-                  aria-pressed={dataSource === "daily"}
-                  title={t("dashboard.showDailyData")}
-                >
-                  {t("dashboard.daily")}
-                </button>
-              </div>
+                <div className="flex items-center space-x-2 sm:order-1 order-1 w-full max-w-xs">
+                  {/* Mobile: styled dropdown */}
+                  <div className="sm:hidden w-full">
+                    <div className="relative">
+                      <select
+                        value={dataSource}
+                        onChange={e => setDataSource(e.target.value as DataSource)}
+                        className="w-full appearance-none bg-transparent text-gray-300 text-sm border border-white/20 rounded-lg pl-3 pr-8 py-2 glass-effect focus:outline-none focus:ring-2 focus:ring-red-500/40"
+                        aria-label={t("dashboard.selectDataSource")}
+                      >
+                        <option value="monthly">{t("dashboard.monthly")}</option>
+                        <option value="daily">{t("dashboard.daily")}</option>
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center">
+                        <svg
+                          className="w-4 h-4 text-gray-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Desktop: toggle buttons */}
+                  <div className="hidden sm:flex items-center space-x-1">
+                    <button
+                      onClick={() => setDataSource("monthly")}
+                      className={`flex items-center justify-center px-3 py-2 glass-effect rounded-lg transition-colors text-sm ${
+                        dataSource === "monthly"
+                          ? "bg-red-500/20 text-red-400 border border-red-500/30"
+                          : "hover:bg-white/5 text-gray-400 border border-white/10"
+                      }`}
+                      aria-pressed={dataSource === "monthly"}
+                      title={t("dashboard.showMonthlyData")}
+                    >
+                      {t("dashboard.monthly")}
+                    </button>
+                    <button
+                      onClick={() => setDataSource("daily")}
+                      className={`flex items-center justify-center px-3 py-2 glass-effect rounded-lg transition-colors text-sm ${
+                        dataSource === "daily"
+                          ? "bg-red-500/20 text-red-400 border border-red-500/30"
+                          : "hover:bg-white/5 text-gray-400 border border-white/10"
+                      }`}
+                      aria-pressed={dataSource === "daily"}
+                      title={t("dashboard.showDailyData")}
+                    >
+                      {t("dashboard.daily")}
+                    </button>
+                  </div>
+                </div>
 
               <div className="flex items-center justify-between sm:justify-end space-x-3 sm:order-2 order-2">
-                <div className="flex items-center space-x-2 hidden sm:flex">
+                <div className="hidden sm:flex items-center space-x-2">
                   <button
                     onClick={handleRetry}
                     className="flex items-center justify-center p-2 glass-effect rounded-lg hover:bg-white/5 transition-colors"
@@ -430,7 +457,7 @@ export default function DashboardChart() {
                     >
                       <ChevronLeft className="w-4 h-4 text-gray-400" />
                     </button>
-                    <span className="text-xs text-gray-400">
+                    <span className="inline-flex items-center text-xs text-gray-400 whitespace-nowrap">
                       {currentPage + 1} / {getTotalPages()}
                     </span>
                     <button
