@@ -14,6 +14,7 @@ import {
 import { SearchIcon, Database, Eye } from "lucide-react";
 import CarDetailModal from "@/components/car-detail-modal";
 import { KentekenCheck } from "rdw-kenteken-check";
+import { useLanguage } from "@/lib/i18n";
 
 interface CarData {
   kenteken: string;
@@ -42,6 +43,7 @@ interface CarData {
 }
 
 export default function Search() {
+  const { t } = useLanguage();
   const [cars, setCars] = useState<CarData[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
@@ -104,12 +106,9 @@ export default function Search() {
       <div className="ml-12 lg:ml-0">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-2 flex items-center gap-3">
           <SearchIcon className="w-8 h-8 text-red-500" />
-          Search Cars
+          {t("search.title")}
         </h1>
-        <p className="text-gray-400 text-lg">
-          Search through all registered Lexus vehicles • Click on any car for
-          detailed information
-        </p>
+        <p className="text-gray-400 text-lg">{t("search.subtitle")}</p>
       </div>
 
       <Card className="card-gradient hover-lift prevent-shift">
@@ -120,21 +119,19 @@ export default function Search() {
             </div>
             <div className="min-w-0 flex-1">
               <CardTitle className="text-white text-lg sm:text-xl">
-                Car Database
+                {t("search.carDatabase")}
               </CardTitle>
               <p className="text-gray-400 text-xs sm:text-sm">
-                Real-time vehicle registration search • Click any row to view
-                details
+                {t("search.databaseSubtitle")}
               </p>
             </div>
           </div>
           <div className="relative">
-            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <Input
-              placeholder="Search by license plate, brand, color..."
+              placeholder={t("search.searchPlaceholder")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 glass-effect border-white/10 text-white placeholder-gray-400 focus:border-red-500/50 transition-all text-sm sm:text-base"
+              className="glass-effect border-white/10 text-white placeholder-gray-400 focus:border-red-500/50 transition-all text-sm sm:text-base"
             />
           </div>
         </CardHeader>
@@ -154,19 +151,19 @@ export default function Search() {
                     <TableHeader>
                       <TableRow className="border-white/10 hover:bg-white/5">
                         <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4">
-                          License
+                          {t("search.headers.license")}
                         </TableHead>
                         <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4 sm:table-cell">
-                          Model
+                          {t("search.headers.model")}
                         </TableHead>
                         <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4 hidden md:table-cell">
-                          Color
+                          {t("search.headers.color")}
                         </TableHead>
                         <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4">
-                          Insured?
+                          {t("search.headers.insured")}
                         </TableHead>
                         <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4 hidden lg:table-cell">
-                          Buildyear
+                          {t("search.headers.buildyear")}
                         </TableHead>
                       </TableRow>
                     </TableHeader>
@@ -202,11 +199,13 @@ export default function Search() {
                                     : "bg-red-500/20 text-red-400 border border-red-500/30"
                                 }`}
                               >
-                                {car.wam_verzekerd === "Ja" ? "✓" : "✗"}
+                                {car.wam_verzekerd === "Ja"
+                                  ? t("search.yes")
+                                  : t("search.no")}
                               </span>
                             </TableCell>
                             <TableCell className="text-gray-300 group-hover:text-white transition-colors text-xs px-2 sm:px-4 hidden lg:table-cell">
-                                {formatDate(car.datum_eerste_tenaamstelling_in_nederland)}
+                              {formatDate(car.datum_eerste_toelating)}
                             </TableCell>
                           </TableRow>
                         );

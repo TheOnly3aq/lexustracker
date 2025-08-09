@@ -20,6 +20,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { useLanguage } from "@/lib/i18n";
 
 interface ChartData {
   date: string;
@@ -45,6 +46,7 @@ export default function DashboardChart() {
   const [allData, setAllData] = useState<ChartData[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 15; // Show 15 items at a time
+  const { t } = useLanguage();
 
   const fetchChartData = async (source: DataSource) => {
     setLoading(true);
@@ -322,20 +324,23 @@ export default function DashboardChart() {
       return (
         <div className="rounded-xl p-3 !z-50 shadow-2xl border border-white/10 bg-white/30 max-w-xs backdrop-blur-md backdrop-saturate-150">
           <h1 className="text-white font-medium text-sm mb-1">
-            {dataSource === "daily" ? "Day" : "Month"}: {label}
+            {dataSource === "daily" ? t("dashboard.day") : t("dashboard.month")}
+            : {label}
           </h1>
           <p className="text-red-400 font-semibold text-sm mb-1">
-            Count: {payload[0].value}
+            {t("dashboard.count")}: {payload[0].value}
           </p>
           {differences && differences.totalChanges > 0 && (
             <div className="text-xs text-gray-400 mt-1">
-              <span className="block">Differences:</span>
-              <span className="block">Added: {differences.added.length}</span>
+              <span className="block">{t("dashboard.differences")}:</span>
               <span className="block">
-                Removed: {differences.removed.length}
+                {t("dashboard.added")}: {differences.added.length}
               </span>
               <span className="block">
-                Total changes: {differences.totalChanges}
+                {t("dashboard.removed")}: {differences.removed.length}
+              </span>
+              <span className="block">
+                {t("dashboard.totalChanges")}: {differences.totalChanges}
               </span>
             </div>
           )}
@@ -358,17 +363,19 @@ export default function DashboardChart() {
             </div>
             <div className="min-w-0 flex-1">
               <CardTitle className="text-white text-lg sm:text-xl">
-                Car Statistics
+                {t("dashboard.carStatistics")}
               </CardTitle>
               <p className="text-gray-400 text-xs sm:text-sm flex items-center gap-2 mt-1">
                 <Calendar className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                 <span className="truncate">
                   {dataSource === "daily"
-                    ? `${chartData.length} entries (Page ${
-                        currentPage + 1
-                      } of ${getTotalPages()})`
-                    : "Last 12 months"}{" "}
-                  of registration data
+                    ? `${chartData.length} ${t("dashboard.entries")} (${t(
+                        "dashboard.page"
+                      )} ${currentPage + 1} ${t(
+                        "dashboard.of"
+                      )} ${getTotalPages()})`
+                    : t("dashboard.lastMonths")}{" "}
+                  {t("dashboard.registrationData")}
                 </span>
               </p>
             </div>
@@ -385,9 +392,9 @@ export default function DashboardChart() {
                       : "hover:bg-white/5 text-gray-400 border border-white/10"
                   }`}
                   aria-pressed={dataSource === "monthly"}
-                  title="Show monthly data"
+                  title={t("dashboard.showMonthlyData")}
                 >
-                  Monthly
+                  {t("dashboard.monthly")}
                 </button>
                 <button
                   onClick={() => setDataSource("daily")}
@@ -397,9 +404,9 @@ export default function DashboardChart() {
                       : "hover:bg-white/5 text-gray-400 border border-white/10"
                   }`}
                   aria-pressed={dataSource === "daily"}
-                  title="Show daily data"
+                  title={t("dashboard.showDailyData")}
                 >
-                  Daily
+                  {t("dashboard.daily")}
                 </button>
               </div>
 
@@ -408,7 +415,7 @@ export default function DashboardChart() {
                   <button
                     onClick={handleRetry}
                     className="flex items-center justify-center p-2 glass-effect rounded-lg hover:bg-white/5 transition-colors"
-                    title="Refresh data"
+                    title={t("dashboard.refreshData")}
                   >
                     <RefreshCw className="w-4 h-4 text-gray-400" />
                   </button>
@@ -419,7 +426,7 @@ export default function DashboardChart() {
                       onClick={goToPreviousPage}
                       disabled={currentPage === 0}
                       className="flex items-center justify-center p-2 glass-effect rounded-lg hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                      title="Previous page"
+                      title={t("dashboard.previousPage")}
                     >
                       <ChevronLeft className="w-4 h-4 text-gray-400" />
                     </button>
@@ -430,7 +437,7 @@ export default function DashboardChart() {
                       onClick={goToNextPage}
                       disabled={currentPage >= getTotalPages() - 1}
                       className="flex items-center justify-center p-2 glass-effect rounded-lg hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                      title="Next page"
+                      title={t("dashboard.nextPage")}
                     >
                       <ChevronRight className="w-4 h-4 text-gray-400" />
                     </button>
@@ -456,7 +463,7 @@ export default function DashboardChart() {
               <div className="text-center">
                 <AlertCircle className="w-8 h-8 sm:w-12 sm:h-12 text-yellow-500 mx-auto mb-4" />
                 <p className="text-white font-medium mb-2 text-sm sm:text-base">
-                  API Connection Issue
+                  {t("dashboard.apiConnectionIssue")}
                 </p>
                 <p className="text-gray-400 text-xs sm:text-sm mb-4 max-w-xs">
                   {error}
@@ -465,7 +472,7 @@ export default function DashboardChart() {
                   onClick={handleRetry}
                   className="px-3 py-2 sm:px-4 bg-red-500/20 text-red-400 rounded-lg border border-red-500/30 hover:bg-red-500/30 transition-colors text-xs sm:text-sm"
                 >
-                  Retry Connection
+                  {t("dashboard.retryConnection")}
                 </button>
               </div>
             </div>
@@ -474,10 +481,10 @@ export default function DashboardChart() {
               <div className="text-center">
                 <Activity className="w-8 h-8 sm:w-12 sm:h-12 text-gray-600 mx-auto mb-4" />
                 <p className="text-gray-400 text-sm sm:text-base">
-                  No data available
+                  {t("dashboard.noDataAvailable")}
                 </p>
                 <p className="text-gray-500 text-xs sm:text-sm">
-                  Check API connection
+                  {t("dashboard.checkApiConnection")}
                 </p>
               </div>
             </div>

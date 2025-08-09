@@ -7,13 +7,44 @@
     "cancel": "Annuleren",
     "close": "Sluiten",
     "search": "Zoeken",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "language": "Taal"
   },
   "navigation": {
     "dashboard": "Dashboard",
     "about": "Over",
     "photos": "Foto's",
     "search": "Zoeken"
+  },
+  "photos": {
+    "subtitle": "Ontdek onze collectie Lexus voertuigen"
+  },
+  "dashboard": {
+    "subtitle": "Overzicht van Lexus auto statistieken en analyses",
+    "carStatistics": "Auto Statistieken",
+    "registrationData": "van registratiegegevens",
+    "lastMonths": "Laatste 12 maanden",
+    "entries": "items",
+    "page": "Pagina",
+    "of": "van",
+    "monthly": "Maandelijks",
+    "daily": "Dagelijks",
+    "showMonthlyData": "Toon maandelijkse gegevens",
+    "showDailyData": "Toon dagelijkse gegevens",
+    "refreshData": "Gegevens vernieuwen",
+    "previousPage": "Vorige pagina",
+    "nextPage": "Volgende pagina",
+    "day": "Dag",
+    "month": "Maand",
+    "count": "Aantal",
+    "differences": "Verschillen",
+    "added": "Toegevoegd",
+    "removed": "Verwijderd",
+    "totalChanges": "Totaal wijzigingen",
+    "apiConnectionIssue": "API Verbindingsprobleem",
+    "retryConnection": "Opnieuw Proberen",
+    "noDataAvailable": "Geen gegevens beschikbaar",
+    "checkApiConnection": "Controleer API verbinding"
   },
   "car": {
     "basicInformation": "Basisinformatie",
@@ -46,12 +77,77 @@
     "emissionCode": "Emissiecode",
     "imported": "Geïmporteerd",
     "insured": "Verzekerd",
-    "notInsured": "Niet Verzekerd"
+    "notInsured": "Niet Verzekerd",
+    "maxhp": "Max Vermogen",
+    "maxspeed": "Max Snelheid"
   },
   "language": {
     "english": "Engels",
     "dutch": "Nederlands",
     "german": "Duits",
     "french": "Frans"
+  },
+  "about": {
+    "title": "Over Dit Dashboard",
+    "subtitle": "Leer hoe deze applicatie is gebouwd",
+    "technologyStack": "Technologie Stack",
+    "frontend": "Frontend",
+    "features": "Functies",
+    "dataSource": "Gegevensbronnen",
+    "purposeAndDesign": "Doel & Ontwerp",
+    "whyThisDashboard": "Waarom Dit Dashboard?",
+    "designPhilosophy": "Ontwerpfilosofie",
+    "dashboardDescription": "Deze Lexus tracker is gemaakt om inzicht te geven in de Lexus IS250C. Het doel is om gebruikers een overzicht te geven van de belangrijkste statistieken en trends voor deze Lexus voertuigen, met een focus op registratiegegevens en verzekeringsstatus.",
+    "designPhilosophyDescription": "De interface heeft een modern donker thema met subtiele gradiënten en vloeiende animaties geïnspireerd door react-bits.dev. Het responsieve ontwerp zorgt voor optimale weergave op alle apparaten, terwijl intuïtieve navigatie de gebruikerservaring verbetert zonder de datapresentatie overweldigend te maken.",
+    "apiEndpoints": "API Eindpunten",
+    "dataProcessing": "Gegevensverwerking",
+    "technologies": {
+      "nextjs": "Next.js 14 met App Router",
+      "react": "React 18 met Server Components",
+      "typescript": "TypeScript",
+      "tailwind": "Tailwind CSS voor styling",
+      "recharts": "Recharts voor datavisualisatie"
+    },
+    "featuresList": {
+      "ssr": "Server-side rendering (SSR)",
+      "responsive": "Responsief ontwerp",
+      "darkMode": "Donkere modus met rode accenten passend bij de IS250C",
+      "interactive": "Interactieve grafieken en tabellen"
+    },
+    "apiList": {
+      "dailyMonthly": "Dagelijkse/Maandelijkse aantal statistieken",
+      "rdwData": "RDW voertuigregistratiegegevens",
+      "differences": "Dagelijkse verschillen tracking",
+      "realTime": "Real-time gegevensupdates"
+    },
+    "processingList": {
+      "colorFilter": "Kleur-gebaseerde filtering",
+      "insurance": "Verzekeringsstatus tracking",
+      "importExport": "Import/export analyse",
+      "search": "Zoekfunctionaliteit"
+    }
+  },
+  "search": {
+    "title": "Auto's Zoeken",
+    "subtitle": "Zoek door alle geregistreerde Lexus voertuigen • Klik op elke auto voor gedetailleerde informatie",
+    "carDatabase": "Auto Database",
+    "databaseSubtitle": "Real-time voertuigregistratie zoeken • Klik op een rij voor details",
+    "searchPlaceholder": "Zoek op kenteken, merk, kleur...",
+    "headers": {
+      "license": "Kenteken",
+      "model": "Model",
+      "color": "Kleur",
+      "insured": "Verzekerd?",
+      "buildyear": "Bouwjaar"
+    },
+    "yes": "Ja",
+    "no": "Nee"
+  },
+  "stats": {
+    "totalCars": "Totaal Auto's",
+    "redCars": "Rode Auto's",
+    "insuredCars": "Verzekerde Auto's",
+    "importedCars": "Geïmporteerde Auto's",
+    "updatedNow": "Nu bijgewerkt"
   }
 }

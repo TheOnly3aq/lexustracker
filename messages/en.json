@@ -7,13 +7,44 @@
     "cancel": "Cancel",
     "close": "Close",
     "search": "Search",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "language": "Language"
   },
   "navigation": {
     "dashboard": "Dashboard",
     "about": "About",
     "photos": "Photos",
     "search": "Search"
+  },
+  "photos": {
+    "subtitle": "Explore our collection of Lexus vehicles"
+  },
+  "dashboard": {
+    "subtitle": "Overview of Lexus car statistics and analytics",
+    "carStatistics": "Car Statistics",
+    "registrationData": "of registration data",
+    "lastMonths": "Last 12 months",
+    "entries": "entries",
+    "page": "Page",
+    "of": "of",
+    "monthly": "Monthly",
+    "daily": "Daily",
+    "showMonthlyData": "Show monthly data",
+    "showDailyData": "Show daily data",
+    "refreshData": "Refresh data",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "day": "Day",
+    "month": "Month",
+    "count": "Count",
+    "differences": "Differences",
+    "added": "Added",
+    "removed": "Removed",
+    "totalChanges": "Total changes",
+    "apiConnectionIssue": "API Connection Issue",
+    "retryConnection": "Retry Connection",
+    "noDataAvailable": "No data available",
+    "checkApiConnection": "Check API connection"
   },
   "car": {
     "basicInformation": "Basic Information",
@@ -46,12 +77,77 @@
     "emissionCode": "Emission Code",
     "imported": "Imported",
     "insured": "Insured",
-    "notInsured": "Not Insured"
+    "notInsured": "Not Insured",
+    "maxhp": "Max Power",
+    "maxspeed": "Max Speed"
   },
   "language": {
     "english": "English",
     "dutch": "Dutch",
     "german": "German",
     "french": "French"
+  },
+  "about": {
+    "title": "About This Dashboard",
+    "subtitle": "Learn about how this application was built",
+    "technologyStack": "Technology Stack",
+    "frontend": "Frontend",
+    "features": "Features",
+    "dataSource": "Data Sources",
+    "purposeAndDesign": "Purpose & Design",
+    "whyThisDashboard": "Why This Dashboard?",
+    "designPhilosophy": "Design Philosophy",
+    "dashboardDescription": "This Lexus tracker was created to provide insights into the Lexus IS250C. The goal is to give users an overview of the key statistics and trends for these Lexus vehicles, with a focus on registration data and insurance status.",
+    "designPhilosophyDescription": "The interface features a modern dark theme with subtle gradients and smooth animations inspired by react-bits.dev. The responsive design ensures optimal viewing across all devices, while intuitive navigation enhances the user experience without overwhelming the data presentation.",
+    "apiEndpoints": "API Endpoints",
+    "dataProcessing": "Data Processing",
+    "technologies": {
+      "nextjs": "Next.js 14 with App Router",
+      "react": "React 18 with Server Components",
+      "typescript": "TypeScript",
+      "tailwind": "Tailwind CSS for styling",
+      "recharts": "Recharts for data visualization"
+    },
+    "featuresList": {
+      "ssr": "Server-side rendering (SSR)",
+      "responsive": "Responsive design",
+      "darkMode": "Dark mode with red accents to match the IS250C",
+      "interactive": "Interactive charts and tables"
+    },
+    "apiList": {
+      "dailyMonthly": "Daily/Monthly count statistics",
+      "rdwData": "RDW vehicle registration data",
+      "differences": "Daily differences tracking",
+      "realTime": "Real-time data updates"
+    },
+    "processingList": {
+      "colorFilter": "Color-based filtering",
+      "insurance": "Insurance status tracking",
+      "importExport": "Import/export analysis",
+      "search": "Search functionality"
+    }
+  },
+  "search": {
+    "title": "Search Cars",
+    "subtitle": "Search through all registered Lexus vehicles • Click on any car for detailed information",
+    "carDatabase": "Car Database",
+    "databaseSubtitle": "Real-time vehicle registration search • Click any row to view details",
+    "searchPlaceholder": "Search by license plate, brand, color...",
+    "headers": {
+      "license": "License",
+      "model": "Model",
+      "color": "Color",
+      "insured": "Insured?",
+      "buildyear": "Buildyear"
+    },
+    "yes": "Yes",
+    "no": "No"
+  },
+  "stats": {
+    "totalCars": "Total Cars",
+    "redCars": "Red Cars",
+    "insuredCars": "Insured Cars",
+    "importedCars": "Imported Cars",
+    "updatedNow": "Updated now"
   }
 }

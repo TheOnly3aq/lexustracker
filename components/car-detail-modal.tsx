@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { KentekenCheck } from "rdw-kenteken-check";
+import { useLanguage } from "@/lib/i18n";
 
 interface CarData {
   kenteken: string;
@@ -165,6 +166,8 @@ export default function CarDetailModal({
   isOpen,
   onClose,
 }: CarDetailModalProps) {
+  const { t } = useLanguage();
+
   if (!car) return null;
 
   const formatDate = (dateString: string | undefined) => {
@@ -194,89 +197,104 @@ export default function CarDetailModal({
     return String(value);
   };
 
-    const formattedLicensePlate = new KentekenCheck(car.kenteken).formatLicense();
+  const formattedLicensePlate = new KentekenCheck(car.kenteken).formatLicense();
 
   const basicInfo = [
-    { label: "License Plate", value: formattedLicensePlate, icon: FileText },
-    { label: "Brand", value: car.merk, icon: Car },
-    { label: "Model", value: car.handelsbenaming, icon: Car },
-    { label: "Vehicle Type", value: car.voertuigsoort, icon: Car },
-    { label: "Primary Color", value: car.eerste_kleur, icon: Palette },
+    {
+      label: t("car.licensePlate"),
+      value: formattedLicensePlate,
+      icon: FileText,
+    },
+    { label: t("car.brand"), value: car.merk, icon: Car },
+    { label: t("car.model"), value: car.handelsbenaming, icon: Car },
+    { label: t("car.vehicleType"), value: car.voertuigsoort, icon: Car },
+    { label: t("car.primaryColor"), value: car.eerste_kleur, icon: Palette },
   ];
 
   const registrationInfo = [
     {
-      label: "First Registration",
+      label: t("car.firstRegistration"),
       value: formatDate(car.datum_eerste_toelating),
       icon: Calendar,
     },
     {
-      label: "First Registration NL",
+      label: t("car.firstRegistrationNL"),
       value: formatDate(car.datum_eerste_tenaamstelling_in_nederland),
       icon: MapPin,
     },
-    { label: "Insurance Status", value: car.wam_verzekerd, icon: Shield },
     {
-      label: "APK Expiry",
+      label: t("car.insuranceStatus"),
+      value:
+        car.wam_verzekerd === "Ja" ? t("car.insured") : t("car.notInsured"),
+      icon: Shield,
+    },
+    {
+      label: t("car.apkExpiry"),
       value: formatDate(car.vervaldatum_apk),
       icon: Calendar,
     },
   ];
 
   const technicalInfo = [
-    { label: "Engine Cylinders", value: car.aantal_cilinders },
-    { label: "Power", value: car.nettomaximumvermogen },
-    { label: "Max Speed", value: car.maximale_constructiesnelheid },
+    { label: t("car.engineCylinders"), value: car.aantal_cilinders },
+    { label: t("car.maxhp"), value: car.nettomaximumvermogen },
     {
-      label: "Engine Displacement",
+      label: t("car.maxspeed"),
+      value: car.maximale_constructiesnelheid,
+    },
+    {
+      label: t("car.engineDisplacement"),
       value: car.cilinderinhoud ? `${car.cilinderinhoud} cc` : undefined,
     },
     {
-      label: "Empty Weight",
+      label: t("car.emptyWeight"),
       value: car.massa_ledig_voertuig
         ? `${car.massa_ledig_voertuig} kg`
         : undefined,
     },
     {
-      label: "Max Weight",
+      label: t("car.maxWeight"),
       value: car.toegestane_maximum_massa_voertuig
         ? `${car.toegestane_maximum_massa_voertuig} kg`
         : undefined,
     },
-    { label: "Seats", value: car.aantal_zitplaatsen },
+    { label: t("car.seats"), value: car.aantal_zitplaatsen },
+    { label: t("car.doors"), value: car.aantal_deuren },
+    { label: t("car.fuelType"), value: car.brandstof_omschrijving },
+    { label: t("car.bodyType"), value: car.carrosserie },
   ];
 
   const environmentalInfo = [
     {
-      label: "CO2 Emissions",
+      label: t("car.co2Emissions"),
       value: car.co2_uitstoot_gecombineerd
         ? `${car.co2_uitstoot_gecombineerd} g/km`
         : undefined,
     },
     {
-      label: "WLTP CO2",
+      label: t("car.wltpCo2"),
       value: car.wltp_co2_uitstoot_gecombineerd
         ? `${car.wltp_co2_uitstoot_gecombineerd} g/km`
         : undefined,
     },
     {
-      label: "Fuel Consumption",
+      label: t("car.fuelConsumption"),
       value: car.gem_brandstofverbruik_gecombineerd
         ? `${car.gem_brandstofverbruik_gecombineerd} l/100km`
         : undefined,
     },
     {
-      label: "Energy Consumption",
+      label: t("car.energyConsumption"),
       value: car.gem_energieverbruik_wltp_gecombineerd
         ? `${car.gem_energieverbruik_wltp_gecombineerd} Wh/km`
         : undefined,
     },
-    { label: "Emission Code", value: car.emissiecode_omschrijving },
+    { label: t("car.emissionCode"), value: car.emissiecode_omschrijving },
   ];
 
   const isImported =
     car.datum_eerste_tenaamstelling_in_nederland !== car.datum_eerste_toelating;
-  
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto glass-effect border-white/10 ">
@@ -295,7 +313,7 @@ export default function CarDetailModal({
             <div className="flex items-center space-x-2">
               {isImported && (
                 <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">
-                  Imported
+                  {t("car.imported")}
                 </Badge>
               )}
               <Badge
@@ -305,7 +323,9 @@ export default function CarDetailModal({
                     : "bg-red-500/20 text-red-400 border-red-500/30"
                 }`}
               >
-                {car.wam_verzekerd === "Ja" ? "Insured" : "Not Insured"}
+                {car.wam_verzekerd === "Ja"
+                  ? t("car.insured")
+                  : t("car.notInsured")}
               </Badge>
               <DialogPrimitive.Close
                 className="p-2 glass-effect rounded-lg border border-white/10 flex items-center justify-center transition hover:opacity-80 focus:outline-none"
@@ -322,7 +342,7 @@ export default function CarDetailModal({
             <CardHeader>
               <CardTitle className="text-white text-lg flex items-center gap-2">
                 <Car className="w-5 h-5 text-blue-400" />
-                Basic Information
+                {t("car.basicInformation")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -347,7 +367,7 @@ export default function CarDetailModal({
             <CardHeader>
               <CardTitle className="text-white text-lg flex items-center gap-2">
                 <Calendar className="w-5 h-5 text-green-400" />
-                Registration
+                {t("car.registration")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -372,7 +392,7 @@ export default function CarDetailModal({
             <CardHeader>
               <CardTitle className="text-white text-lg flex items-center gap-2">
                 <FileText className="w-5 h-5 text-purple-400" />
-                Technical Specs
+                {t("car.technicalSpecs")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -394,7 +414,7 @@ export default function CarDetailModal({
             <CardHeader>
               <CardTitle className="text-white text-lg flex items-center gap-2">
                 <Shield className="w-5 h-5 text-green-400" />
-                Environmental
+                {t("car.environmental")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">

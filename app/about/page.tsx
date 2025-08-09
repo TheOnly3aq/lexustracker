@@ -1,17 +1,20 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Info, Code, Database, Smartphone, Zap, Shield } from "lucide-react";
+import { useLanguage } from "@/lib/i18n";
 
 export default function About() {
+  const { t } = useLanguage();
+
   return (
     <div className="space-y-8">
       <div className="ml-12 lg:ml-0">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-2 flex items-center gap-3">
           <Info className="w-8 h-8 text-red-500" />
-          About This Dashboard
+          {t("about.title")}
         </h1>
-        <p className="text-gray-400 text-lg">
-          Learn about how this application was built
-        </p>
+        <p className="text-gray-400 text-lg">{t("about.subtitle")}</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -22,7 +25,7 @@ export default function About() {
                 <Code className="w-5 h-5 text-blue-400" />
               </div>
               <CardTitle className="text-white text-xl">
-                Technology Stack
+                {t("about.technologyStack")}
               </CardTitle>
             </div>
           </CardHeader>
@@ -30,52 +33,52 @@ export default function About() {
             <div>
               <h4 className="text-white font-semibold mb-3 flex items-center gap-2">
                 <Zap className="w-4 h-4 text-yellow-400" />
-                Frontend
+                {t("about.frontend")}
               </h4>
               <ul className="text-gray-300 space-y-2">
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
-                  Next.js 14 with App Router
+                  {t("about.technologies.nextjs")}
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
-                  React 18 with Server Components
+                  {t("about.technologies.react")}
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
-                  TypeScript
+                  {t("about.technologies.typescript")}
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
-                  Tailwind CSS for styling
+                  {t("about.technologies.tailwind")}
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
-                  Recharts for data visualization
+                  {t("about.technologies.recharts")}
                 </li>
               </ul>
             </div>
             <div>
               <h4 className="text-white font-semibold mb-3 flex items-center gap-2">
                 <Shield className="w-4 h-4 text-green-400" />
-                Features
+                {t("about.features")}
               </h4>
               <ul className="text-gray-300 space-y-2">
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                  Server-side rendering (SSR)
+                  {t("about.featuresList.ssr")}
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                  Responsive design
+                  {t("about.featuresList.responsive")}
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                  Dark mode with red accents to match the IS250C
+                  {t("about.featuresList.darkMode")}
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                  Interactive charts and tables
+                  {t("about.featuresList.interactive")}
                 </li>
               </ul>
             </div>
@@ -91,49 +94,55 @@ export default function About() {
               <div className="p-2 bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-lg border border-red-500/30">
                 <Database className="w-5 h-5 text-red-400" />
               </div>
-              <CardTitle className="text-white text-xl">Data Sources</CardTitle>
+              <CardTitle className="text-white text-xl">
+                {t("about.dataSource")}
+              </CardTitle>
             </div>
           </CardHeader>
           <CardContent className="space-y-6">
             <div>
-              <h4 className="text-white font-semibold mb-3">API Endpoints</h4>
+              <h4 className="text-white font-semibold mb-3">
+                {t("about.apiEndpoints")}
+              </h4>
               <ul className="text-gray-300 space-y-2 text-sm">
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
-                  Daily/Monthly count statistics
+                  {t("about.apiList.dailyMonthly")}
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
-                  RDW vehicle registration data
+                  {t("about.apiList.rdwData")}
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
-                  Daily differences tracking
+                  {t("about.apiList.differences")}
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
-                  Real-time data updates
+                  {t("about.apiList.realTime")}
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="text-white font-semibold mb-3">Data Processing</h4>
+              <h4 className="text-white font-semibold mb-3">
+                {t("about.dataProcessing")}
+              </h4>
               <ul className="text-gray-300 space-y-2">
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full"></div>
-                  Color-based filtering
+                  {t("about.processingList.colorFilter")}
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full"></div>
-                  Insurance status tracking
+                  {t("about.processingList.insurance")}
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full"></div>
-                  Import/export analysis
+                  {t("about.processingList.importExport")}
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full"></div>
-                  Search functionality
+                  {t("about.processingList.search")}
                 </li>
               </ul>
             </div>
@@ -150,7 +159,7 @@ export default function About() {
                 <Smartphone className="w-5 h-5 text-purple-400" />
               </div>
               <CardTitle className="text-white text-xl">
-                Purpose & Design
+                {t("about.purposeAndDesign")}
               </CardTitle>
             </div>
           </CardHeader>
@@ -158,25 +167,18 @@ export default function About() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <h4 className="text-white font-semibold mb-3">
-                  Why This Dashboard?
+                  {t("about.whyThisDashboard")}
                 </h4>
                 <p className="text-gray-300 text-sm leading-relaxed">
-                  This Lexus tracker was created to provide insights into the
-                  Lexus IS250C. The goal is to give users an overview of the key
-                  statistics and trends for these Lexus vehicles, with a focus
-                  on registration data and insurance status.
+                  {t("about.dashboardDescription")}
                 </p>
               </div>
               <div>
                 <h4 className="text-white font-semibold mb-3">
-                  Design Philosophy
+                  {t("about.designPhilosophy")}
                 </h4>
                 <p className="text-gray-300 text-sm leading-relaxed">
-                  The interface features a modern dark theme with subtle
-                  gradients and smooth animations inspired by react-bits.dev.
-                  The responsive design ensures optimal viewing across all
-                  devices, while intuitive navigation enhances the user
-                  experience without overwhelming the data presentation.
+                  {t("about.designPhilosophyDescription")}
                 </p>
               </div>
             </div>

@@ -1,20 +1,23 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BarChart3, Search, Camera, Info, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useLanguage } from "@/lib/i18n";
+import LanguageSelector from "@/components/language-selector";
+import LocalizedLink from "@/components/localized-link";
 
 const navigation = [
-  { name: "Dashboard", href: "/", icon: BarChart3 },
-  { name: "Search", href: "/search", icon: Search },
-  { name: "Photos", href: "/photos", icon: Camera },
-  { name: "About", href: "/about", icon: Info },
+  { name: "navigation.dashboard", href: "/", icon: BarChart3 },
+  { name: "navigation.search", href: "/search", icon: Search },
+  { name: "navigation.photos", href: "/photos", icon: Camera },
+  { name: "navigation.about", href: "/about", icon: Info },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   const isPathActive = (href: string) => pathname === href;
 
@@ -36,7 +39,7 @@ export default function Sidebar() {
       >
         <div className="flex flex-col h-full">
           <div
-            className={`flex items-center justify-center  h-20 px-4 border-b border-white/10 ${
+            className={`flex items-center justify-center h-20 px-4 border-b border-white/10 ${
               isMobileMenuOpen ? "!ml-11" : "ml-0"
             }`}
           >
@@ -67,7 +70,7 @@ export default function Sidebar() {
             {navigation.map((item, index) => {
               const isActive = isPathActive(item.href);
               return (
-                <Link
+                <LocalizedLink
                   key={item.name}
                   href={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -85,20 +88,23 @@ export default function Sidebar() {
                         : "text-gray-400 group-hover:text-white"
                     }`}
                   />
-                  {item.name}
+                  {t(item.name)}
                   {isActive && (
                     <div className="ml-auto w-2 h-2 bg-red-500 rounded-full animate-pulse" />
                   )}
-                </Link>
+                </LocalizedLink>
               );
             })}
           </nav>
 
-          <div className="p-4 border-t border-white/10">
-            <div className="text-xs text-gray-500 text-center">
+            <div className="px-4 pb-4 border-t border-white/10">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-gray-500 text-center ml-2">
               v2.0.0 • Made by Kars Talens
+              </span>
+              <LanguageSelector />
             </div>
-          </div>
+            </div>
         </div>
       </div>
 

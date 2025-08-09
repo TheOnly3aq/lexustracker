@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Camera, Heart } from "lucide-react";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import { useLanguage } from "@/lib/i18n";
 
 const photos = [
   {
@@ -60,6 +61,7 @@ export default function Photos() {
   const [likedPhotos, setLikedPhotos] = useState<Set<number>>(new Set());
   const [cookieConsent, setCookieConsent] = useState<boolean | null>(false);
   const [hasCheckedConsent, setHasCheckedConsent] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const consentStatus = Cookies.get("cookieConsent");
@@ -127,12 +129,10 @@ export default function Photos() {
       <div className="ml-12 lg:ml-0 ">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-2 flex items-center gap-3">
           <Camera className="w-8 h-8 text-red-500" />
-          Photo Gallery
+          {t("navigation.photos")}
         </h1>
         <div className="flex items-center justify-between">
-          <p className="text-gray-400 text-lg">
-            Explore our collection of Lexus vehicles
-          </p>
+          <p className="text-gray-400 text-lg">{t("photos.subtitle")}</p>
         </div>
       </div>
 

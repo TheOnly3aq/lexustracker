@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Car, Palette, Shield, Import, TrendingUp } from "lucide-react"
+import { useLanguage } from "@/lib/i18n";
 
 interface CarData {
   eerste_kleur: string
@@ -12,49 +13,56 @@ interface CarData {
 }
 
 export default function StatsCards() {
+  const { t } = useLanguage();
   const [stats, setStats] = useState({
     total: 0,
     sameColor: 0,
     insured: 0,
     imported: 0,
-  })
-  const [loading, setLoading] = useState(true)
+  });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}stats/rdw-data`)
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}stats/rdw-data`
+        );
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data = await response.json()
-        const allCars: CarData[] = data.data || data || []
+        const data = await response.json();
+        const allCars: CarData[] = data.data || data || [];
 
-        const sameColorCars = allCars.filter((car) => car.eerste_kleur === "ROOD")
-        const insured = allCars.filter((car) => car.wam_verzekerd === "Ja")
+        const sameColorCars = allCars.filter(
+          (car) => car.eerste_kleur === "ROOD"
+        );
+        const insured = allCars.filter((car) => car.wam_verzekerd === "Ja");
         const imported = allCars.filter(
-          (car) => car.datum_eerste_tenaamstelling_in_nederland !== car.datum_eerste_toelating,
-        )
+          (car) =>
+            car.datum_eerste_tenaamstelling_in_nederland !==
+            car.datum_eerste_toelating
+        );
 
         setStats({
           total: allCars.length,
           sameColor: sameColorCars.length,
           insured: insured.length,
           imported: imported.length,
-        })
+        });
       } catch (error) {
-        console.error("Error fetching cars:", error)
+        console.error("Error fetching cars:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchCars()
-  }, [])
+    fetchCars();
+  }, []);
 
   const cards = [
     {
-      title: "Total Cars",
+      title: t("stats.totalCars"),
       value: stats.total,
       icon: Car,
       gradient: "from-blue-500/20 to-blue-600/20",
@@ -62,7 +70,7 @@ export default function StatsCards() {
       borderColor: "border-blue-500/30",
     },
     {
-      title: "Red Cars",
+      title: t("stats.redCars"),
       value: stats.sameColor,
       icon: Palette,
       gradient: "from-red-500/20 to-red-600/20",
@@ -70,7 +78,7 @@ export default function StatsCards() {
       borderColor: "border-red-500/30",
     },
     {
-      title: "Insured Cars",
+      title: t("stats.insuredCars"),
       value: stats.insured,
       icon: Shield,
       gradient: "from-green-500/20 to-green-600/20",
@@ -78,14 +86,14 @@ export default function StatsCards() {
       borderColor: "border-green-500/30",
     },
     {
-      title: "Imported Cars",
+      title: t("stats.importedCars"),
       value: stats.imported,
       icon: Import,
       gradient: "from-yellow-500/20 to-yellow-600/20",
       iconColor: "text-yellow-400",
       borderColor: "border-yellow-500/30",
     },
-  ]
+  ];
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
@@ -124,7 +132,7 @@ export default function StatsCards() {
               <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-gray-500 group-hover:text-green-400 transition-colors duration-300" />
             </div>
             <p className="text-xs text-gray-500 mt-1 transition-colors duration-300">
-              {loading ? "Loading..." : "Updated now"}
+              {loading ? t("common.loading") : t("stats.updatedNow")}
             </p>
           </CardContent>
         </Card>
