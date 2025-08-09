@@ -15,7 +15,8 @@ import { SearchIcon, Database, Eye } from "lucide-react";
 import CarDetailModal from "@/components/car-detail-modal";
 import { KentekenCheck } from "rdw-kenteken-check";
 import { useLanguage } from "@/lib/i18n";
-
+import { motion } from "framer-motion";
+const MotionTableRow = motion(TableRow);
 interface CarData {
   kenteken: string;
   voertuigsoort: string;
@@ -131,7 +132,8 @@ export default function Search() {
               placeholder={t("search.searchPlaceholder")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="glass-effect border-white/10 text-white placeholder-gray-400 focus:border-red-500/50 transition-all text-sm sm:text-base"
+              className="glass-effect border-white/10 text-white placeholder-gray-400 focus:border-red-500/50 transition-all text-sm sm:text-base focus:outline-none focus:ring-0 focus:shadow-none"
+              style={{ outline: "none", boxShadow: "none" }}
             />
           </div>
         </CardHeader>
@@ -147,6 +149,7 @@ export default function Search() {
             <div className="overflow-x-auto -mx-6 sm:mx-0">
               <div className="min-w-full inline-block align-middle">
                 <div className="overflow-hidden">
+
                   <Table className="table-responsive">
                     <TableHeader>
                       <TableRow className="border-white/10 hover:bg-white/5">
@@ -169,17 +172,14 @@ export default function Search() {
                     </TableHeader>
                     <TableBody>
                       {filteredCars.slice(0, 100).map((car, index) => {
-                        const formattedLicensePlate = new KentekenCheck(
-                          car.kenteken
-                        ).formatLicense();
+                        const formattedLicensePlate = new KentekenCheck(car.kenteken).formatLicense();
                         return (
-                          <TableRow
+                          <MotionTableRow
                             key={`${car.kenteken}-${index}`}
-                            className="border-white/10 hover:bg-white/5 transition-all duration-200 table-row-enter prevent-shift cursor-pointer group"
-                            style={{
-                              animationDelay: `${Math.min(index * 20, 1000)}ms`,
-                              transform: "translate3d(0, 0, 0)",
-                            }}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.05, type: "spring", stiffness: 120 }}
+                            className="border-white/10 hover:bg-white/5 prevent-shift cursor-pointer group"
                             onClick={() => handleCarClick(car)}
                           >
                             <TableCell className="text-white font-mono font-semibold group-hover:text-red-400 transition-colors text-xs sm:text-sm px-3 sm:px-4">
@@ -199,15 +199,13 @@ export default function Search() {
                                     : "bg-red-500/20 text-red-400 border border-red-500/30"
                                 }`}
                               >
-                                {car.wam_verzekerd === "Ja"
-                                  ? t("search.yes")
-                                  : t("search.no")}
+                                {car.wam_verzekerd === "Ja" ? t("search.yes") : t("search.no")}
                               </span>
                             </TableCell>
                             <TableCell className="text-gray-300 group-hover:text-white transition-colors text-xs px-2 sm:px-4 hidden lg:table-cell">
                               {formatDate(car.datum_eerste_toelating)}
                             </TableCell>
-                          </TableRow>
+                          </MotionTableRow>
                         );
                       })}
                     </TableBody>

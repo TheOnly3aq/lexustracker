@@ -6,6 +6,7 @@ import { Camera, Heart } from "lucide-react";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useLanguage } from "@/lib/i18n";
+import { motion, AnimatePresence } from "framer-motion";
 
 const photos = [
   {
@@ -22,7 +23,7 @@ const photos = [
     id: 2,
     title: "Lexus IS 250C Side Profile",
     image:
-      "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/5-53yrbNvuTPhti0nXhM0A7tLsthPFNu.jpg",
+        "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/5-53yrbNvuTPhti0nXhM0A7tLsthPFNu.jpg",
 
     alt: "Side profile of a Lexus IS 250C convertible with the roof down",
   },
@@ -136,47 +137,100 @@ export default function Photos() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
         {photos.map((photo, index) => (
-          <Card
+          <motion.div
             key={photo.id}
-            className="card-gradient hover-lift  group overflow-hidden cursor-pointer"
-            style={{ animationDelay: `${index * 100}ms` }}
+            initial={{ opacity: 0, y: 60, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{
+              duration: 0.6,
+              delay: index * 0.1,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            whileHover={{
+              y: -8,
+              transition: { duration: 0.3, ease: "easeOut" },
+            }}
           >
-            <div className="relative h-96 w-full overflow-hidden">
-              <Image
-                src={photo.image || "/placeholder.svg"}
-                alt={photo.alt}
-                fill
-                className="object-cover group-hover:scale-110 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              {cookieConsent === true && (
-                <div className="absolute top-3 right-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleLike(photo.id);
-                    }}
-                    className="p-2 glass-effect-cookie-banner rounded-full hover:bg-white/10 transition-colors duration-200 flex items-center justify-center"
-                    aria-label={
-                      likedPhotos.has(photo.id) ? "Unlike photo" : "Like photo"
-                    }
+            <Card className="card-gradient group overflow-hidden cursor-pointer border-0 bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-sm">
+              <motion.div
+                className="relative h-96 w-full overflow-hidden"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              >
+                <motion.div
+                  initial={{ scale: 1.1 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  className="w-full h-full"
+                >
+                  <Image
+                    src={photo.image || "/placeholder.svg"}
+                    alt={photo.alt}
+                    fill
+                    className="object-cover"
+                  />
+                </motion.div>
+
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
+                  initial={{ opacity: 1 }}
+                  whileHover={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+
+                {cookieConsent === true && (
+                  <motion.div
+                    className="absolute top-3 right-3 flex items-center justify-center"
+                    initial={{ opacity: 1 }}
+                    whileHover={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.2 }}
                   >
-                    <Heart
-                      className={`w-4 h-4 transition-colors duration-200 ${
+                    <motion.button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleLike(photo.id);
+                      }}
+                      className="p-2 glass-effect-cookie-banner rounded-full hover:bg-white/10 transition-colors duration-200 flex items-center justify-center"
+                      aria-label={
                         likedPhotos.has(photo.id)
-                          ? "text-red-500 fill-red-500"
-                          : "text-red-400 hover:text-red-300"
-                      }`}
-                    />
-                  </button>
-                </div>
-              )}
-            </div>
-          </Card>
+                          ? "Unlike photo"
+                          : "Like photo"
+                      }
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ duration: 0.1 }}
+                    >
+                      <motion.div
+                        animate={
+                          likedPhotos.has(photo.id)
+                            ? { scale: [1, 1.3, 1] }
+                            : {}
+                        }
+                        transition={{ duration: 0.3 }}
+                      >
+                        <Heart
+                          className={`w-4 h-4 transition-colors duration-200 ${
+                            likedPhotos.has(photo.id)
+                              ? "text-red-500 fill-red-500"
+                              : "text-red-400 hover:text-red-300"
+                          }`}
+                        />
+                      </motion.div>
+                    </motion.button>
+                  </motion.div>
+                )}
+              </motion.div>
+            </Card>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {hasCheckedConsent && cookieConsent === null && (
         <div

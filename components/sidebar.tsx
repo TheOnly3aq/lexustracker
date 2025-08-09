@@ -97,14 +97,14 @@ export default function Sidebar() {
             })}
           </nav>
 
-            <div className="px-4 pb-4 border-t border-white/10">
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-gray-500 text-center ml-2">
-              v2.0.0 • Made by Kars Talens
-              </span>
+          <div className="px-4 pb-4 border-t border-white/10">
+            <div className="flex items-center gap-1">
               <LanguageSelector />
+              <span className="text-xs text-gray-500">
+                V2.1 • Made by Kars Talens
+              </span>
             </div>
-            </div>
+          </div>
         </div>
       </div>
 
