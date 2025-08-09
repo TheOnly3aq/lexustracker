@@ -1,0 +1,82 @@
+{
+  "name": "LexusTracker - Professional Vehicle Tracking & Hosting Services",
+  "short_name": "LexusTracker",
+  "description": "Professional Lexus IS250C tracking and analytics platform for the Netherlands with comprehensive hosting services including webhosting, game server hosting, Minecraft servers, and FiveM servers",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ef4444",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "nl",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["automotive", "business", "productivity", "utilities"],
+  "screenshots": [
+    {
+      "src": "/screenshot-dashboard.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Dashboard with vehicle statistics"
+    },
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "375x812",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile interface"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Search Vehicles",
+      "short_name": "Search",
+      "description": "Search Lexus vehicles in RDW database",
+      "url": "/search",
+      "icons": [
+        {
+          "src": "/search-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View vehicle statistics dashboard",
+      "url": "/dashboard",
+      "icons": [
+        {
+          "src": "/dashboard-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "iarc_rating_id": "",
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}

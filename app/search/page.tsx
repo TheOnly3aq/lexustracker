@@ -16,6 +16,9 @@ import CarDetailModal from "@/components/car-detail-modal";
 import { KentekenCheck } from "rdw-kenteken-check";
 import { useLanguage } from "@/lib/i18n";
 import { motion } from "framer-motion";
+import { generateStructuredData, generateBreadcrumbData } from "@/lib/seo";
+import Head from "next/head";
+
 const MotionTableRow = motion(TableRow);
 interface CarData {
   kenteken: string;
@@ -50,6 +53,23 @@ export default function Search() {
   const [loading, setLoading] = useState(true);
   const [selectedCar, setSelectedCar] = useState<CarData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // SEO data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://lexustracker.nl" },
+    { name: "Search", url: "https://lexustracker.nl/search" },
+  ]);
+
+  const structuredData = generateStructuredData("breadcrumb", {
+    items: breadcrumbData,
+  });
+  const serviceStructuredData = generateStructuredData("service", {
+    serviceName: "Vehicle Search & RDW Database",
+    description:
+      "Search through comprehensive Lexus IS250C database with real-time RDW data. Find vehicle details, registration info, and insurance status.",
+    serviceType: "Vehicle Search and Database Services",
+    priceRange: "Free",
+  });
 
   // Memoize filtered cars to prevent unnecessary re-renders
   const filteredCars = useMemo(() => {
@@ -103,125 +123,213 @@ export default function Search() {
   };
 
   return (
-    <div className="space-y-8">
-      <div className="ml-12 lg:ml-0">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-2 flex items-center gap-3">
-          <SearchIcon className="w-8 h-8 text-red-500" />
-          {t("search.title")}
-        </h1>
-        <p className="text-gray-400 text-lg">{t("search.subtitle")}</p>
-      </div>
+    <>
+      <Head>
+        <title>
+          Search Lexus Vehicles - RDW Database | LexusTracker Nederland
+        </title>
+        <meta
+          name="description"
+          content="Search through comprehensive Lexus IS250C database with real-time RDW data. Find vehicle details, registration info, and insurance status. Zoek Lexus voertuigen in RDW database."
+        />
+        <meta
+          name="keywords"
+          content="Lexus IS250C, search cars, kenteken zoeken, license plate search, RDW database, vehicle search, car lookup, Lexus search, voertuig zoeken, auto database, kenteken check, Lexus cabrio, Lexus convertible, Nederlandse auto's"
+        />
+        <link rel="canonical" href="https://lexustracker.nl/search" />
 
-      <Card className="card-gradient hover-lift prevent-shift">
-        <CardHeader className="pb-4">
-          <div className="flex items-center space-x-3 mb-4">
-            <div className="p-2 bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-lg border border-red-500/30">
-              <Database className="w-5 h-5 text-red-400" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <CardTitle className="text-white text-lg sm:text-xl">
-                {t("search.carDatabase")}
-              </CardTitle>
-              <p className="text-gray-400 text-xs sm:text-sm">
-                {t("search.databaseSubtitle")}
-              </p>
-            </div>
-          </div>
-          <div className="relative">
-            <Input
-              placeholder={t("search.searchPlaceholder")}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="glass-effect border-white/10 text-white placeholder-gray-400 focus:border-red-500/50 transition-all text-sm sm:text-base focus:outline-none focus:ring-0 focus:shadow-none"
-              style={{ outline: "none", boxShadow: "none" }}
-            />
-          </div>
-        </CardHeader>
-        <CardContent>
-          {loading ? (
-            <div className="flex items-center justify-center h-64">
-              <div className="relative">
-                <div className="animate-spin rounded-full h-12 w-12 border-2 border-red-500/30"></div>
-                <div className="animate-spin rounded-full h-12 w-12 border-2 border-red-500 border-t-transparent absolute top-0"></div>
-              </div>
-            </div>
-          ) : (
-            <div className="overflow-x-auto -mx-6 sm:mx-0">
-              <div className="min-w-full inline-block align-middle">
-                <div className="overflow-hidden">
+        {/* Open Graph */}
+        <meta
+          property="og:title"
+          content="Search Lexus Vehicles - RDW Database | LexusTracker Nederland"
+        />
+        <meta
+          property="og:description"
+          content="Search through comprehensive Lexus IS250C database with real-time RDW data. Find vehicle details, registration info, and insurance status."
+        />
+        <meta property="og:url" content="https://lexustracker.nl/search" />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="nl_NL" />
+        <meta property="og:site_name" content="LexusTracker" />
+        <meta
+          property="og:image"
+          content="https://lexustracker.nl/og-search.jpg"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta
+          property="og:image:alt"
+          content="LexusTracker Search - Find Lexus Vehicles in RDW Database"
+        />
 
-                  <Table className="table-responsive">
-                    <TableHeader>
-                      <TableRow className="border-white/10 hover:bg-white/5">
-                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4">
-                          {t("search.headers.license")}
-                        </TableHead>
-                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4 sm:table-cell">
-                          {t("search.headers.model")}
-                        </TableHead>
-                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4 hidden md:table-cell">
-                          {t("search.headers.color")}
-                        </TableHead>
-                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4">
-                          {t("search.headers.insured")}
-                        </TableHead>
-                        <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4 hidden lg:table-cell">
-                          {t("search.headers.buildyear")}
-                        </TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {filteredCars.slice(0, 100).map((car, index) => {
-                        const formattedLicensePlate = new KentekenCheck(car.kenteken).formatLicense();
-                        return (
-                          <MotionTableRow
-                            key={`${car.kenteken}-${index}`}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.05, type: "spring", stiffness: 120 }}
-                            className="border-white/10 hover:bg-white/5 prevent-shift cursor-pointer group"
-                            onClick={() => handleCarClick(car)}
-                          >
-                            <TableCell className="text-white font-mono font-semibold group-hover:text-red-400 transition-colors text-xs sm:text-sm px-3 sm:px-4">
-                              {formattedLicensePlate}
-                            </TableCell>
-                            <TableCell className="text-gray-300 group-hover:text-white transition-colors text-xs sm:text-sm px-3 sm:px-4 sm:table-cell">
-                              {car.handelsbenaming}
-                            </TableCell>
-                            <TableCell className="text-gray-300 group-hover:text-white transition-colors text-xs sm:text-sm px-3 sm:px-4 hidden md:table-cell">
-                              {car.eerste_kleur}
-                            </TableCell>
-                            <TableCell className="text-gray-300 px-2 sm:px-4">
-                              <span
-                                className={`px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
-                                  car.wam_verzekerd === "Ja"
-                                    ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                                    : "bg-red-500/20 text-red-400 border border-red-500/30"
-                                }`}
-                              >
-                                {car.wam_verzekerd === "Ja" ? t("search.yes") : t("search.no")}
-                              </span>
-                            </TableCell>
-                            <TableCell className="text-gray-300 group-hover:text-white transition-colors text-xs px-2 sm:px-4 hidden lg:table-cell">
-                              {formatDate(car.datum_eerste_toelating)}
-                            </TableCell>
-                          </MotionTableRow>
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@lexustracker" />
+        <meta name="twitter:creator" content="@lexustracker" />
+        <meta
+          name="twitter:title"
+          content="Search Lexus Vehicles - RDW Database | LexusTracker Nederland"
+        />
+        <meta
+          name="twitter:description"
+          content="Search through comprehensive Lexus IS250C database with real-time RDW data."
+        />
+        <meta
+          name="twitter:image"
+          content="https://lexustracker.nl/og-search.jpg"
+        />
+
+        {/* Additional SEO meta tags */}
+        <meta name="robots" content="index,follow" />
+        <meta
+          name="googlebot"
+          content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
+        />
+
+        {/* Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(serviceStructuredData),
+          }}
+        />
+      </Head>
+
+      <div className="space-y-8">
+        <header className="ml-12 lg:ml-0">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-2 flex items-center gap-3">
+            <SearchIcon className="w-8 h-8 text-red-500" />
+            {t("search.title")}
+          </h1>
+          <p className="text-gray-400 text-lg">{t("search.subtitle")}</p>
+        </header>
+
+        <main aria-label="Vehicle Search Interface">
+          <Card className="card-gradient hover-lift prevent-shift">
+            <CardHeader className="pb-4">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="p-2 bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-lg border border-red-500/30">
+                  <Database className="w-5 h-5 text-red-400" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <CardTitle className="text-white text-lg sm:text-xl">
+                    {t("search.carDatabase")}
+                  </CardTitle>
+                  <p className="text-gray-400 text-xs sm:text-sm">
+                    {t("search.databaseSubtitle")}
+                  </p>
                 </div>
               </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+              <div className="relative">
+                <Input
+                  placeholder={t("search.searchPlaceholder")}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="glass-effect border-white/10 text-white placeholder-gray-400 focus:border-red-500/50 transition-all text-sm sm:text-base focus:outline-none focus:ring-0 focus:shadow-none"
+                  style={{ outline: "none", boxShadow: "none" }}
+                />
+              </div>
+            </CardHeader>
+            <CardContent>
+              {loading ? (
+                <div className="flex items-center justify-center h-64">
+                  <div className="relative">
+                    <div className="animate-spin rounded-full h-12 w-12 border-2 border-red-500/30"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-2 border-red-500 border-t-transparent absolute top-0"></div>
+                  </div>
+                </div>
+              ) : (
+                <div className="overflow-x-auto -mx-6 sm:mx-0">
+                  <div className="min-w-full inline-block align-middle">
+                    <div className="overflow-hidden">
+                      <Table className="table-responsive">
+                        <TableHeader>
+                          <TableRow className="border-white/10 hover:bg-white/5">
+                            <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4">
+                              {t("search.headers.license")}
+                            </TableHead>
+                            <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4 sm:table-cell">
+                              {t("search.headers.model")}
+                            </TableHead>
+                            <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4 hidden md:table-cell">
+                              {t("search.headers.color")}
+                            </TableHead>
+                            <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4">
+                              {t("search.headers.insured")}
+                            </TableHead>
+                            <TableHead className="text-gray-300 font-semibold text-xs sm:text-sm px-3 sm:px-4 hidden lg:table-cell">
+                              {t("search.headers.buildyear")}
+                            </TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {filteredCars.slice(0, 100).map((car, index) => {
+                            const formattedLicensePlate = new KentekenCheck(
+                              car.kenteken
+                            ).formatLicense();
+                            return (
+                              <MotionTableRow
+                                key={`${car.kenteken}-${index}`}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{
+                                  delay: index * 0.05,
+                                  type: "spring",
+                                  stiffness: 120,
+                                }}
+                                className="border-white/10 hover:bg-white/5 prevent-shift cursor-pointer group"
+                                onClick={() => handleCarClick(car)}
+                              >
+                                <TableCell className="text-white font-mono font-semibold group-hover:text-red-400 transition-colors text-xs sm:text-sm px-3 sm:px-4">
+                                  {formattedLicensePlate}
+                                </TableCell>
+                                <TableCell className="text-gray-300 group-hover:text-white transition-colors text-xs sm:text-sm px-3 sm:px-4 sm:table-cell">
+                                  {car.handelsbenaming}
+                                </TableCell>
+                                <TableCell className="text-gray-300 group-hover:text-white transition-colors text-xs sm:text-sm px-3 sm:px-4 hidden md:table-cell">
+                                  {car.eerste_kleur}
+                                </TableCell>
+                                <TableCell className="text-gray-300 px-2 sm:px-4">
+                                  <span
+                                    className={`px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
+                                      car.wam_verzekerd === "Ja"
+                                        ? "bg-green-500/20 text-green-400 border border-green-500/30"
+                                        : "bg-red-500/20 text-red-400 border border-red-500/30"
+                                    }`}
+                                  >
+                                    {car.wam_verzekerd === "Ja"
+                                      ? t("search.yes")
+                                      : t("search.no")}
+                                  </span>
+                                </TableCell>
+                                <TableCell className="text-gray-300 group-hover:text-white transition-colors text-xs px-2 sm:px-4 hidden lg:table-cell">
+                                  {formatDate(car.datum_eerste_toelating)}
+                                </TableCell>
+                              </MotionTableRow>
+                            );
+                          })}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </main>
 
-      <CarDetailModal
-        car={selectedCar}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-      />
-    </div>
+        <CarDetailModal
+          car={selectedCar}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
+      </div>
+    </>
   );
 }
