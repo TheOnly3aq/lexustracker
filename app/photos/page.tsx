@@ -13,35 +13,38 @@ const photos = [
     description:
       "Front angle of a Lexus IS 250C in red, showcasing its sleek coupe design.",
     image:
-      "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/1-2u0Id0XnNt4JTFr5159S3AEcrRB82W.jpg",
+      "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/6-a56q7z6LKDtGclMJ2b1HobQdYuZ61Z.jpg",
+
     alt: "Front view of a red Lexus IS 250C convertible parked outdoors",
   },
   {
     id: 2,
     title: "Lexus IS 250C Side Profile",
     image:
-      "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/2-mvDoR4JKMNeoxe9PCsqsm3eghFGXd2.jpg",
+      "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/5-53yrbNvuTPhti0nXhM0A7tLsthPFNu.jpg",
+
     alt: "Side profile of a Lexus IS 250C convertible with the roof down",
   },
   {
     id: 3,
     title: "Lexus IS 250C Rear View",
     image:
-      "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/3-EObEHr6JmuXCDnvBn1XZsrO3hXzNVL.jpg",
+      "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/d465608b-1ae4-4b8f-bca0-400f07173520_1_102_o-hk2JMzeqseKNpLpAbSz0PF3xEVA9iL.jpg",
     alt: "Rear view of a Lexus IS 250C convertible showing taillights and trunk",
   },
   {
     id: 4,
     title: "Lexus IS 250C Interior",
     image:
-      "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/5-53yrbNvuTPhti0nXhM0A7tLsthPFNu.jpg",
+      "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/1-2u0Id0XnNt4JTFr5159S3AEcrRB82W.jpg",
     alt: "Interior of a Lexus IS 250C convertible focusing on seats and dashboard",
   },
   {
     id: 5,
     title: "Lexus IS 250C Dashboard",
     image:
-      "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/6-a56q7z6LKDtGclMJ2b1HobQdYuZ61Z.jpg",
+      "https://pyu0cnhpfktnlqct.public.blob.vercel-storage.com/2-mvDoR4JKMNeoxe9PCsqsm3eghFGXd2.jpg",
+
     alt: "Dashboard and steering wheel of a Lexus IS 250C convertible",
   },
   {
@@ -63,7 +66,7 @@ export default function Photos() {
     if (consentStatus) {
       const hasConsent = consentStatus === "true";
       setCookieConsent(hasConsent);
-      
+
       if (hasConsent) {
         const savedLikes = Cookies.get("likedPhotos");
         if (savedLikes) {
@@ -84,8 +87,8 @@ export default function Photos() {
   useEffect(() => {
     if (cookieConsent === true && likedPhotos.size >= 0) {
       Cookies.set("likedPhotos", JSON.stringify(Array.from(likedPhotos)), {
-        expires: 30, 
-        sameSite: "lax", 
+        expires: 30,
+        sameSite: "lax",
         secure: process.env.NODE_ENV === "production",
       });
     }
@@ -94,7 +97,7 @@ export default function Photos() {
   const handleCookieConsent = (consent: boolean) => {
     setCookieConsent(consent);
     Cookies.set("cookieConsent", consent.toString(), {
-      expires: 365, 
+      expires: 365,
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
     });
@@ -130,12 +133,6 @@ export default function Photos() {
           <p className="text-gray-400 text-lg">
             Explore our collection of Lexus vehicles
           </p>
-          {cookieConsent === true && likedPhotos.size > 0 && (
-            <div className="flex items-center gap-2 text-sm text-gray-400">
-              <Heart className="w-4 h-4 text-red-500 fill-red-500" />
-              <span>{likedPhotos.size} liked</span>
-            </div>
-          )}
         </div>
       </div>
 
@@ -155,13 +152,13 @@ export default function Photos() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               {cookieConsent === true && (
-                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute top-3 right-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       toggleLike(photo.id);
                     }}
-                    className="p-2 glass-effect-cookie-banner rounded-full hover:bg-white/10 transition-colors duration-200"
+                    className="p-2 glass-effect-cookie-banner rounded-full hover:bg-white/10 transition-colors duration-200 flex items-center justify-center"
                     aria-label={
                       likedPhotos.has(photo.id) ? "Unlike photo" : "Like photo"
                     }
@@ -182,10 +179,11 @@ export default function Photos() {
       </div>
 
       {hasCheckedConsent && cookieConsent === null && (
-        <div 
+        <div
           className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:max-w-md z-20 glass-effect-cookie-banner rounded-xl p-4 sm:p-6 border border-white/10 shadow-2xl"
           style={{
-            animation: 'slideInFromBottom 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards'
+            animation:
+              "slideInFromBottom 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards",
           }}
         >
           <div className="flex items-start gap-3">
